@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_auth"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10sp"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:scaleType="centerCrop">
+    <TextView
+        android:text="Авторизация"
+        android:layout_margin="10sp"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20sp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Введите ваш логин и пароль"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLog"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+           >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:text="Логин"
+                android:hint="Логин"
+                android:textColor="@color/white"
+                android:id="@+id/login_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="username"
+                android:inputType="text"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputPass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:autofillHints='password'
+            app:passwordToggleEnabled="true"
+            app:hintTextColor="@color/white"
+            android:textColor="@color/white"
+            tools:ignore="MissingConstraints"
+            app:passwordToggleTint="@color/white"
+            android:tint="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints='password'
+                android:hint="Пароль"
+                android:text="Пароль"
+                android:tint="@android:color/white"
+                android:textColor="@color/white"
+                android:inputType="textPassword"
+                android:password="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="20sp"
+            android:layout_margin="10sp">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:id="@+id/cancel_button"
+                android:layout_height="wrap_content"
+                android:text="Отмена"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:layout_margin="10sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:id="@+id/auth_button"
+                android:layout_height="wrap_content"
+                android:text="Войти"
+                android:layout_margin="10sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

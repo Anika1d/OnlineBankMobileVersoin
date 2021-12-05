@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grah_activity"
+    app:startDestination="@id/bankActivity">
+
+    <activity
+        android:id="@+id/bankActivity"
+        android:name="com.example.onlinebank.BankActivity"
+        android:label="activity_bank"
+        tools:layout="@layout/activity_bank" />
+    <activity
+        android:id="@+id/valuteActivity"
+        android:name="com.example.onlinebank.ValuteActivity"
+        android:label="activity_valute"
+        tools:layout="@layout/activity_valute" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.onlinebank.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>
