@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.includeButtonBunk.conBank.setOnClickListener{
-            val intentt = Intent(this, BankActivity::class.java)
+            val intentt = Intent(this, BankActivity::class.java) //переход на другую активити
             startActivity(intentt)
         }
         binding.includeButtonValute.conValute.setOnClickListener{
@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
             val intentt = Intent(this, ValuteActivity::class.java)
             startActivity(intentt)
         }
-        binding.button.setOnClickListener {
+        binding.button.setOnClickListener { //вызов диалога авторизации
             AlertDialogAuthorize()
         }
-        val currentDate = Date()
+        val currentDate = Date() ///заполнение изменяемых данных
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val dateText = dateFormat.format(currentDate)
         binding.includeButtonValute.date.text=dateText.toString()
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun AlertDialogAuthorize() {
+    private fun AlertDialogAuthorize() { //создание диалога авторизации
         val builder = AlertDialog.Builder(this)
         val alert = builder.create();
         //   builder.setNegativeButton("Отмена"){dialog,i->

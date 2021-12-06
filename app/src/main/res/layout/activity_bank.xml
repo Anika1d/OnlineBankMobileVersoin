@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="#E6E4E4"
         android:text="Отделения и банкоматы"
-        app:layout_constraintBottom_toTopOf="@+id/linear_l"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

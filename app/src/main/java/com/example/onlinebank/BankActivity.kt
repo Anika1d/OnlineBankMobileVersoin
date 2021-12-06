@@ -34,7 +34,7 @@ class BankActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityBankBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initDataBanks()
+        initDataBanks() //инициализация элментов банков
     }
     private fun initDataBanks(){
 

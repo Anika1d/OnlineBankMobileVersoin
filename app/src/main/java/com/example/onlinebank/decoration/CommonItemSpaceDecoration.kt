@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-
+///деокоратор, для создание пустоты между элементами recycleView
 class CommonItemSpaceDecoration (space: Int):
     RecyclerView.ItemDecoration() {
     private var mSpace = space

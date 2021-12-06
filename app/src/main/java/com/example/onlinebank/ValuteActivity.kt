@@ -44,7 +44,7 @@ class ValuteActivity : AppCompatActivity() {
         val dateText = dateFormat.format(currentDate)
         binding.today.text=dateText.toString()
         setContentView(binding.root)
-        initDataValute()
+        initDataValute() //инициализация элментов валют
     }
 
     private fun initDataValute() {
