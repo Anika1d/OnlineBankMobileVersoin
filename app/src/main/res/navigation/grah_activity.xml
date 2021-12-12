@@ -7,17 +7,17 @@
 
     <activity
         android:id="@+id/bankActivity"
-        android:name="com.example.onlinebank.BankActivity"
+        android:name="com.fefuproject.druzhbank.BankActivity"
         android:label="activity_bank"
         tools:layout="@layout/activity_bank" />
     <activity
         android:id="@+id/valuteActivity"
-        android:name="com.example.onlinebank.ValuteActivity"
+        android:name="com.example.druzhbank.ValuteActivity"
         android:label="activity_valute"
         tools:layout="@layout/activity_valute" />
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.onlinebank.MainActivity"
+        android:name="com.example.druzhbank.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>
