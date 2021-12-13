@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/persone"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Профиль"
+        app:showAsAction="always" />
+    <item
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Поиск"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="Выйти"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

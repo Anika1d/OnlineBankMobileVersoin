@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.includeButtonBunk.conBank.setOnClickListener{
             val intentt = Intent(this, BankActivity::class.java) //переход на другую активити
@@ -56,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         bun_cancel.setOnClickListener{
            alert.dismiss()
         }
+        val bun_auth=promptsView.findViewById<MaterialButton>(R.id.auth_button)
+        bun_auth.setOnClickListener{
+           val intentt = Intent(this, ProfileActivity::class.java)
+            startActivity(intentt)
+        }
+
         alert.show()
     }
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
