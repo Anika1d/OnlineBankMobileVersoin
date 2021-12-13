@@ -3,14 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_bank.xml" value="0.3547008547008547" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/debug/res/menu/bottom_navigation_down.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_history_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_pay_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26256410256410256" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_bank.xml" value="0.264" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_main.xml" value="0.46616541353383456" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_maps.xml" value="0.1897644927536232" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/activity_valute.xml" value="0.32421875" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/button_bank.xml" value="0.4" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/button_valute.xml" value="0.6" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/dialog_authorize.xml" value="0.2" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/fragment_maps.xml" value="0.264" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/item_bank.xml" value="0.4" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/item_valute.xml" value="0.4" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/layout/toolbar_profile.xml" value="0.2" />
+        <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/menu/profile_toolbar_menu.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/Anikald/AndroidStudioProjects/OnlineBank/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14583333333333334" />
       </map>
