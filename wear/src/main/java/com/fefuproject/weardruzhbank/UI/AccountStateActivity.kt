@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
@@ -17,7 +16,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AccountStateActivity: ComponentActivity() {
 
-    @Inject lateinit var authObserver: AuthStateObserver
+    @Inject
+    lateinit var authObserver: AuthStateObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +28,8 @@ class AccountStateActivity: ComponentActivity() {
 
     @Composable
     fun RootView() {
-        authObserver.verified = remember { mutableStateOf(false) }
-        if (authObserver.verified!!.value) {
+        val verified = remember { authObserver.verificationState }
+        if (verified.value) {
             AccountView()
         } else {
             Text(text = "Ожидание верификации...", textAlign = TextAlign.Center)

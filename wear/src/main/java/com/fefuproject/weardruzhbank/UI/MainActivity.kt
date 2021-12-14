@@ -39,11 +39,6 @@ private val menuElements = listOf(
         "Быстрый перевод",
         R.drawable.ic_baseline_sync_alt_24,
         AccountStateActivity::class.java
-    ),
-    MainActivityElement(
-        "Настройки",
-        R.drawable.ic_baseline_settings_24,
-        AccountStateActivity::class.java
     )
 )
 
@@ -117,7 +112,7 @@ class MainActivity : ComponentActivity() {
                             )
                         },
                         onClick = {
-                            startActivity(Intent(this@MainActivity, item.Activity));
+                            startActivity(Intent(this@MainActivity, item.Activity))
                         }
                     )
                 }
