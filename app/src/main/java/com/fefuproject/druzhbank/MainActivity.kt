@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.druzhbank.ValuteActivity
 import com.fefuproject.druzhbank.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import java.text.DateFormat

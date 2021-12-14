@@ -1,4 +1,4 @@
-package com.example.druzhbank
+package com.fefuproject.druzhbank
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
