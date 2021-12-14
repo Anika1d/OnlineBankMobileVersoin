@@ -1,57 +1,35 @@
 package com.fefuproject.weardruzhbank.UI
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Text
+import com.fefuproject.weardruzhbank.Model.AuthStateObserver
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @ExperimentalWearMaterialApi
-class AccountStateActivity : ComponentActivity() {
-    private var verified: MutableState<Boolean>? = null
-    private lateinit var authLauncher: ActivityResultLauncher<Intent>
-    private var recentlyVerified = false
+@AndroidEntryPoint
+class AccountStateActivity: ComponentActivity() {
 
+    @Inject lateinit var authObserver: AuthStateObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val contract = ActivityResultContracts.StartActivityForResult()
-        authLauncher = registerForActivityResult(contract) { result ->
-            if (result.resultCode != RESULT_OK) {
-                Toast.makeText(this, "Не удалось войти...", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            verified?.value = true
-            recentlyVerified = true
-        }
         setContent {
             RootView()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!recentlyVerified) {
-            verified?.value = false
-            recentlyVerified = true
-            authLauncher.launch(Intent(this, PasswordGuardActivity::class.java))
-        }
-        recentlyVerified = false
-    }
-
     @Composable
     fun RootView() {
-        verified = remember { mutableStateOf(false) }
-        if (verified!!.value) {
+        authObserver.verified = remember { mutableStateOf(false) }
+        if (authObserver.verified!!.value) {
             AccountView()
         } else {
             Text(text = "Ожидание верификации...", textAlign = TextAlign.Center)

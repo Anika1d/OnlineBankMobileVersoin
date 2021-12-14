@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.fefuproject.weardruzhbank.R
+import dagger.hilt.android.AndroidEntryPoint
 
 data class MainActivityElement(
     val name: String,
@@ -47,6 +48,7 @@ private val menuElements = listOf(
 )
 
 @ExperimentalWearMaterialApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
