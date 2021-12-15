@@ -8,8 +8,15 @@ import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
+import com.fefuproject.druzhbank.di.AuthStateObserver
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
+    @Inject
+    lateinit var authObserver: AuthStateObserver
+
     lateinit var binding: ActivityProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
