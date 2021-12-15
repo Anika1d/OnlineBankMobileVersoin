@@ -25,7 +25,7 @@ class AuthStateObserver @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     private val activity = context as ComponentActivity
-    var verificationState: MutableState<Boolean> =  mutableStateOf(false)
+    var verificationState: MutableState<Boolean> = mutableStateOf(false)
     private lateinit var authLauncher: ActivityResultLauncher<Intent>
 
     init {
@@ -39,9 +39,10 @@ class AuthStateObserver @Inject constructor(
             if (result.resultCode != ComponentActivity.RESULT_OK) {
                 Toast.makeText(activity, "Не удалось войти...", Toast.LENGTH_SHORT).show()
                 activity.finish()
+            } else {
+                preferenceProvider.updateLastVerifiedTime()
+                verificationState.value = true
             }
-            preferenceProvider.updateLastVerifiedTime()
-            verificationState.value = true
         }
     }
 
