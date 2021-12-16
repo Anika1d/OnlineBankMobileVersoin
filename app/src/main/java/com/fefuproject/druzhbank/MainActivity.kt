@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.fefuproject.druzhbank.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import java.text.DateFormat
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.includeButtonBunk.conBank.setOnClickListener{
             val intentt = Intent(this, BankActivity::class.java) //переход на другую активити

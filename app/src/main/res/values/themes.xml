@@ -24,5 +24,8 @@
     <style name="Theme.Druzhbank.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Druzhbank.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <style name="Theme.Splash" parent="Theme.SplashScreen.IconBackground">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.Druzhbank.NoActionBar</item>
+    </style>
 </resources>

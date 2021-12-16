@@ -27,7 +27,7 @@
             android:name=".AuthActivity"
             android:exported="false"
             android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.Druzhbank.NoActionBar" />
+            android:theme="@style/Theme.Splash" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
