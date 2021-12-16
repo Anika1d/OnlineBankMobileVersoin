@@ -20,6 +20,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
@@ -151,24 +152,12 @@ class AuthActivity : FragmentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(50.dp)
         ) {
-            Row(
-                modifier = Modifier.offset(0.dp, 20.dp)
-            ) {
-                Image(
-                    modifier = Modifier.size(48.dp),
-                    painter = painterResource(R.drawable.icons8_museum_100),
-                    contentDescription = "background",
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-                Image(
-                    modifier = Modifier
-                        .size(243.dp, 48.dp)
-                        .offset(0.dp, 5.dp),
-                    painter = painterResource(R.drawable.icon_worldskillsbank),
-                    contentDescription = "background",
-                    contentScale = ContentScale.FillBounds
-                )
-            }
+            Image(
+                modifier = Modifier.scale(3f).offset(0.dp, 23.dp),
+                painter = painterResource(R.drawable.logo),
+                contentDescription = "background",
+                contentScale = ContentScale.FillBounds
+            )
             Spacer(modifier = Modifier.size(50.dp))
             Text(
                 text = "Здравствуйте, <Имя>",
