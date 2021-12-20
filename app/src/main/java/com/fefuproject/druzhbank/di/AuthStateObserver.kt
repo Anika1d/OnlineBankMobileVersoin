@@ -48,7 +48,10 @@ class AuthStateObserver @Inject constructor(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        if (DISABLE_AUTH_OBSERVER) return
+        if (DISABLE_AUTH_OBSERVER){
+            verificationState.value = true
+            return
+        }
         val diff =
             (System.currentTimeMillis() - preferenceProvider.lastVerifiedTimestamp) / 60000
         if (diff >= 3) { // 3 минуты
