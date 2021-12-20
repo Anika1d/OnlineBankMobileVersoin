@@ -3,8 +3,8 @@ buildscript {
     ext {
         // Dependency versions.
         activity_compose_version = '1.4.0'
-        compose_version = '1.1.0-beta04'
-        wear_compose_version = '1.0.0-alpha12'
+        compose_version = '1.1.0-rc01'
+        wear_compose_version = '1.0.0-alpha13'
     }
 
     repositories {
