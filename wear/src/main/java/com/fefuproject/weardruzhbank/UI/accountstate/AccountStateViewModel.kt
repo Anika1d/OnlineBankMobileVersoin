@@ -35,7 +35,8 @@ class AccountStateViewModel @Inject constructor(
 
     private fun reschedule(card: Int) {
         viewModelScope.launch {
-            delay(5000)
+            _cardEvents.value = null
+            delay(1000)
             _cardInfo.value = getCardsSummaryUseCase.invoke()
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardEventsUseCase.invoke(
                 _cardInfo.value!![card].number

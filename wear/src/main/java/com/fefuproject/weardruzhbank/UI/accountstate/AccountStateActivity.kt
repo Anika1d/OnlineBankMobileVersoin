@@ -3,7 +3,9 @@ package com.fefuproject.weardruzhbank.UI.accountstate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateInt
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
@@ -64,6 +66,7 @@ class AccountStateActivity : ComponentActivity() {
         val cardInfo = viewModel.cardInfo.collectAsState()
         val selectedCard = remember { mutableStateOf(0) }
         val cardEvents = viewModel.cardEvents.collectAsState()
+        //scalingLazyListState.layoutInfo.
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing),
             onRefresh = { viewModel.refresh(card = selectedCard.value) },
@@ -81,15 +84,16 @@ class AccountStateActivity : ComponentActivity() {
                 state = scalingLazyListState,
             ) {
                 item {
-                    CardRow(selectedCard, cardInfo)
+                    Spacer(modifier = Modifier.size(100.dp))
                 }
                 CardDetails(
                     this,
                     isRefreshing,
                     cardInfo.value?.get(selectedCard.value),
                 )
-                CardEvents(this, cardEvents.value)
+                CardEvents(this, cardEvents.value, isRefreshing)
             }
+            CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
         }
     }
 
@@ -133,9 +137,16 @@ class AccountStateActivity : ComponentActivity() {
         }
     }
 
-    fun CardEvents(listScope: ScalingLazyListScope, value: List<CardEvent>?) {
-        if (value != null) listScope.items(value) {
+    fun CardEvents(
+        listScope: ScalingLazyListScope,
+        events: List<CardEvent>?,
+        isRefreshing: Boolean
+    ) {
+        listScope.items(events?.size ?: 3) {
             AppCard(
+                modifier = Modifier
+                    .roundedPlaceholder(isRefreshing)
+                    .fillMaxWidth(0.8f),
                 onClick = { /*TODO*/ },
                 appName = { /*TODO*/ },
                 time = { /*TODO*/ },
@@ -145,10 +156,22 @@ class AccountStateActivity : ComponentActivity() {
     }
 
     @Composable
-    fun CardRow(selectedCard: MutableState<Int>, cardInfo: State<List<CardSummary>?>) {
+    fun CardRow(
+        selectedCard: MutableState<Int>,
+        cardInfo: State<List<CardSummary>?>,
+        viewModel: AccountStateViewModel,
+        scalingLazyListState: ScalingLazyListState
+    ) {
+        val shouldShrink =
+            if (scalingLazyListState.layoutInfo.visibleItemsInfo.isNotEmpty())
+                if (scalingLazyListState.layoutInfo.visibleItemsInfo[0].index == 0)
+                    scalingLazyListState.layoutInfo.visibleItemsInfo[0].unadjustedOffset < -40 else true else false
+        val rowYOffset by animateDpAsState(
+            targetValue = if (shouldShrink) 20.dp else 40.dp
+        )
         Row(
             modifier = Modifier
-                .offset(0.dp, 40.dp)
+                .offset(0.dp, rowYOffset)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
@@ -158,10 +181,11 @@ class AccountStateActivity : ComponentActivity() {
                     label = "card transition"
                 )
                 val size by transition.animateDp(label = "size") { state ->
-                    if (state == selectedCard.value) 70.dp else 40.dp
+                    val temp = if (state == selectedCard.value) 70.dp else 40.dp
+                    if (shouldShrink) temp * 0.4f else temp
                 }
                 val textSize by transition.animateInt(label = "textSize") { state ->
-                    if (state == selectedCard.value) 14 else 10
+                    if (shouldShrink) 0 else if (state == selectedCard.value) 14 else 10
                 }
                 val textOffset by transition.animateInt(label = "textOffset") { state ->
                     if (state == selectedCard.value) 8 else 5
@@ -179,7 +203,10 @@ class AccountStateActivity : ComponentActivity() {
                         modifier = Modifier
                             .size(size)
                             .clickable {
-                                if (cardInfo.value != null) selectedCard.value = it
+                                if (cardInfo.value != null) {
+                                    selectedCard.value = it
+                                    viewModel.refresh(it)
+                                }
                             },
                         painter = painterResource(id = R.drawable.ic_baseline_credit_card_24),
                         contentDescription = "card image"
