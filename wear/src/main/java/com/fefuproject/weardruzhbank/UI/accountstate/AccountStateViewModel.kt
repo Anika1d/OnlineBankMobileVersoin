@@ -1,5 +1,6 @@
 package com.fefuproject.weardruzhbank.UI.accountstate
 
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.shared.account.domain.entity.CardEvent
@@ -11,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,8 @@ class AccountStateViewModel @Inject constructor(
     private val getCardEventsUseCase: GetCardEventsUseCase
 ) :
     ViewModel() {
+
+    val dataFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("RU"))
 
     private val _isRefreshing = MutableStateFlow(true)
     val isRefreshing get() = _isRefreshing.asStateFlow()

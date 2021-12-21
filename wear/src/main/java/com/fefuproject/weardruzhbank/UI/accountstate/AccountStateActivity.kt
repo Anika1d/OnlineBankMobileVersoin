@@ -1,5 +1,6 @@
 package com.fefuproject.weardruzhbank.UI.accountstate
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,6 +32,8 @@ import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
 
 @ExperimentalWearMaterialApi
@@ -91,7 +94,7 @@ class AccountStateActivity : ComponentActivity() {
                     isRefreshing,
                     cardInfo.value?.get(selectedCard.value),
                 )
-                CardEvents(this, cardEvents.value, isRefreshing)
+                CardEvents(this, cardEvents.value, isRefreshing, viewModel.dataFormatter)
             }
             CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
         }
@@ -140,17 +143,33 @@ class AccountStateActivity : ComponentActivity() {
     fun CardEvents(
         listScope: ScalingLazyListScope,
         events: List<CardEvent>?,
-        isRefreshing: Boolean
+        isRefreshing: Boolean,
+        dateFormat: SimpleDateFormat
     ) {
-        listScope.items(events?.size ?: 3) {
-            AppCard(
+        listScope.items(events?.size ?: 3) { i ->
+            Card(
                 modifier = Modifier
                     .roundedPlaceholder(isRefreshing)
-                    .fillMaxWidth(0.8f),
-                onClick = { /*TODO*/ },
-                appName = { /*TODO*/ },
-                time = { /*TODO*/ },
-                title = { /*TODO*/ }) {
+                    .fillMaxWidth(1f),
+                onClick = {}) {
+                if (events?.isNotEmpty() == true) {
+                    Column {
+                        Text(text = events[i].type, style = TextStyle(fontWeight = FontWeight.Bold))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = dateFormat.format(events[i].date),
+                                style = TextStyle(fontWeight = FontWeight.Light)
+                            )
+                            Text(
+                                text = String.format("%.2fр", events[i].amount),
+                                style = TextStyle(fontWeight = FontWeight.Light)
+                            )
+                        }
+                    }
+                }
             }
         }
     }
