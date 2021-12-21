@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.fefuproject.weardruzhbank.R
+import com.fefuproject.weardruzhbank.UI.accountstate.AccountStateActivity
+import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import dagger.hilt.android.AndroidEntryPoint
 
 data class MainActivityElement(
@@ -57,19 +59,7 @@ class MainActivity : ComponentActivity() {
     fun RootView() {
         val scalingLazyListState: ScalingLazyListState =
             rememberScalingLazyListState()
-        Scaffold(
-            timeText = {
-                TimeText()
-            },
-            vignette = {
-                Vignette(vignettePosition = VignettePosition.TopAndBottom)
-            },
-            positionIndicator = {
-                PositionIndicator(
-                    scalingLazyListState = scalingLazyListState
-                )
-            }
-        ) {
+        DefaultScaffold(scalingLazyListState) {
             ScalingLazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),

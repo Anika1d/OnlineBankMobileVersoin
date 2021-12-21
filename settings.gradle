@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 rootProject.name = "Druzhbank"
 include ':app'
 include ':wear'
+include ':shared'
