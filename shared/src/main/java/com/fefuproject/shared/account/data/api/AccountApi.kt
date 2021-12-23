@@ -16,77 +16,95 @@ interface AccountApi {
     suspend fun getBankomats(): ResponseModel<SmtListModel<BankomatModel>>
 
     @GET("valute")
-    suspend fun getValute(): Call<ResponseModel<ValuteModel>>
+    suspend fun getValute(): ResponseModel<ValuteModel>
 
-    @POST("getcards") // todo insert token
-    suspend fun getCards(): Call<ResponseModel<SmtListModel<CardModel>>>
+    @POST("getcards")
+    suspend fun getCards(
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<CardModel>>
 
-    @POST("getcheck") // todo insert token
-    suspend fun getChecks(): Call<ResponseModel<SmtListModel<CheckModel>>>
+    @POST("getcheck")
+    suspend fun getChecks(
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<CheckModel>>
 
-    @POST("getcredits") // todo insert token
-    suspend fun getCredits(): Call<ResponseModel<SmtListModel<CreditModel>>>
+    @POST("getcredits")
+    suspend fun getCredits(
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<CreditModel>>
 
-    @POST("history/card") // todo insert token
+    @POST("history/card")
     suspend fun getCardHistory(
         @Field("number") number: String,
-    ): Call<ResponseModel<SmtListModel<HistoryInstrumentModel>>>
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
 
-    @POST("history/check") // todo insert token
+    @POST("history/check")
     suspend fun getCheckHistory(
         @Field("number") number: String,
-    ): Call<ResponseModel<SmtListModel<HistoryInstrumentModel>>>
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
 
-    @POST("block") // todo insert token
+    @POST("block")
     suspend fun blockCard(
         @Field("number") number: String,
-    ): Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ): ResponseModel<Void>
 
-    @POST("refill") // todo insert token and check format of sum
+    @POST("refill") // todo check format of sum
     suspend fun refillCard(
         @Field("source") cardSource: String,
         @Field("dest") cardDest: String,
         @Field("sum") sum: DecimalFormat,
-    ): Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ): ResponseModel<Void>
 
-    @POST("pay") // todo insert token and check format of sum
+    @POST("pay") // todo check format of sum
     suspend fun payCheck(
         @Field("source") cardSource: String,
         @Field("dest") cardDest: String,
         @Field("sum") sum: DecimalFormat,
-    ): Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ): ResponseModel<Void>
 
-    @POST("category") // todo insert token
-    suspend fun getCategory(): Call<ResponseModel<SmtListModel<CategoryModel>>>
+    @POST("category")
+    suspend fun getCategory(): ResponseModel<SmtListModel<CategoryModel>>
 
-    @POST("signin") // todo insert token
+    @POST("signin")
     suspend fun signIn(
         @Field("name") name: String,
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("salt") salt: String,
-    ): Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ): ResponseModel<TokenModel>
 
-    @POST("login") // todo insert token
+    @POST("login")
     suspend fun logIn(
         @Field("username") username: String,
         @Field("password") password: String,
-    ): Call<ResponseModel<UserModel>>
+    ): ResponseModel<UserModel>
 
-    @POST("getuser") // todo insert token
-    suspend fun getUser(): Call<ResponseModel<UserModel>>
+    @POST("getuser")
+    suspend fun getUser(
+        @Field("token") token: String,
+    ): ResponseModel<UserModel>
 
     @PUT("editepassword")
     suspend fun changePassword(
         @Field("old_password") old_password: String,
         @Field("new_password") new_password: String,
-    ):Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ):ResponseModel<TokenModel>
 
     @PUT("editeusername")
     suspend fun changeUsername(
         @Field("username") username: String,
-    ):Call<ResponseModel<Void>>
+        @Field("token") token: String,
+    ):ResponseModel<Void>
 
-    @POST("lastlogins") // todo insert token
-    suspend fun getLoginHistory(): Call<ResponseModel<SmtListModel<LoginHistoryModel>>>
+    @POST("lastlogins")
+    suspend fun getLoginHistory(
+        @Field("token") token: String,
+    ): ResponseModel<SmtListModel<LoginHistoryModel>>
 }

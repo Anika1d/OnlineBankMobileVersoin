@@ -7,18 +7,24 @@ import javax.inject.Singleton
 
 @Singleton
 class PreferenceProvider @Inject constructor(@ApplicationContext val context: Context) {
-    private val sharedPreferences = context.getSharedPreferences("USER_PREFERENCES", Context.MODE_PRIVATE)
+    private val sharedPreferences =
+        context.getSharedPreferences("USER_PREFERENCES", Context.MODE_PRIVATE)
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
     var biometricPreference: Int = sharedPreferences.getInt("biometricPref", STATUS_BIOMETRICS_NONE)
     var privateKey: String? = sharedPreferences.getString("privateKey", null)
+    var token: String? = sharedPreferences.getString("token", null)
 
-    fun updatePrivateKey(newKey: String){
+    fun updatePrivateKey(newKey: String) {
         privateKey = newKey
         sharedPreferences.edit().putString("privateKey", privateKey).apply()
     }
 
+    fun updateToken(newToken: String) {
+        token = newToken
+        sharedPreferences.edit().putString("token", token).apply()
+    }
 
-    fun updateBiometricPreference(newStatus: Int){
+    fun updateBiometricPreference(newStatus: Int) {
         biometricPreference = newStatus
         sharedPreferences.edit().putInt("newStatus", newStatus).apply()
     }

@@ -20,28 +20,39 @@ interface AccountRepository {
     ): ValuteModel
 
     suspend fun getCards(
+        token:String
     ): List<CardModel>
 
     suspend fun getChecks(
+        token:String
     ): List<CheckModel>
 
     suspend fun getCredits(
+        token:String
     ): List<CreditModel>
 
-    suspend fun getCheckHistory(number: String): List<HistoryInstrumentModel>
+    suspend fun getCheckHistory(
+        number: String,
+        token:String,
+    ): List<HistoryInstrumentModel>
 
-    suspend fun BlockCard(number: String): Boolean
+    suspend fun BlockCard(
+        number: String,
+        token:String
+    ): Boolean
 
     suspend fun RefillCard(
         cardSource: String,
         cardDest: String,
         sum: DecimalFormat,
+        token:String
     ): Boolean
 
     suspend fun PayCheck(
         cardSource: String,
         cardDest: String,
         sum: DecimalFormat,
+        token:String
     ): Boolean
 
     suspend fun GetCategory(): List<CategoryModel>
@@ -51,24 +62,27 @@ interface AccountRepository {
         username: String,
         password: String,
         salt: String,
-    ): Boolean
+        token:String
+    ): String?
 
     suspend fun LogIn(
         username: String,
         password: String,
     ): UserModel
 
-    suspend fun getUser(): UserModel
+    suspend fun getUser(token:String): UserModel
 
     suspend fun changePassword(
         old_password: String,
         new_password: String,
-    ): Boolean
+        token:String
+    ): String?
 
     suspend fun changeUsername(
         username: String,
+        token:String
     ): Boolean
 
-    suspend fun GetLoginHistory(): List<LoginHistoryModel>
+    suspend fun GetLoginHistory(token:String): List<LoginHistoryModel>
 
 }
