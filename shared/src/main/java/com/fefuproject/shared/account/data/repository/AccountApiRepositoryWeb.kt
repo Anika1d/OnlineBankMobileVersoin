@@ -1,22 +1,30 @@
 package com.fefuproject.shared.account.data.repository
 
+import com.fefuproject.shared.account.data.api.AccountApi
 import com.fefuproject.shared.account.domain.entity.CardEvent
 import com.fefuproject.shared.account.domain.entity.CardSummary
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
-import java.text.DecimalFormat
+import com.google.gson.JsonObject
 
-class AccountRepositoryPhoneImpl : AccountRepository {
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.DecimalFormat
+import javax.inject.Inject
+
+class AccountApiRepositoryWeb @Inject constructor(private val accountApi: AccountApi) :
+    AccountRepository {
     override suspend fun getCardsSummary(): List<CardSummary> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCardEvents(cardNumber : String): List<CardEvent> {
+    override suspend fun getCardEvents(cardNumber: String): List<CardEvent> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getBankomats(): List<BankomatModel> {
-        TODO("Not yet implemented")
+       return accountApi.getBankomats().data.listOfSmt
     }
 
     override suspend fun getValute(): ValuteModel {
