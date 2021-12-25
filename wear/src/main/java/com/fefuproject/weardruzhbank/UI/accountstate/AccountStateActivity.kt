@@ -4,7 +4,6 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateInt
@@ -32,8 +31,6 @@ import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.inject.Inject
 
 @ExperimentalWearMaterialApi
@@ -74,29 +71,46 @@ class AccountStateActivity : ComponentActivity() {
             state = rememberSwipeRefreshState(isRefreshing),
             onRefresh = { viewModel.refresh(card = selectedCard.value) },
         ) {
-            ScalingLazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = 10.dp,
-                    end = 10.dp,
-                    bottom = 40.dp
-                ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                state = scalingLazyListState,
-            ) {
-                item {
-                    Spacer(modifier = Modifier.size(100.dp))
+            if (cardInfo.value == null || (cardInfo.value != null && cardInfo.value!!.isNotEmpty())) {
+                ScalingLazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 40.dp
+                    ),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    state = scalingLazyListState,
+                ) {
+                    item {
+                        Spacer(modifier = Modifier.size(100.dp))
+                    }
+                    CardDetails(
+                        this,
+                        isRefreshing,
+                        if (cardInfo.value?.isNotEmpty() == true) cardInfo.value?.get(selectedCard.value) else null,
+                    )
+                    CardEvents(this, cardEvents.value, isRefreshing, viewModel.dataFormatter)
                 }
-                CardDetails(
-                    this,
-                    isRefreshing,
-                    cardInfo.value?.get(selectedCard.value),
-                )
-                CardEvents(this, cardEvents.value, isRefreshing, viewModel.dataFormatter)
+                CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "К сожалению, у вас нет ни одного финансового инструмента для просмотра...",
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Создайте его в приложении!",
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
-            CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
         }
     }
 
