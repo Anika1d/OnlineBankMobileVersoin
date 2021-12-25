@@ -33,15 +33,20 @@ private val menuElements = listOf(
         AccountStateActivity::class.java
     ),
     MainActivityElement(
+        "Быстрый перевод",
+        R.drawable.ic_baseline_sync_alt_24,
+        AccountStateActivity::class.java
+    ),
+    MainActivityElement(
+        "Быстрый платёж",
+        R.drawable.ic_baseline_receipt_long_24,
+        AccountStateActivity::class.java
+    ),
+    MainActivityElement(
         "Последние операции",
         R.drawable.ic_baseline_history_24,
         AccountStateActivity::class.java
     ),
-    MainActivityElement(
-        "Быстрый перевод",
-        R.drawable.ic_baseline_sync_alt_24,
-        AccountStateActivity::class.java
-    )
 )
 
 @ExperimentalWearMaterialApi

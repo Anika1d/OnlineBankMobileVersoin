@@ -1,52 +1,37 @@
 package com.fefuproject.shared.account.data.repository
 
 import com.fefuproject.shared.account.data.api.AccountApi
-import com.fefuproject.shared.account.domain.entity.CardEvent
-import com.fefuproject.shared.account.domain.entity.CardSummary
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
-import com.google.gson.JsonObject
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.DecimalFormat
 import javax.inject.Inject
 
 class AccountRepositoryApiImpl @Inject constructor(private val accountApi: AccountApi) :
     AccountRepository {
-    override suspend fun getCardsSummary(): List<CardSummary> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getCardEvents(cardNumber: String): List<CardEvent> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getBankomats(): List<BankomatModel> =
-        accountApi.getBankomats().data.listOfSmt
+        accountApi.getBankomats().data.listOfSth
 
     override suspend fun getValute(): ValuteModel = accountApi.getValute().data
 
     override suspend fun getCards(token: String): List<CardModel> =
-        accountApi.getCards(token).data.listOfSmt
+        accountApi.getCards(token).data.listOfSth
 
     override suspend fun getChecks(token: String): List<CheckModel> =
-        accountApi.getChecks(token).data.listOfSmt
+        accountApi.getChecks(token).data.listOfSth
 
     override suspend fun getCredits(token: String): List<CreditModel> =
-        accountApi.getCredits(token).data.listOfSmt
+        accountApi.getCredits(token).data.listOfSth
 
     override suspend fun getCheckHistory(
         number: String,
         token: String
     ): List<HistoryInstrumentModel> =
-        accountApi.getCheckHistory(number, token).data.listOfSmt
+        accountApi.getCheckHistory(number, token).data.listOfSth
 
-    override suspend fun BlockCard(number: String, token: String): Boolean =
+    override suspend fun blockCard(number: String, token: String): Boolean =
         accountApi.blockCard(number, token).success
 
-    override suspend fun RefillCard(
+    override suspend fun refillCard(
         cardSource: String,
         cardDest: String,
         sum: DecimalFormat,
@@ -61,9 +46,9 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     ): Boolean = accountApi.payCheck(cardSource, cardDest, sum, token).success
 
     override suspend fun GetCategory(): List<CategoryModel> =
-        accountApi.getCategory().data.listOfSmt
+        accountApi.getCategory().data.listOfSth
 
-    override suspend fun SignIn(
+    override suspend fun signIn(
         name: String,
         username: String,
         password: String,
@@ -72,7 +57,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     ): String? =  accountApi.signIn(name, username, password, salt, token).data.token
 
 
-    override suspend fun LogIn(username: String, password: String): UserModel =
+    override suspend fun logIn(username: String, password: String): UserModel =
         accountApi.logIn(username, password).data
 
     override suspend fun getUser(token: String): UserModel = accountApi.getUser(token).data
@@ -88,6 +73,6 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun changeUsername(username: String, token: String): Boolean =
         accountApi.changeUsername(username, token).success
 
-    override suspend fun GetLoginHistory(token: String): List<LoginHistoryModel> =
-        accountApi.getLoginHistory(token).data.listOfSmt
+    override suspend fun getLoginHistory(token: String): List<LoginHistoryModel> =
+        accountApi.getLoginHistory(token).data.listOfSth
 }

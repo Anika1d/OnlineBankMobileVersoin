@@ -6,13 +6,6 @@ import com.fefuproject.shared.account.domain.models.*
 import java.text.DecimalFormat
 
 interface AccountRepository {
-    suspend fun getCardsSummary(
-    ): List<CardSummary>
-
-    suspend fun getCardEvents(
-        cardNumber: String
-    ): List<CardEvent>
-
     suspend fun getBankomats(
     ): List<BankomatModel>
 
@@ -36,12 +29,12 @@ interface AccountRepository {
         token:String,
     ): List<HistoryInstrumentModel>
 
-    suspend fun BlockCard(
+    suspend fun blockCard(
         number: String,
         token:String
     ): Boolean
 
-    suspend fun RefillCard(
+    suspend fun refillCard(
         cardSource: String,
         cardDest: String,
         sum: DecimalFormat,
@@ -57,7 +50,7 @@ interface AccountRepository {
 
     suspend fun GetCategory(): List<CategoryModel>
 
-    suspend fun SignIn(
+    suspend fun signIn(
         name: String,
         username: String,
         password: String,
@@ -65,7 +58,7 @@ interface AccountRepository {
         token:String
     ): String?
 
-    suspend fun LogIn(
+    suspend fun logIn(
         username: String,
         password: String,
     ): UserModel
@@ -83,6 +76,6 @@ interface AccountRepository {
         token:String
     ): Boolean
 
-    suspend fun GetLoginHistory(token:String): List<LoginHistoryModel>
+    suspend fun getLoginHistory(token:String): List<LoginHistoryModel>
 
 }

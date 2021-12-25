@@ -1,7 +1,5 @@
 package com.fefuproject.shared.account.data.repository
 
-import com.fefuproject.shared.account.domain.entity.CardEvent
-import com.fefuproject.shared.account.domain.entity.CardSummary
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import java.text.DecimalFormat
@@ -11,24 +9,35 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import javax.inject.Inject
 
-class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
-    override suspend fun getCardsSummary(): List<CardSummary> {
-        val cardSummaries = mutableListOf<CardSummary>()
+class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
+    override suspend fun getCards(token: String): List<CardModel> {
+        val cardSummaries = mutableListOf<CardModel>()
         val smallest = 1000000000000000L
         val biggest = 9999999999999999L
         repeat(5) {
             cardSummaries.add(
-                CardSummary(
+                CardModel(
+                    0,
+                    0,
+                    "",
                     ThreadLocalRandom.current().nextLong(smallest, biggest + 1).toString(),
-                    ThreadLocalRandom.current().nextDouble(0.toDouble(), 100000.toDouble())
+                    null,
+                    ThreadLocalRandom.current().nextDouble(
+                        0.toDouble(), 100000.toDouble()
+                    ).toString(),
+                    false,
+                    ""
                 )
             )
         }
         return cardSummaries
     }
 
-    override suspend fun getCardEvents(cardNumber : String): List<CardEvent> {
-        val cardEvents = mutableListOf<CardEvent>()
+    override suspend fun getCheckHistory(
+        number: String,
+        token: String
+    ): List<HistoryInstrumentModel> {
+        val cardEvents = mutableListOf<HistoryInstrumentModel>()
         repeat(5) {
             val randomSecond = ThreadLocalRandom
                 .current()
@@ -37,9 +46,10 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
                     Instant.now().epochSecond
                 )
             cardEvents.add(
-                CardEvent(
-                    "Перевод на карту",
-                    ThreadLocalRandom.current().nextDouble(0.toDouble(), 5000.toDouble()),
+                HistoryInstrumentModel(
+                    0, 0, 0,
+                    ThreadLocalRandom.current().nextDouble(0.toDouble(), 5000.toDouble())
+                        .toString(),
                     Date.from(Instant.ofEpochSecond(randomSecond)),
                 )
             )
@@ -55,10 +65,6 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCards(token: String): List<CardModel> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getChecks(token: String): List<CheckModel> {
         TODO("Not yet implemented")
     }
@@ -67,18 +73,11 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCheckHistory(
-        number: String,
-        token: String
-    ): List<HistoryInstrumentModel> {
+    override suspend fun blockCard(number: String, token: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun BlockCard(number: String, token: String): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun RefillCard(
+    override suspend fun refillCard(
         cardSource: String,
         cardDest: String,
         sum: DecimalFormat,
@@ -100,7 +99,7 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun SignIn(
+    override suspend fun signIn(
         name: String,
         username: String,
         password: String,
@@ -110,7 +109,7 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun LogIn(username: String, password: String): UserModel {
+    override suspend fun logIn(username: String, password: String): UserModel {
         TODO("Not yet implemented")
     }
 
@@ -130,7 +129,7 @@ class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun GetLoginHistory(token: String): List<LoginHistoryModel> {
+    override suspend fun getLoginHistory(token: String): List<LoginHistoryModel> {
         TODO("Not yet implemented")
     }
 }
