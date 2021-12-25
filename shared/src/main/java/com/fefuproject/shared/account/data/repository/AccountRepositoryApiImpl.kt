@@ -13,7 +13,7 @@ import retrofit2.Response
 import java.text.DecimalFormat
 import javax.inject.Inject
 
-class AccountApiRepositoryWeb @Inject constructor(private val accountApi: AccountApi) :
+class AccountRepositoryApiImpl @Inject constructor(private val accountApi: AccountApi) :
     AccountRepository {
     override suspend fun getCardsSummary(): List<CardSummary> {
         TODO("Not yet implemented")
