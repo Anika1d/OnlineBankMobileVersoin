@@ -11,7 +11,7 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import javax.inject.Inject
 
-class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
+class AccountRepositoryFakeImpl @Inject constructor(): AccountRepository {
     override suspend fun getCardsSummary(): List<CardSummary> {
         val cardSummaries = mutableListOf<CardSummary>()
         val smallest = 1000000000000000L
@@ -55,30 +55,34 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCards(): List<CardModel> {
+    override suspend fun getCards(token: String): List<CardModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getChecks(): List<CheckModel> {
+    override suspend fun getChecks(token: String): List<CheckModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCredits(): List<CreditModel> {
+    override suspend fun getCredits(token: String): List<CreditModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCheckHistory(number: String): List<HistoryInstrumentModel> {
+    override suspend fun getCheckHistory(
+        number: String,
+        token: String
+    ): List<HistoryInstrumentModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun BlockCard(number: String): Boolean {
+    override suspend fun BlockCard(number: String, token: String): Boolean {
         TODO("Not yet implemented")
     }
 
     override suspend fun RefillCard(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat
+        sum: DecimalFormat,
+        token: String
     ): Boolean {
         TODO("Not yet implemented")
     }
@@ -86,7 +90,8 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
     override suspend fun PayCheck(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat
+        sum: DecimalFormat,
+        token: String
     ): Boolean {
         TODO("Not yet implemented")
     }
@@ -99,8 +104,9 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
         name: String,
         username: String,
         password: String,
-        salt: String
-    ): Boolean {
+        salt: String,
+        token: String
+    ): String? {
         TODO("Not yet implemented")
     }
 
@@ -108,19 +114,23 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUser(): UserModel {
+    override suspend fun getUser(token: String): UserModel {
         TODO("Not yet implemented")
     }
 
-    override suspend fun changePassword(old_password: String, new_password: String): Boolean {
+    override suspend fun changePassword(
+        old_password: String,
+        new_password: String,
+        token: String
+    ): String? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun changeUsername(username: String): Boolean {
+    override suspend fun changeUsername(username: String, token: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun GetLoginHistory(): List<LoginHistoryModel> {
+    override suspend fun GetLoginHistory(token: String): List<LoginHistoryModel> {
         TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,5 @@
 package com.fefuproject.shared.account.data.api
 
-import retrofit2.Call
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.models.CategoryModel
 import com.fefuproject.shared.account.domain.models.ResponseModel.ResponseModel

@@ -9,21 +9,20 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface AccountModule {
     @Binds
-    abstract fun bindAccountsRepository(repository: AccountRepositoryFakeImpl): AccountRepository
+    fun bindAccountsRepository(repository: AccountRepositoryFakeImpl): AccountRepository
 }
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface AccountApiModule {
-    @Provides
+object AccountApiModule {
     @Singleton
+    @Provides
     fun provideApiModule(retrofit: Retrofit): AccountApi = retrofit.create(AccountApi::class.java)
 }
