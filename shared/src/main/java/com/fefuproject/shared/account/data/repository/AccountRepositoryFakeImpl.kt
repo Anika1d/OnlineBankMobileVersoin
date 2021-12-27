@@ -20,11 +20,11 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
                     0,
                     0,
                     "",
-                    ThreadLocalRandom.current().nextLong(smallest, biggest + 1).toString(),
+                    ThreadLocalRandom.current().nextLong(smallest, biggest + 1).toString().substringBefore('.'),
                     null,
                     ThreadLocalRandom.current().nextDouble(
                         0.toDouble(), 100000.toDouble()
-                    ).toString(),
+                    ).toString().substringBefore('.')+'р',
                     false,
                     ""
                 )
@@ -49,7 +49,7 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
                 HistoryInstrumentModel(
                     0, 0, 0,
                     ThreadLocalRandom.current().nextDouble(0.toDouble(), 5000.toDouble())
-                        .toString(),
+                        .toString().substringBefore('.')+'р',
                     Date.from(Instant.ofEpochSecond(randomSecond)),
                 )
             )

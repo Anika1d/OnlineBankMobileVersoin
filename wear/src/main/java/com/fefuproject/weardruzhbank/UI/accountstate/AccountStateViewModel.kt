@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.shared.account.domain.entity.CardEvent
 import com.fefuproject.shared.account.domain.entity.CardSummary
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.GetCardEventsUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsSummaryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,10 +29,10 @@ class AccountStateViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(true)
     val isRefreshing get() = _isRefreshing.asStateFlow()
 
-    private val _cardInfo = MutableStateFlow<List<CardSummary>?>(null)
+    private val _cardInfo = MutableStateFlow<List<CardModel>?>(null)
     val cardInfo get() = _cardInfo.asStateFlow()
 
-    private val _cardEvents = MutableStateFlow<List<CardEvent>?>(null)
+    private val _cardEvents = MutableStateFlow<List<HistoryInstrumentModel>?>(null)
     val cardEvents get() = _cardEvents.asStateFlow()
 
     init {
@@ -41,9 +43,10 @@ class AccountStateViewModel @Inject constructor(
         viewModelScope.launch {
             _cardEvents.value = null
             delay(1000)
-            _cardInfo.value = getCardsSummaryUseCase.invoke()
+            _cardInfo.value = getCardsSummaryUseCase.invoke("")
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardEventsUseCase.invoke(
-                _cardInfo.value!![card].number
+                cardNumber = _cardInfo.value!![card].number,
+                token = ""
             )
             _isRefreshing.value = false
         }

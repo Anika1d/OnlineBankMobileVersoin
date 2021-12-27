@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
-import com.fefuproject.shared.account.domain.entity.CardEvent
-import com.fefuproject.shared.account.domain.entity.CardSummary
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.weardruzhbank.Model.AuthStateObserver
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
@@ -117,7 +117,7 @@ class AccountStateActivity : ComponentActivity() {
     fun CardDetails(
         listScope: ScalingLazyListScope,
         isRefreshing: Boolean,
-        selectedCard: CardSummary?
+        selectedCard: CardModel?
     ) {
         //listScope.item { Spacer(modifier = Modifier.size(0.dp, 20.dp)) }
         listScope.item {
@@ -129,10 +129,7 @@ class AccountStateActivity : ComponentActivity() {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Баланс", style = TextStyle(fontWeight = FontWeight.Light))
                     Text(
-                        text = if (selectedCard != null) String.format(
-                            "%.2fр",
-                            selectedCard.balance
-                        ) else "0000000",
+                        text = if (selectedCard != null) selectedCard.count else "0000000",
                         style = TextStyle(fontWeight = FontWeight.Bold),
                         modifier = Modifier.roundedPlaceholder(isRefreshing)
                     )
@@ -156,7 +153,7 @@ class AccountStateActivity : ComponentActivity() {
 
     fun CardEvents(
         listScope: ScalingLazyListScope,
-        events: List<CardEvent>?,
+        events: List<HistoryInstrumentModel>?,
         isRefreshing: Boolean,
         dateFormat: SimpleDateFormat
     ) {
@@ -168,7 +165,10 @@ class AccountStateActivity : ComponentActivity() {
                 onClick = {}) {
                 if (events?.isNotEmpty() == true) {
                     Column {
-                        Text(text = events[i].type, style = TextStyle(fontWeight = FontWeight.Bold))
+                        Text(
+                            text = "Перевод на карту",
+                            style = TextStyle(fontWeight = FontWeight.Bold)
+                        ) //TODO:TEMP
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -178,7 +178,7 @@ class AccountStateActivity : ComponentActivity() {
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                             Text(
-                                text = String.format("%.2fр", events[i].amount),
+                                text = events[i].count,
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                         }
@@ -191,7 +191,7 @@ class AccountStateActivity : ComponentActivity() {
     @Composable
     fun CardRow(
         selectedCard: MutableState<Int>,
-        cardInfo: State<List<CardSummary>?>,
+        cardInfo: State<List<CardModel>?>,
         viewModel: AccountStateViewModel,
         scalingLazyListState: ScalingLazyListState
     ) {
