@@ -24,6 +24,11 @@ interface AccountRepository {
         token:String
     ): List<CreditModel>
 
+    suspend fun getCardHistory(
+        number: String,
+        token:String,
+    ): List<HistoryInstrumentModel>
+
     suspend fun getCheckHistory(
         number: String,
         token:String,
@@ -54,8 +59,6 @@ interface AccountRepository {
         name: String,
         username: String,
         password: String,
-        salt: String,
-        token:String
     ): String?
 
     suspend fun logIn(

@@ -74,8 +74,6 @@ interface AccountApi {
         @Field("name") name: String,
         @Field("username") username: String,
         @Field("password") password: String,
-        @Field("salt") salt: String,
-        @Field("token") token: String,
     ): ResponseModel<TokenModel>
 
     @POST("login")

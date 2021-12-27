@@ -22,6 +22,12 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getCredits(token: String): List<CreditModel> =
         accountApi.getCredits(token).data.listOfSth
 
+    override suspend fun getCardHistory(
+        number: String,
+        token: String
+    ): List<HistoryInstrumentModel> =
+        accountApi.getCardHistory(number, token).data.listOfSmt
+
     override suspend fun getCheckHistory(
         number: String,
         token: String
@@ -52,9 +58,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         name: String,
         username: String,
         password: String,
-        salt: String,
-        token: String
-    ): String? =  accountApi.signIn(name, username, password, salt, token).data.token
+    ): String? =  accountApi.signIn(name, username, password).data.token
 
 
     override suspend fun logIn(username: String, password: String): UserModel =
