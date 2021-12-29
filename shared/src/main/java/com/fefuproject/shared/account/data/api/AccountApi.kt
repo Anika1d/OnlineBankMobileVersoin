@@ -44,6 +44,13 @@ interface AccountApi {
         @Field("token") token: String,
     ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
 
+    @POST("history/all")
+    suspend fun getAllHistory(
+        @Field("number") number: String,
+        @Field("token") token: String,
+        @Field("operationCount") operationCount: Int,
+    ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
+
     @POST("block")
     suspend fun blockCard(
         @Field("number") number: String,
