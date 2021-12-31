@@ -45,20 +45,14 @@ class AccountStateActivity : ComponentActivity() {
         setContent {
             val scalingLazyListState: ScalingLazyListState =
                 rememberScalingLazyListState()
-            DefaultScaffold(scalingLazyListState) {
+            DefaultScaffold(scalingLazyListState, authObserver.verificationState) {
                 RootView(scalingLazyListState)
             }
         }
     }
 
     @Composable
-    fun RootView(scalingLazyListState: ScalingLazyListState) {
-        val verified = remember { authObserver.verificationState }
-        if (verified.value) AccountView(scalingLazyListState)
-    }
-
-    @Composable
-    fun AccountView(
+    fun RootView(
         scalingLazyListState: ScalingLazyListState,
         viewModel: AccountStateViewModel = hiltViewModel()
     ) {
