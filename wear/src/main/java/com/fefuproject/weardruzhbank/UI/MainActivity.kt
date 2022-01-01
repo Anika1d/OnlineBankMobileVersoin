@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.UI.accountstate.AccountStateActivity
+import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +36,7 @@ private val menuElements = listOf(
     MainActivityElement(
         "Быстрый перевод",
         R.drawable.ic_baseline_sync_alt_24,
-        AccountStateActivity::class.java
+        TransferActivity::class.java
     ),
     MainActivityElement(
         "Быстрый платёж",
