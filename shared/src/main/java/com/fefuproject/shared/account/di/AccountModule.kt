@@ -1,6 +1,7 @@
 package com.fefuproject.shared.account.di
 
 import com.fefuproject.shared.account.data.api.AccountApi
+import com.fefuproject.shared.account.data.repository.AccountRepositoryApiImpl
 import com.fefuproject.shared.account.data.repository.AccountRepositoryFakeImpl
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import dagger.Binds
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface AccountModule {
     @Binds
-    fun bindAccountsRepository(repository: AccountRepositoryFakeImpl): AccountRepository
+    fun bindAccountsRepository(repository: AccountRepositoryApiImpl): AccountRepository
 }
 
 

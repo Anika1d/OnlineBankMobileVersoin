@@ -39,7 +39,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         operationCount: Int
     ): List<HistoryInstrumentModel> =
-        accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, operationCount))
+        accountApi.getAllHistory(GetAllInstrumentHistoryRequest( token, operationCount))
 
     override suspend fun blockCard(number: String, token: String): Boolean =
         accountApi.blockCard(GetInstrumentHistoryRequest(token, number)).success
@@ -71,7 +71,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun logIn(username: String, password: String): UserModel =
         accountApi.logIn(LogInRequest(username, password)).data
 
-    override suspend fun getUser(token: String): UserModel = accountApi.getUser(TokenRequest(token)).data
+    override suspend fun getUser(token: String): UserModel = accountApi.getUser(TokenRequest(token))
 
     override suspend fun changePassword(
         old_password: String,

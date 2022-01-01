@@ -58,13 +58,11 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
     }
 
     override suspend fun getAllHistory(
-        number: String,
         token: String,
         operationCount: Int
     ): List<HistoryInstrumentModel> {
         TODO("Not yet implemented")
     }
-
     override suspend fun getBankomats(): List<BankomatModel> {
         TODO("Not yet implemented")
     }
@@ -95,7 +93,7 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
     override suspend fun refillCard(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat,
+        sum: Double,
         token: String
     ): Boolean {
         TODO("Not yet implemented")
@@ -104,7 +102,7 @@ class AccountRepositoryFakeImpl @Inject constructor() : AccountRepository {
     override suspend fun PayCheck(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat,
+        sum: Double,
         token: String
     ): Boolean {
         TODO("Not yet implemented")
