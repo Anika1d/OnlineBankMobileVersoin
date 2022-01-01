@@ -52,7 +52,7 @@ interface AccountApi {
     suspend fun logIn(@Body request: LogInRequest): ResponseModel<UserModel>
 
     @POST("getuser")
-    suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
+    suspend fun getUser(@Body request: TokenRequest): UserModel
 
     @PUT("editepassword")
     suspend fun changePassword(@Body request: ChangePasswordRequest):ResponseModel<TokenModel>
