@@ -47,14 +47,14 @@ interface AccountRepository {
     suspend fun refillCard(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat,
+        sum: Double,
         token: String
     ): Boolean
 
     suspend fun PayCheck(
         cardSource: String,
         cardDest: String,
-        sum: DecimalFormat,
+        sum: Double,
         token: String
     ): Boolean
 

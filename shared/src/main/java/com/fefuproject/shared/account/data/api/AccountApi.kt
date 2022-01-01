@@ -4,123 +4,62 @@ import android.telephony.SignalStrengthUpdateRequest
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.models.CategoryModel
 import com.fefuproject.shared.account.domain.models.ResponseModel.ResponseModel
-import com.fefuproject.shared.account.domain.requests.GetAllInstrumentHistoryRequest
+import com.fefuproject.shared.account.domain.requests.*
 import retrofit2.http.*
 import java.text.DecimalFormat
 
 interface AccountApi {
-    @FormUrlEncoded
     @GET("bankomats")
     suspend fun getBankomats(): ResponseModel<SmtListModel<BankomatModel>>
 
-    @FormUrlEncoded
     @GET("valute")
     suspend fun getValute(): ResponseModel<ValuteModel>
 
-    @FormUrlEncoded
     @POST("getcards")
-    suspend fun getCards(
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<CardModel>>
+    suspend fun getCards(@Body request: TokenRequest): List<CardModel>
 
-    @FormUrlEncoded
     @POST("getcheck")
-    suspend fun getChecks(
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<CheckModel>>
+    suspend fun getChecks(@Body request: TokenRequest): List<CheckModel>
 
-    @FormUrlEncoded
     @POST("getcredits")
-    suspend fun getCredits(
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<CreditModel>>
+    suspend fun getCredits(@Body request: TokenRequest): List<CreditModel>
 
-    @FormUrlEncoded
     @POST("history/card")
-    suspend fun getCardHistory(
-        @Field("number") number: String,
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
+    suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): List<HistoryInstrumentModel>
 
-    @FormUrlEncoded
     @POST("history/check")
-    suspend fun getCheckHistory(
-        @Field("number") number: String,
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<HistoryInstrumentModel>>
+    suspend fun getCheckHistory(@Body request: GetInstrumentHistoryRequest): List<HistoryInstrumentModel>
 
-    @FormUrlEncoded
     @POST("history/all")
-    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): ResponseModel<SmtListModel<HistoryInstrumentModel>>
+    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): List<HistoryInstrumentModel>
 
-    @FormUrlEncoded
     @POST("block")
-    suspend fun blockCard(
-        @Field("number") number: String,
-        @Field("token") token: String,
-    ): ResponseModel<Void>
+    suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): ResponseModel<Void>
 
-    @FormUrlEncoded
     @POST("refill") // todo check format of sum
-    suspend fun refillCard(
-        @Field("source") cardSource: String,
-        @Field("dest") cardDest: String,
-        @Field("sum") sum: DecimalFormat,
-        @Field("token") token: String,
-    ): ResponseModel<Void>
+    suspend fun refillCard(@Body request: TransferRequest): ResponseModel<Void>
 
-    @FormUrlEncoded
     @POST("pay") // todo check format of sum
-    suspend fun payCheck(
-        @Field("source") cardSource: String,
-        @Field("dest") cardDest: String,
-        @Field("sum") sum: DecimalFormat,
-        @Field("token") token: String,
-    ): ResponseModel<Void>
+    suspend fun payCheck(@Body request: TransferRequest): ResponseModel<Void>
 
-    @FormUrlEncoded
     @POST("category")
-    suspend fun getCategory(): ResponseModel<SmtListModel<CategoryModel>>
+    suspend fun getCategory(): List<CategoryModel>
 
-    @FormUrlEncoded
     @POST("signin")
-    suspend fun signIn(
-        @Field("name") name: String,
-        @Field("username") username: String,
-        @Field("password") password: String,
-    ): ResponseModel<TokenModel>
+    suspend fun signIn(@Body request: SignInRequest): ResponseModel<TokenModel>
 
-    @FormUrlEncoded
     @POST("login")
-    suspend fun logIn(
-        @Field("username") username: String,
-        @Field("password") password: String,
-    ): ResponseModel<UserModel>
+    suspend fun logIn(@Body request: LogInRequest): ResponseModel<UserModel>
 
-    @FormUrlEncoded
     @POST("getuser")
-    suspend fun getUser(
-        @Field("token") token: String,
-    ): ResponseModel<UserModel>
+    suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
 
-    @FormUrlEncoded
     @PUT("editepassword")
-    suspend fun changePassword(
-        @Field("old_password") old_password: String,
-        @Field("new_password") new_password: String,
-        @Field("token") token: String,
-    ):ResponseModel<TokenModel>
+    suspend fun changePassword(@Body request: ChangePasswordRequest):ResponseModel<TokenModel>
 
-    @FormUrlEncoded
-    @PUT("editeusername")
-    suspend fun changeUsername(
-        @Field("username") username: String,
-        @Field("token") token: String,
-    ):ResponseModel<Void>
+    @PUT("editeusername")//todo fix this shit
+    suspend fun changeUsername(@Body request: ChangeUsernameRequest):ResponseModel<Void>
 
-    @FormUrlEncoded
     @POST("lastlogins")
-    suspend fun getLoginHistory(
-        @Field("token") token: String,
-    ): ResponseModel<SmtListModel<LoginHistoryModel>>
+    suspend fun getLoginHistory(@Body request: TokenRequest): List<LoginHistoryModel>
 }
