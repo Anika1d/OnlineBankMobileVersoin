@@ -7,17 +7,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.UI.accountstate.AccountStateActivity
+import com.fefuproject.weardruzhbank.UI.recent_ops.RecentOpActivity
 import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
+import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
+import com.fefuproject.weardruzhbank.main.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 data class MainActivityElement(
@@ -51,7 +57,7 @@ private val menuElements = listOf(
     MainActivityElement(
         "Последние операции",
         R.drawable.ic_baseline_history_24,
-        AccountStateActivity::class.java
+        RecentOpActivity::class.java
     ),
 )
 
@@ -67,9 +73,10 @@ class MainActivity : ComponentActivity() {
 
     @ExperimentalWearMaterialApi
     @Composable
-    fun RootView() {
+    fun RootView(viewModel: MainActivityViewModel = hiltViewModel()) {
         val scalingLazyListState: ScalingLazyListState =
             rememberScalingLazyListState()
+        val username by viewModel.username.collectAsState()
         DefaultScaffold(scalingLazyListState) {
             ScalingLazyColumn(
                 modifier = Modifier
@@ -85,11 +92,19 @@ class MainActivity : ComponentActivity() {
                 state = scalingLazyListState,
             ) {
                 item {
-                    Text(
-                        "Здравствуйте, <Пользователь>!",
-                        textAlign = TextAlign.Center,
-                        fontSize = 10.sp
-                    )
+                    Row {
+                        Text(
+                            "Здравствуйте, ",
+                            textAlign = TextAlign.Center,
+                            fontSize = 10.sp
+                        )
+                        Text(
+                            modifier = Modifier.roundedPlaceholder(username == null),
+                            text = username ?: "placeholder",
+                            fontSize = 10.sp
+                        )
+                    }
+
                 }
                 items(menuElements) { item ->
                     Chip(

@@ -27,6 +27,7 @@ import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.weardruzhbank.Model.AuthStateObserver
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
+import com.fefuproject.weardruzhbank.extensions.defaultDataFormatter
 import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -86,7 +87,7 @@ class AccountStateActivity : ComponentActivity() {
                         isRefreshing,
                         if (cardInfo.value?.isNotEmpty() == true) cardInfo.value?.get(selectedCard.value) else null,
                     )
-                    CardEvents(this, cardEvents.value, isRefreshing, viewModel.dataFormatter)
+                    CardEvents(this, cardEvents.value, isRefreshing, defaultDataFormatter)
                 }
                 CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
             } else {
@@ -202,7 +203,7 @@ class AccountStateActivity : ComponentActivity() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            repeat(3) {
+            repeat(cardInfo.value?.size ?: 3) {
                 val transition = updateTransition(
                     targetState = it,
                     label = "card transition"

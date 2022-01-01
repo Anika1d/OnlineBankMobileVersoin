@@ -1,16 +1,21 @@
 package com.fefuproject.weardruzhbank.extensions
 
+import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
+import java.util.*
 
 fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
     placeholder(
@@ -20,6 +25,8 @@ fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
         highlight = PlaceholderHighlight.shimmer()
     )
 }
+
+val defaultDataFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("RU"))
 
 @ExperimentalWearMaterialApi
 @Composable

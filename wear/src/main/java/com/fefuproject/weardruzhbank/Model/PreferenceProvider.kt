@@ -10,6 +10,7 @@ import javax.inject.Singleton
 class PreferenceProvider @Inject constructor(@ApplicationContext val context: Context) {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
+    var token: String? = "asdf" //sharedPreferences.getString("token", null) TODO:TEMP
 
     fun updateLastVerifiedTime() {
         lastVerifiedTimestamp = System.currentTimeMillis()

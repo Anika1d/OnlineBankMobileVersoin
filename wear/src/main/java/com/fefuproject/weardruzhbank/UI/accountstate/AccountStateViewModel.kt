@@ -9,6 +9,7 @@ import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.GetCardEventsUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsSummaryUseCase
+import com.fefuproject.weardruzhbank.Model.PreferenceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,11 +21,10 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountStateViewModel @Inject constructor(
     private val getCardsSummaryUseCase: GetCardsSummaryUseCase,
-    private val getCardEventsUseCase: GetCardEventsUseCase
+    private val getCardEventsUseCase: GetCardEventsUseCase,
+    private val preferenceProvider: PreferenceProvider
 ) :
     ViewModel() {
-
-    val dataFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("RU"))
 
     private val _isRefreshing = MutableStateFlow(true)
     val isRefreshing get() = _isRefreshing.asStateFlow()
@@ -42,11 +42,10 @@ class AccountStateViewModel @Inject constructor(
     private fun reschedule(card: Int) {
         viewModelScope.launch {
             _cardEvents.value = null
-            delay(1000)
-            _cardInfo.value = getCardsSummaryUseCase.invoke("")
+            _cardInfo.value = getCardsSummaryUseCase.invoke(preferenceProvider.token!!)
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardEventsUseCase.invoke(
                 cardNumber = _cardInfo.value!![card].number,
-                token = ""
+                token = preferenceProvider.token!!
             )
             _isRefreshing.value = false
         }
