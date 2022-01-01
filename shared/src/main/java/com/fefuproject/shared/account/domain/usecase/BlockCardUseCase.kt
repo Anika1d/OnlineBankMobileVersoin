@@ -1,4 +1,4 @@
-package com.fefuproject.shared.account.domain.usecase.usecase_for_api
+package com.fefuproject.shared.account.domain.usecase
 
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import javax.inject.Inject
