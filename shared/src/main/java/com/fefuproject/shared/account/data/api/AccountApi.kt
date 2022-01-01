@@ -46,7 +46,6 @@ interface AccountApi {
 
     @POST("history/all")
     suspend fun getAllHistory(
-        @Field("number") number: String,
         @Field("token") token: String,
         @Field("operationCount") operationCount: Int,
     ): ResponseModel<SmtListModel<HistoryInstrumentModel>>

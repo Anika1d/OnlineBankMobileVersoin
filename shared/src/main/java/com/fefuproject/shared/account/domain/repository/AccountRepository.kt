@@ -35,7 +35,6 @@ interface AccountRepository {
     ): List<HistoryInstrumentModel>
 
     suspend fun getAllHistory(
-        number: String,
         token: String,
         operationCount: Int,
     ): List<HistoryInstrumentModel>

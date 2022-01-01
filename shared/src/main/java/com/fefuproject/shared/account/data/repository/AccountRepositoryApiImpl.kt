@@ -35,11 +35,10 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         accountApi.getCheckHistory(number, token).data.listOfSth
 
     override suspend fun getAllHistory(
-        number: String,
         token: String,
         operationCount: Int
     ): List<HistoryInstrumentModel> =
-        accountApi.getAllHistory(number, token, operationCount).data.listOfSth
+        accountApi.getAllHistory(token, operationCount).data.listOfSth
 
     override suspend fun blockCard(number: String, token: String): Boolean =
         accountApi.blockCard(number, token).success
