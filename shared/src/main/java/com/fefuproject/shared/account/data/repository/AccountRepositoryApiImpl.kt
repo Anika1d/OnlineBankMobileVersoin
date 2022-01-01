@@ -3,6 +3,7 @@ package com.fefuproject.shared.account.data.repository
 import com.fefuproject.shared.account.data.api.AccountApi
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
+import com.fefuproject.shared.account.domain.requests.GetAllInstrumentHistoryRequest
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         operationCount: Int
     ): List<HistoryInstrumentModel> =
-        accountApi.getAllHistory(token, operationCount).data.listOfSth
+        accountApi.getAllHistory(GetAllInstrumentHistoryRequest( token, operationCount)).data.listOfSth
 
     override suspend fun blockCard(number: String, token: String): Boolean =
         accountApi.blockCard(number, token).success

@@ -28,9 +28,6 @@ object RetrofitModule {
         .readTimeout(10L, TimeUnit.SECONDS)
         .writeTimeout(10L, TimeUnit.SECONDS)
         .callTimeout(10L, TimeUnit.SECONDS)
-        //todo
-        //.addInterceptor(NetworkStateInterceptor(this))
-        //.addInterceptor(CustomHeaderInterceptor())
         .addInterceptor(interceptor)
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
