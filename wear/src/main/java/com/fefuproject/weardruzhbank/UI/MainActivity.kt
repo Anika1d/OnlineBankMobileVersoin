@@ -35,11 +35,16 @@ private val menuElements = listOf(
     ),
     MainActivityElement(
         "Быстрый перевод",
+        R.drawable.ic_baseline_bolt_24,
+        TransferActivity::class.java
+    ),
+    MainActivityElement(
+        "Новый перевод",
         R.drawable.ic_baseline_sync_alt_24,
         TransferActivity::class.java
     ),
     MainActivityElement(
-        "Быстрый платёж",
+        "Новый платёж",
         R.drawable.ic_baseline_receipt_long_24,
         AccountStateActivity::class.java
     ),
