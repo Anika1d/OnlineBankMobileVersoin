@@ -30,7 +30,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     ): List<HistoryInstrumentModel> {
         var history = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
         for (item in history)
-            item.pay_type = PayType.values()[item.type].toString()
+            item.pay_type = PayType.values()[item.type].type
         return history
     }
 
@@ -40,7 +40,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     ): List<HistoryInstrumentModel> {
         var history = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
         for (item in history)
-            item.pay_type = PayType.values()[item.type].toString()
+            item.pay_type = PayType.values()[item.type].type
         return history
     }
 
@@ -51,7 +51,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         var history =
             accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, operationCount))
         for (item in history)
-            item.pay_type = PayType.values()[item.type].toString()
+            item.pay_type = PayType.values()[item.type].type
         return history
     }
 
