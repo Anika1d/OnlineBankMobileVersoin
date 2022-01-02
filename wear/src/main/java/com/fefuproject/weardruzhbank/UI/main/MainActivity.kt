@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,7 +24,7 @@ import com.fefuproject.weardruzhbank.UI.recent_ops.RecentOpActivity
 import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
-import com.fefuproject.weardruzhbank.main.MainActivityViewModel
+import com.fefuproject.weardruzhbank.UI.main.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 data class MainActivityElement(
@@ -32,6 +33,7 @@ data class MainActivityElement(
     val Activity: Class<out Activity>
 )
 
+@ExperimentalFoundationApi
 @ExperimentalWearMaterialApi
 private val menuElements = listOf(
     MainActivityElement(
@@ -41,16 +43,11 @@ private val menuElements = listOf(
     ),
     MainActivityElement(
         "Быстрый перевод",
-        R.drawable.ic_baseline_bolt_24,
-        TransferActivity::class.java
-    ),
-    MainActivityElement(
-        "Новый перевод",
         R.drawable.ic_baseline_sync_alt_24,
         TransferActivity::class.java
     ),
     MainActivityElement(
-        "Новый платёж",
+        "Быстрый платёж",
         R.drawable.ic_baseline_receipt_long_24,
         AccountStateActivity::class.java
     ),
@@ -62,6 +59,7 @@ private val menuElements = listOf(
 )
 
 @ExperimentalWearMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

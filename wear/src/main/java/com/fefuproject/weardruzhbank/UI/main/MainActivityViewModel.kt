@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.main
+package com.fefuproject.weardruzhbank.UI.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
