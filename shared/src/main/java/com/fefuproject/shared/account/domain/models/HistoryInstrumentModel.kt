@@ -5,8 +5,10 @@ import java.util.*
 
 data class HistoryInstrumentModel(
     val id: Int,
-    val type: Int?,
-    val instrument_type: Int,
+    val type: Int,
+    val instrument_type: Int?,
     val count: String,
-    val date: Date?,
+    val date: Date,
+    val dest: String,
+    var pay_type: String?,
 )

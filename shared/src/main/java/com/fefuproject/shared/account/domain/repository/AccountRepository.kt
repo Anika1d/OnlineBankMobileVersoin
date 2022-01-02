@@ -58,6 +58,13 @@ interface AccountRepository {
         token: String
     ): Boolean
 
+    suspend fun PayCategory(
+        cardSource: String,
+        dest_id: Int,
+        sum: Double,
+        token: String
+    ): Boolean
+
     suspend fun GetCategory(): List<CategoryModel>
 
     suspend fun signIn(
