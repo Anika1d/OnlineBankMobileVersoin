@@ -112,19 +112,29 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun GetCategory(): List<CategoryModel> =
         accountApi.getCategory()
 
+
     override suspend fun signIn(
         name: String,
         username: String,
         password: String,
-    ): String? = accountApi.signIn(SignInRequest(name, username, password)).token
+    ): String? {
+        var response = accountApi.signIn(SignInRequest(name, username, password))
+        if (response.success)
+            return response.data.token
+        return null
+    }
 
 
-    override suspend fun logIn(username: String, password: String): UserModel =
-        accountApi.logIn(LogInRequest(username, password))
+    override suspend fun logIn(username: String, password: String): UserModel? {
+        var response = accountApi.logIn(LogInRequest(username, password))
+        if (response.success)
+            return response.data
+        return null
+    }
 
     override suspend fun getUser(token: String): UserModel? {
         var response = accountApi.getUser(TokenRequest(token))
-        if(response.success)
+        if (response.success)
             return response.data
         return null
     }
@@ -133,13 +143,21 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         old_password: String,
         new_password: String,
         token: String
-    ): String? =
-        accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password)).token
-
+    ): String? {
+        var response =accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password))
+        if (response.success)
+            return response.data.token
+        return null
+    }
 
     override suspend fun changeUsername(username: String, token: String): Boolean =
         ResultType.values()[accountApi.changeUsername(ChangeUsernameRequest(token, username))].type
 
-    override suspend fun getLoginHistory(token: String): List<LoginHistoryModel> =
-        accountApi.getLoginHistory(TokenRequest(token))
+    override suspend fun getLoginHistory(token: String): List<LoginHistoryModel>? {
+        var response = accountApi.getLoginHistory(TokenRequest(token))
+        if (response.success)
+            return response.data
+        return null
+
+    }
 }

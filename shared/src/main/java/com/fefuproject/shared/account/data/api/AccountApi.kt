@@ -50,20 +50,20 @@ interface AccountApi {
     suspend fun getCategory(): List<CategoryModel>
 
     @POST("signin")
-    suspend fun signIn(@Body request: SignInRequest): TokenModel
+    suspend fun signIn(@Body request: SignInRequest): ResponseModel<TokenModel>
 
     @POST("login")
-    suspend fun logIn(@Body request: LogInRequest): UserModel
+    suspend fun logIn(@Body request: LogInRequest): ResponseModel<UserModel>
 
     @POST("getuser")
     suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
 
     @PUT("editepassword")
-    suspend fun changePassword(@Body request: ChangePasswordRequest): TokenModel
+    suspend fun changePassword(@Body request: ChangePasswordRequest): ResponseModel<TokenModel>
 
     @PUT("editeusername")//todo fix this shit
     suspend fun changeUsername(@Body request: ChangeUsernameRequest): Int
 
     @POST("lastlogins")
-    suspend fun getLoginHistory(@Body request: TokenRequest): List<LoginHistoryModel>
+    suspend fun getLoginHistory(@Body request: TokenRequest): ResponseModel<List<LoginHistoryModel>>
 }

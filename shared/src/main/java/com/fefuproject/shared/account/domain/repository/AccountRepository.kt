@@ -80,7 +80,7 @@ interface AccountRepository {
     suspend fun logIn(
         username: String,
         password: String,
-    ): UserModel
+    ): UserModel?
 
     suspend fun getUser(token: String): UserModel?
 
@@ -95,6 +95,6 @@ interface AccountRepository {
         token: String
     ): Boolean
 
-    suspend fun getLoginHistory(token: String): List<LoginHistoryModel>
+    suspend fun getLoginHistory(token: String): List<LoginHistoryModel>?
 
 }
