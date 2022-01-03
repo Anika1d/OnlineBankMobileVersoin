@@ -56,7 +56,7 @@ interface AccountApi {
     suspend fun logIn(@Body request: LogInRequest): UserModel
 
     @POST("getuser")
-    suspend fun getUser(@Body request: TokenRequest): UserModel
+    suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
 
     @PUT("editepassword")
     suspend fun changePassword(@Body request: ChangePasswordRequest): TokenModel

@@ -82,7 +82,7 @@ interface AccountRepository {
         password: String,
     ): UserModel
 
-    suspend fun getUser(token: String): UserModel
+    suspend fun getUser(token: String): UserModel?
 
     suspend fun changePassword(
         old_password: String,

@@ -122,7 +122,12 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun logIn(username: String, password: String): UserModel =
         accountApi.logIn(LogInRequest(username, password))
 
-    override suspend fun getUser(token: String): UserModel = accountApi.getUser(TokenRequest(token))
+    override suspend fun getUser(token: String): UserModel? {
+        var response = accountApi.getUser(TokenRequest(token))
+        if(response.success)
+            return response.data
+        return null
+    }
 
     override suspend fun changePassword(
         old_password: String,
