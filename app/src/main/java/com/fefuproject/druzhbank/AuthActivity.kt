@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
@@ -39,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.fefuproject.druzhbank.ui.theme.DruzhbankTheme
-import com.fefuproject.weardruzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
