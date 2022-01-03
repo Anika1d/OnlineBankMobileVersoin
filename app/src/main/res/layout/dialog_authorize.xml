@@ -70,6 +70,7 @@
             android:tint="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints='password'

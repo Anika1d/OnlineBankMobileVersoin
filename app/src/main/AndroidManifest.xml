@@ -22,7 +22,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Druzhbank">
+        android:theme="@style/Theme.Druzhbank"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".AuthActivity"
             android:exported="false"
@@ -50,7 +51,7 @@
             android:name=".BankActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
