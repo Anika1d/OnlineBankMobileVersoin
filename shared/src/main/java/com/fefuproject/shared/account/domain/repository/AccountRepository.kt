@@ -24,6 +24,10 @@ interface AccountRepository {
         token: String
     ): List<CreditModel>
 
+    suspend fun getAllInstrumets(
+        token: String
+    ): List<InstrumentModel>
+
     suspend fun getCardHistory(
         number: String,
         token: String,

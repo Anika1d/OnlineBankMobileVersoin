@@ -22,6 +22,9 @@ interface AccountApi {
     @POST("getcredits")
     suspend fun getCredits(@Body request: TokenRequest): List<CreditModel>
 
+    @POST("getallinstruments")
+    suspend fun getAllInstruments(@Body request: TokenRequest): List<InstrumentModel>
+
     @POST("history/card")
     suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): List<HistoryInstrumentModel>
 
@@ -32,16 +35,16 @@ interface AccountApi {
     suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): List<HistoryInstrumentModel>
 
     @POST("block")
-    suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): ResponseModel
+    suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): Boolean
 
     @POST("refill") // todo check format of sum
-    suspend fun refillCard(@Body request: TransferRequest): ResponseModel
+    suspend fun refillCard(@Body request: TransferRequest): Boolean
 
     @POST("pay") // todo check format of sum
-    suspend fun payCheck(@Body request: TransferRequest): ResponseModel
+    suspend fun payCheck(@Body request: TransferRequest): Boolean
 
     @POST("pay/category") // todo check format of sum
-    suspend fun payCategory(@Body request: PayCategoryRequest): ResponseModel
+    suspend fun payCategory(@Body request: PayCategoryRequest): Boolean
 
     @POST("category")
     suspend fun getCategory(): List<CategoryModel>
@@ -59,7 +62,7 @@ interface AccountApi {
     suspend fun changePassword(@Body request: ChangePasswordRequest): TokenModel
 
     @PUT("editeusername")//todo fix this shit
-    suspend fun changeUsername(@Body request: ChangeUsernameRequest): ResponseModel
+    suspend fun changeUsername(@Body request: ChangeUsernameRequest): Boolean
 
     @POST("lastlogins")
     suspend fun getLoginHistory(@Body request: TokenRequest): List<LoginHistoryModel>
