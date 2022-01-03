@@ -24,7 +24,7 @@ interface AccountRepository {
         token: String
     ): List<CreditModel>?
 
-    suspend fun getAllInstrumets(
+    suspend fun getAllInstruments(
         token: String
     ): List<InstrumentModel>?
 

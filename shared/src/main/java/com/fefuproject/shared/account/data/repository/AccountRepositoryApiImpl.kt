@@ -38,13 +38,13 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         return null
     }
 
-    override suspend fun getAllInstrumets(token: String): List<InstrumentModel>? {
+    override suspend fun getAllInstruments(token: String): List<InstrumentModel>? {
         var response = accountApi.getAllInstruments(TokenRequest(token))
         if (response.success) {
-            var instrumets = response.data
-            for (instrumet in instrumets)
-                instrumet.instrumetType = InstrumetType.values()[instrumet.instrumet_type!!].type
-            return instrumets
+            var instruments = response.data
+            for (instrument in instruments)
+                instrument.instrumentType = InstrumetType.values()[instrument.instrument_type!!].type
+            return instruments
         }
         return null
     }

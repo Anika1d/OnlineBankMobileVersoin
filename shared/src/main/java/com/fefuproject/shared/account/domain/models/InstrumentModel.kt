@@ -4,6 +4,6 @@ data class InstrumentModel(
     val id: Int?,
     val name: String?,
     val number: String?,
-    val instrumet_type: Int?,
-    var instrumetType: String?,
+    val instrument_type: Int?,
+    var instrumentType: String?,
 )
