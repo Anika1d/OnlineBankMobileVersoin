@@ -65,7 +65,30 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RootView()
+            LoginChecker()
+        }
+    }
+
+    @Composable
+    fun LoginChecker(viewModel: MainActivityViewModel = hiltViewModel()) {
+        val tokenExists by viewModel.tokenExists.collectAsState()
+        if (tokenExists) {
+            RootView(viewModel)
+        } else {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Кажется, вы ещё не осуществили вход в свой аккаунт...",
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Войдите в моб. приложении",
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 

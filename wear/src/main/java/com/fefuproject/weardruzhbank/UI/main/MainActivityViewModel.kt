@@ -18,10 +18,13 @@ class MainActivityViewModel @Inject constructor(
     ViewModel() {
     private val _username = MutableStateFlow<String?>(null)
     val username get() = _username.asStateFlow()
+    private val _tokenExists = MutableStateFlow(preferenceProvider.token != null)
+    val tokenExists get() = _tokenExists.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _username.value = getUserUseCase.invoke(preferenceProvider.token!!).name
+            if (tokenExists.value)
+                _username.value = getUserUseCase.invoke(preferenceProvider.token!!).name
         }
     }
 }
