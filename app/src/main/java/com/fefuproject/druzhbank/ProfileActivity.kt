@@ -22,10 +22,13 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val logout_im=findViewById<ImageButton>(R.id.logout_b_i)
-        logout_im.setOnClickListener {
-            startActivity(Intent(this, BankActivity::class.java))
-        }
+        /* val logout_im = findViewById<ImageButton>(R.id.logout_b_i)
+         logout_im.setOnClickListener {
+             startActivity(Intent(this, MainActivity::class.java))
+         }*/
+
+/*  binding.toolbar.title="Росляков Владимир" //тут имя человека
+  binding.toolbar.setCollapseIcon(R.drawable.ic_baseline_person_24)*/
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/change_password"
+        android:title="Изменить пароль" />
+    <item
+        android:id="@+id/change_login"
+        android:title="Изменить логин" />
+    <item
+        android:id="@+id/history_locale"
+        android:title="История посещений" />
+    <item
+        android:id="@+id/info_from_pr"
+        android:title="Информация о приложении" />
+    <item
+        android:id="@+id/out_account"
+        android:title="Выйти" />
+</menu>

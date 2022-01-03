@@ -5,20 +5,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
-<include layout="@layout/toolbar_profile"
-    android:id="@+id/include_toolbar" />
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <include layout="@layout/toolbar_profile"
+        android:id="@+id/include_toolbar" />
+    <!--   <androidx.appcompat.widget.Toolbar
+           android:id="@+id/toolbar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />-->
 
-        android:id="@+id/btn_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/bottom_navigation_down" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+       <TextView
+           android:id="@+id/textView_cards"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#F1E6E6"
+           android:text="Мои карты"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/include_toolbar" />
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recycle_view_cards"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintBottom_toTopOf="@+id/textView_shet"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView_cards" />
+
+       <TextView
+           android:id="@+id/textView_shet"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#F1E6E6"
+           android:text="Мои счета"
+           app:layout_constraintTop_toBottomOf="@+id/recycle_view_cards" />
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recycle_view_shet"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView_shet" />
+
+       <TextView
+           android:id="@+id/textView_credit"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#F1E6E6"
+           android:text="Мои кредиты"
+           app:layout_constraintTop_toBottomOf="@+id/recycle_view_shet" />
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/recycle_view_credits"
+           android:layout_width="match_parent"
+           android:layout_height="227dp"
+           app:layout_constraintBottom_toTopOf="@+id/btn_nav"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/textView_credit" />
+
+       <com.google.android.material.bottomnavigation.BottomNavigationView
+
+           android:id="@+id/btn_nav"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#fff"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="1.0"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="1.0"
+           app:menu="@menu/bottom_navigation_down" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>

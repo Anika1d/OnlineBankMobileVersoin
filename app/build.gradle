@@ -36,6 +36,11 @@ android {
         jvmTarget = '1.8'
         useIR = true
     }
+
+        dataBinding {
+            enabled = true
+        }
+
     buildFeatures {
         viewBinding true
         compose true
