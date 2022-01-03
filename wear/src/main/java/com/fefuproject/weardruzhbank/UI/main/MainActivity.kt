@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -25,6 +26,9 @@ import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.fefuproject.weardruzhbank.UI.main.MainActivityViewModel
+import com.google.android.gms.wearable.DataClient
+import com.google.android.gms.wearable.DataEventBuffer
+import com.google.android.gms.wearable.Wearable
 import dagger.hilt.android.AndroidEntryPoint
 
 data class MainActivityElement(
@@ -61,12 +65,26 @@ private val menuElements = listOf(
 @ExperimentalWearMaterialApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             LoginChecker()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val dataClient = Wearable.getDataClient(this)
+        if (!viewModel.tokenExists.value) viewModel.updateAuth(dataClient)
+        dataClient.addListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Wearable.getDataClient(this).removeListener(this)
     }
 
     @Composable
@@ -155,5 +173,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDataChanged(p0: DataEventBuffer) {
+        viewModel.updateAuth(Wearable.getDataClient(this))
     }
 }
