@@ -14,34 +14,34 @@ interface AccountRepository {
 
     suspend fun getCards(
         token: String
-    ): List<CardModel>
+    ): List<CardModel>?
 
     suspend fun getChecks(
         token: String
-    ): List<CheckModel>
+    ): List<CheckModel>?
 
     suspend fun getCredits(
         token: String
-    ): List<CreditModel>
+    ): List<CreditModel>?
 
     suspend fun getAllInstrumets(
         token: String
-    ): List<InstrumentModel>
+    ): List<InstrumentModel>?
 
     suspend fun getCardHistory(
         number: String,
         token: String,
-    ): List<HistoryInstrumentModel>
+    ): List<HistoryInstrumentModel>?
 
     suspend fun getCheckHistory(
         number: String,
         token: String,
-    ): List<HistoryInstrumentModel>
+    ): List<HistoryInstrumentModel>?
 
     suspend fun getAllHistory(
         token: String,
         operationCount: Int,
-    ): List<HistoryInstrumentModel>
+    ): List<HistoryInstrumentModel>?
 
     suspend fun blockCard(
         number: String,
@@ -69,7 +69,7 @@ interface AccountRepository {
         token: String
     ): Boolean
 
-    suspend fun GetCategory(): List<CategoryModel>
+    suspend fun GetCategory(): List<CategoryModel>?
 
     suspend fun signIn(
         name: String,

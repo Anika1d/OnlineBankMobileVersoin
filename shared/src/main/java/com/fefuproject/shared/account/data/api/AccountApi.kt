@@ -14,25 +14,25 @@ interface AccountApi {
     suspend fun getValute(): ValuteModel
 
     @POST("getcards")
-    suspend fun getCards(@Body request: TokenRequest): List<CardModel>
+    suspend fun getCards(@Body request: TokenRequest): ResponseModel<List<CardModel>>
 
     @POST("getcheck")
-    suspend fun getChecks(@Body request: TokenRequest): List<CheckModel>
+    suspend fun getChecks(@Body request: TokenRequest): ResponseModel<List<CheckModel>>
 
     @POST("getcredits")
-    suspend fun getCredits(@Body request: TokenRequest): List<CreditModel>
+    suspend fun getCredits(@Body request: TokenRequest): ResponseModel<List<CreditModel>>
 
     @POST("getallinstruments")
-    suspend fun getAllInstruments(@Body request: TokenRequest): List<InstrumentModel>
+    suspend fun getAllInstruments(@Body request: TokenRequest): ResponseModel<List<InstrumentModel>>
 
     @POST("history/card")
-    suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): List<HistoryInstrumentModel>
+    suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<List<HistoryInstrumentModel>>
 
     @POST("history/check")
-    suspend fun getCheckHistory(@Body request: GetInstrumentHistoryRequest): List<HistoryInstrumentModel>
+    suspend fun getCheckHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<List<HistoryInstrumentModel>>
 
     @POST("history/all")
-    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): List<HistoryInstrumentModel>
+    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): ResponseModel<List<HistoryInstrumentModel>>
 
     @POST("block")
     suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): Int
@@ -47,7 +47,7 @@ interface AccountApi {
     suspend fun payCategory(@Body request: PayCategoryRequest): Int
 
     @POST("category")
-    suspend fun getCategory(): List<CategoryModel>
+    suspend fun getCategory(): ResponseModel<List<CategoryModel>>
 
     @POST("signin")
     suspend fun signIn(@Body request: SignInRequest): ResponseModel<TokenModel>

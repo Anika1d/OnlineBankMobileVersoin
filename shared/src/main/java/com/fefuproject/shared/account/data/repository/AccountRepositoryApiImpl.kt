@@ -17,51 +17,79 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun getValute(): ValuteModel = accountApi.getValute()
 
-    override suspend fun getCards(token: String): List<CardModel> =
-        accountApi.getCards(TokenRequest(token))
+    override suspend fun getCards(token: String): List<CardModel>? {
+        var response =accountApi.getCards(TokenRequest(token))
+        if (response.success)
+            return response.data
+        return null
+    }
 
-    override suspend fun getChecks(token: String): List<CheckModel> =
-        accountApi.getChecks(TokenRequest(token))
+    override suspend fun getChecks(token: String): List<CheckModel>? {
+        var response = accountApi.getChecks(TokenRequest(token))
+        if (response.success)
+            return response.data
+        return null
+    }
 
-    override suspend fun getCredits(token: String): List<CreditModel> =
-        accountApi.getCredits(TokenRequest(token))
+    override suspend fun getCredits(token: String): List<CreditModel>? {
+        var response = accountApi.getCredits(TokenRequest(token))
+        if (response.success)
+            return response.data
+        return null
+    }
 
-    override suspend fun getAllInstrumets(token: String): List<InstrumentModel> {
-        var instrumets = accountApi.getAllInstruments(TokenRequest(token))
-        for (instrumet in instrumets)
-            instrumet.instrumetType = InstrumetType.values()[instrumet.instrumet_type!!].type
-        return instrumets
+    override suspend fun getAllInstrumets(token: String): List<InstrumentModel>? {
+        var response = accountApi.getAllInstruments(TokenRequest(token))
+        if (response.success) {
+            var instrumets = response.data
+            for (instrumet in instrumets)
+                instrumet.instrumetType = InstrumetType.values()[instrumet.instrumet_type!!].type
+            return instrumets
+        }
+        return null
     }
 
     override suspend fun getCardHistory(
         number: String,
         token: String
-    ): List<HistoryInstrumentModel> {
-        var history = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
-        for (item in history)
-            item.pay_type = PayType.values()[item.type].type
-        return history
+    ): List<HistoryInstrumentModel>? {
+        var response = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
+        if (response.success) {
+            var history = response.data
+            for (item in history)
+                item.pay_type = PayType.values()[item.type].type
+            return history
+        }
+        return null
     }
 
     override suspend fun getCheckHistory(
         number: String,
         token: String
-    ): List<HistoryInstrumentModel> {
-        var history = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
-        for (item in history)
-            item.pay_type = PayType.values()[item.type].type
-        return history
+    ): List<HistoryInstrumentModel>? {
+        var response = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
+        if (response.success) {
+            var history = response.data
+            for (item in history)
+                item.pay_type = PayType.values()[item.type].type
+            return history
+        }
+        return null
     }
 
     override suspend fun getAllHistory(
         token: String,
         operationCount: Int
-    ): List<HistoryInstrumentModel> {
-        var history =
+    ): List<HistoryInstrumentModel>? {
+        var response =
             accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, operationCount))
-        for (item in history)
-            item.pay_type = PayType.values()[item.type].type
-        return history
+        if (response.success) {
+            var history = response.data
+            for (item in history)
+                item.pay_type = PayType.values()[item.type].type
+            return history
+        }
+        return null
     }
 
     override suspend fun blockCard(number: String, token: String): Boolean =
@@ -109,8 +137,12 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         )
     )].type
 
-    override suspend fun GetCategory(): List<CategoryModel> =
-        accountApi.getCategory()
+    override suspend fun GetCategory(): List<CategoryModel>? {
+       var response = accountApi.getCategory()
+        if(response.success)
+            return response.data
+        return null
+    }
 
 
     override suspend fun signIn(
@@ -144,7 +176,8 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         new_password: String,
         token: String
     ): String? {
-        var response =accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password))
+        var response =
+            accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password))
         if (response.success)
             return response.data.token
         return null
