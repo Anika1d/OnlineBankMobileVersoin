@@ -5,5 +5,5 @@ import com.fefuproject.shared.account.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class GetAllInstrumetsUseCase @Inject constructor(private val repository: AccountRepository) {
-    suspend operator fun invoke(token:String) = repository.getAllInstrumets(token)
+    suspend operator fun invoke(token: String) = repository.getAllInstrumets(token)
 }

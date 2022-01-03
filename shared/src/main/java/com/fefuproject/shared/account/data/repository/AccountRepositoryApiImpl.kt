@@ -3,6 +3,7 @@ package com.fefuproject.shared.account.data.repository
 import com.fefuproject.shared.account.data.api.AccountApi
 import com.fefuproject.shared.account.domain.enums.InstrumetType
 import com.fefuproject.shared.account.domain.enums.PayType
+import com.fefuproject.shared.account.domain.enums.ResultType
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import com.fefuproject.shared.account.domain.requests.*
@@ -64,28 +65,49 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     }
 
     override suspend fun blockCard(number: String, token: String): Boolean =
-        accountApi.blockCard(GetInstrumentHistoryRequest(token, number))
+        ResultType.values()[accountApi.blockCard(GetInstrumentHistoryRequest(token, number))].type
 
     override suspend fun refillCard(
         cardSource: String,
         cardDest: String,
         sum: Double,
         token: String
-    ): Boolean = accountApi.refillCard(TransferRequest(token, cardSource, cardDest, sum))
+    ): Boolean = ResultType.values()[accountApi.refillCard(
+        TransferRequest(
+            token,
+            cardSource,
+            cardDest,
+            sum
+        )
+    )].type
 
     override suspend fun PayCheck(
         cardSource: String,
         cardDest: String,
         sum: Double,
         token: String
-    ): Boolean = accountApi.payCheck(TransferRequest(token, cardSource, cardDest, sum))
+    ): Boolean = ResultType.values()[accountApi.payCheck(
+        TransferRequest(
+            token,
+            cardSource,
+            cardDest,
+            sum
+        )
+    )].type
 
     override suspend fun PayCategory(
         cardSource: String,
         dest_id: Int,
         sum: Double,
         token: String
-    ): Boolean = accountApi.payCategory(PayCategoryRequest(token, cardSource, dest_id, sum))
+    ): Boolean = ResultType.values()[accountApi.payCategory(
+        PayCategoryRequest(
+            token,
+            cardSource,
+            dest_id,
+            sum
+        )
+    )].type
 
     override suspend fun GetCategory(): List<CategoryModel> =
         accountApi.getCategory()
@@ -111,7 +133,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
 
     override suspend fun changeUsername(username: String, token: String): Boolean =
-        accountApi.changeUsername(ChangeUsernameRequest(token, username))
+        ResultType.values()[accountApi.changeUsername(ChangeUsernameRequest(token, username))].type
 
     override suspend fun getLoginHistory(token: String): List<LoginHistoryModel> =
         accountApi.getLoginHistory(TokenRequest(token))
