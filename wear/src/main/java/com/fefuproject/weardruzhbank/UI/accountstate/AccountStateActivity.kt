@@ -2,6 +2,7 @@ package com.fefuproject.weardruzhbank.UI.accountstate
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDp
@@ -11,6 +12,7 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +34,8 @@ import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ExperimentalWearMaterialApi
@@ -57,16 +61,17 @@ class AccountStateActivity : ComponentActivity() {
         scalingLazyListState: ScalingLazyListState,
         viewModel: AccountStateViewModel = hiltViewModel()
     ) {
+        val coroutineScope = rememberCoroutineScope()
         val isRefreshing by viewModel.isRefreshing.collectAsState()
-        val cardInfo = viewModel.cardInfo.collectAsState()
-        val selectedCard = remember { mutableStateOf(0) }
-        val cardEvents = viewModel.cardEvents.collectAsState()
-        //scalingLazyListState.layoutInfo.
+        val cardInfo by viewModel.cardInfo.collectAsState()
+        val selectedCard by viewModel.selectedCard.collectAsState()
+        val cardEvents by viewModel.cardEvents.collectAsState()
+        val cardBeingBlocked by viewModel.cardBeingBlocked.collectAsState()
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing),
-            onRefresh = { viewModel.refresh(card = selectedCard.value) },
+            onRefresh = { viewModel.refresh(card = selectedCard) },
         ) {
-            if (cardInfo.value == null || (cardInfo.value != null && cardInfo.value!!.isNotEmpty())) {
+            if (cardInfo == null || (cardInfo != null && cardInfo!!.isNotEmpty())) {
                 ScalingLazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -85,9 +90,12 @@ class AccountStateActivity : ComponentActivity() {
                     CardDetails(
                         this,
                         isRefreshing,
-                        if (cardInfo.value?.isNotEmpty() == true) cardInfo.value?.get(selectedCard.value) else null,
+                        if (cardInfo?.isNotEmpty() == true) cardInfo?.get(selectedCard) else null,
+                        cardBeingBlocked,
+                        viewModel,
+                        coroutineScope
                     )
-                    CardEvents(this, cardEvents.value, isRefreshing, defaultDataFormatter)
+                    CardEvents(this, cardEvents, isRefreshing, defaultDataFormatter)
                 }
                 CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
             } else {
@@ -112,9 +120,11 @@ class AccountStateActivity : ComponentActivity() {
     fun CardDetails(
         listScope: ScalingLazyListScope,
         isRefreshing: Boolean,
-        selectedCard: CardModel?
+        selectedCard: CardModel?,
+        cardBeingBlocked: CardModel?,
+        viewModel: AccountStateViewModel,
+        coroutineScope: CoroutineScope,
     ) {
-        //listScope.item { Spacer(modifier = Modifier.size(0.dp, 20.dp)) }
         listScope.item {
             Row(
                 modifier = Modifier.fillMaxWidth(0.8f),
@@ -124,23 +134,38 @@ class AccountStateActivity : ComponentActivity() {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Баланс", style = TextStyle(fontWeight = FontWeight.Light))
                     Text(
-                        text = if (selectedCard != null) selectedCard.count else "0000000",
+                        text = if (selectedCard != null) selectedCard.count + 'р' else "0000000",
                         style = TextStyle(fontWeight = FontWeight.Bold),
                         modifier = Modifier.roundedPlaceholder(isRefreshing)
                     )
                 }
-
                 Spacer(modifier = Modifier.size(10.dp))
-                Button(
-                    modifier = Modifier
-                        .size(ButtonDefaults.LargeButtonSize)
-                        .roundedPlaceholder(isRefreshing),
-                    onClick = {},
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_lock_24),
-                        contentDescription = "Card lock"
+                if (cardBeingBlocked != null) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(ButtonDefaults.LargeButtonSize)
                     )
+                } else {
+                    Button(
+                        modifier = Modifier
+                            .size(ButtonDefaults.LargeButtonSize)
+                            .roundedPlaceholder(isRefreshing),
+                        onClick = {
+                            coroutineScope.launch {
+                                viewModel.blockCard()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Карта успешно заблокирована",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_baseline_lock_24),
+                            contentDescription = "Card lock"
+                        )
+                    }
                 }
             }
         }
@@ -161,9 +186,9 @@ class AccountStateActivity : ComponentActivity() {
                 if (events?.isNotEmpty() == true) {
                     Column {
                         Text(
-                            text = "Перевод на карту",
+                            text = events[i].pay_type!!,
                             style = TextStyle(fontWeight = FontWeight.Bold)
-                        ) //TODO:TEMP
+                        )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -173,7 +198,7 @@ class AccountStateActivity : ComponentActivity() {
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                             Text(
-                                text = events[i].count,
+                                text = events[i].count + 'р',
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                         }
@@ -185,8 +210,8 @@ class AccountStateActivity : ComponentActivity() {
 
     @Composable
     fun CardRow(
-        selectedCard: MutableState<Int>,
-        cardInfo: State<List<CardModel>?>,
+        selectedCard: Int,
+        cardInfo: List<CardModel>?,
         viewModel: AccountStateViewModel,
         scalingLazyListState: ScalingLazyListState
     ) {
@@ -203,27 +228,27 @@ class AccountStateActivity : ComponentActivity() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            repeat(cardInfo.value?.size ?: 3) {
+            repeat(cardInfo?.size ?: 3) {
                 val transition = updateTransition(
                     targetState = it,
                     label = "card transition"
                 )
                 val size by transition.animateDp(label = "size") { state ->
-                    val temp = if (state == selectedCard.value) 70.dp else 40.dp
+                    val temp = if (state == selectedCard) 70.dp else 40.dp
                     if (shouldShrink) temp * 0.4f else temp
                 }
                 val textSize by transition.animateInt(label = "textSize") { state ->
-                    if (shouldShrink) 0 else if (state == selectedCard.value) 14 else 10
+                    if (shouldShrink) 0 else if (state == selectedCard) 14 else 10
                 }
                 val textOffset by transition.animateInt(label = "textOffset") { state ->
-                    if (state == selectedCard.value) 8 else 5
+                    if (state == selectedCard) 8 else 5
                 }
                 Box(contentAlignment = Alignment.Center) {
                     Text(
                         modifier = Modifier
                             .offset(-1.dp, textOffset.dp)
-                            .roundedPlaceholder(cardInfo.value == null),
-                        text = if (cardInfo.value != null) cardInfo.value!![it].number.drop(12) else "1234",
+                            .roundedPlaceholder(cardInfo == null),
+                        text = if (cardInfo != null) cardInfo[it].number.drop(12) else "1234",
                         textAlign = TextAlign.Center,
                         fontSize = textSize.sp
                     )
@@ -231,10 +256,8 @@ class AccountStateActivity : ComponentActivity() {
                         modifier = Modifier
                             .size(size)
                             .clickable {
-                                if (cardInfo.value != null) {
-                                    selectedCard.value = it
+                                if (cardInfo != null)
                                     viewModel.refresh(it)
-                                }
                             },
                         painter = painterResource(id = R.drawable.ic_baseline_credit_card_24),
                         contentDescription = "card image"
