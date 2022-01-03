@@ -125,14 +125,14 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun PayCategory(
         cardSource: String,
-        dest_id: Int,
+        Categorydest: String,
         sum: Double,
         token: String
     ): Boolean = ResultType.values()[accountApi.payCategory(
         PayCategoryRequest(
             token,
             cardSource,
-            dest_id,
+            Categorydest,
             sum
         )
     )].type

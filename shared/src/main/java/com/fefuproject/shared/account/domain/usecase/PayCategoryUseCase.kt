@@ -8,8 +8,8 @@ import javax.inject.Inject
 class PayCategoryUseCase @Inject constructor(private val repository: AccountRepository) {
     suspend operator fun invoke(
         cardSource: String,
-        destId: Int,
+        Categorydest: String,
         sum: Double,
         token: String,
-    ) = repository.PayCategory(cardSource, destId, sum, token)
+    ) = repository.PayCategory(cardSource, Categorydest, sum, token)
 }

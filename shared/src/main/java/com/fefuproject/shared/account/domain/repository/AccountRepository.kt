@@ -64,7 +64,7 @@ interface AccountRepository {
 
     suspend fun PayCategory(
         cardSource: String,
-        dest_id: Int,
+        Categorydest: String,
         sum: Double,
         token: String
     ): Boolean
