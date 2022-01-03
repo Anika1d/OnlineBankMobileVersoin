@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountStateViewModel @Inject constructor(
-    private val getCardsSummaryUseCase: GetCardsSummaryUseCase,
+    private val getCardUseCase: GetCardsUseCase,
     private val getCardHistoryUseCase: GetCardHistoryUseCase,
     private val blockCardUseCase: BlockCardUseCase,
     private val preferenceProvider: PreferenceProvider
@@ -44,7 +44,7 @@ class AccountStateViewModel @Inject constructor(
     private fun reschedule(card: Int) {
         viewModelScope.launch {
             _cardEvents.value = null
-            _cardInfo.value = getCardsSummaryUseCase.invoke(preferenceProvider.token!!)
+            _cardInfo.value = getCardUseCase.invoke(preferenceProvider.token!!)
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardHistoryUseCase.invoke(
                 number = _cardInfo.value!![card].number,
                 token = preferenceProvider.token!!
