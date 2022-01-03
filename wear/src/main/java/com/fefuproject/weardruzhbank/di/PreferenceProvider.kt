@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.Model
+package com.fefuproject.weardruzhbank.di
 
 import android.content.Context
 import androidx.preference.PreferenceManager

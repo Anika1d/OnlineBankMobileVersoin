@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
-import com.fefuproject.weardruzhbank.Model.AuthStateObserver
+import com.fefuproject.weardruzhbank.di.AuthStateObserver
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import dagger.hilt.android.AndroidEntryPoint

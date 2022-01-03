@@ -3,7 +3,7 @@ package com.fefuproject.weardruzhbank.UI.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.shared.account.domain.usecase.GetUserUseCase
-import com.fefuproject.weardruzhbank.Model.PreferenceProvider
+import com.fefuproject.weardruzhbank.di.PreferenceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

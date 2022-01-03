@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
-import com.fefuproject.weardruzhbank.Model.AuthStateObserver
+import com.fefuproject.weardruzhbank.di.AuthStateObserver
 import com.fefuproject.weardruzhbank.R
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import com.fefuproject.weardruzhbank.extensions.defaultDataFormatter

@@ -1,17 +1,13 @@
 package com.fefuproject.weardruzhbank.UI.accountstate
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.BlockCardUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardHistoryUseCase
-import com.fefuproject.shared.account.domain.usecase.GetCardsSummaryUseCase
-import com.fefuproject.weardruzhbank.Model.PreferenceProvider
+import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.weardruzhbank.di.PreferenceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

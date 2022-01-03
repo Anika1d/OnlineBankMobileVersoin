@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.fefuproject.druzhbank.AuthActivity
-import com.fefuproject.weardruzhbank.Model.PreferenceProvider
+import com.fefuproject.weardruzhbank.di.PreferenceProvider
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
