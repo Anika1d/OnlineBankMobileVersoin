@@ -10,5 +10,6 @@ data class HistoryInstrumentModel(
     val count: String,
     val date: Date,
     val dest: String,
+    val source: String,
     var pay_type: String?,
 )
