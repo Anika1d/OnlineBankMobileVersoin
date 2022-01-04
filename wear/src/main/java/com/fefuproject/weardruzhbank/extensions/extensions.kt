@@ -30,7 +30,7 @@ fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
     )
 }
 
-val defaultDataFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.forLanguageTag("RU"))
+val defaultDataFormatter = SimpleDateFormat("dd MMM HH:mm:ss", Locale.forLanguageTag("RU"))
 
 @ExperimentalWearMaterialApi
 @Composable
