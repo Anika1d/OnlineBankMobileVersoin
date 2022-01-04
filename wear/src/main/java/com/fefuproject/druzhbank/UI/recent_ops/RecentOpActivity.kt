@@ -105,7 +105,7 @@ class RecentOpActivity : ComponentActivity() {
                                 style = TextStyle(fontWeight = FontWeight.Bold)
                             )
                             Text(
-                                text = if (events[i].type == PayType.onCategory.ordinal) events[i].dest
+                                text = if (events[i].destType == PayType.onCategory.ordinal) events[i].dest
                                 else "*" + events[i].dest.takeLast(4),
                                 style = TextStyle(fontWeight = FontWeight.Bold)
                             )

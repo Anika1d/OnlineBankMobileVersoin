@@ -41,8 +41,8 @@ class TransferViewModel @Inject constructor(
                 transactionBundle!!.src.number!!,
                 transactionBundle!!.target.number!!,
                 amount.toDouble(),
-                transactionBundle!!.src.instrument_type!!,
-                transactionBundle!!.target.instrument_type!!,
+                transactionBundle!!.src.instrument_type,
+                transactionBundle!!.target.instrument_type,
                 preferenceProvider.token!!
             )
             if (rVal) {

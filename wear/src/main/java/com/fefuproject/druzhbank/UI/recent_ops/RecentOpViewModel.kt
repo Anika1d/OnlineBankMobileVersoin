@@ -46,8 +46,8 @@ class RecentOpViewModel @Inject constructor(
                 payment.source,
                 payment.dest,
                 cnt.absoluteValue,
-                payment.instrument_type!!,
-                payment.type,
+                payment.sourceType,
+                payment.destType,
                 preferenceProvider.token!!
             )
             refresh()

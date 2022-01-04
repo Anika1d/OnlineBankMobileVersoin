@@ -43,7 +43,6 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         if (response.success) {
             var instruments = response.data
             for (instrument in instruments) {
-                instrument.instrument_type = instrument.instrument_type?.minus(1);
                 instrument.instrumentType =
                     InstrumetType.values()[instrument.instrument_type!!].type
             }
@@ -61,7 +60,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         if (response.success) {
             var history = response.data
             for (item in history)
-                item.pay_type = PayType.values()[item.type].type
+                item.pay_type = PayType.values()[item.destType].type
             return history
         }
         return null
@@ -76,7 +75,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         if (response.success) {
             var history = response.data
             for (item in history)
-                item.pay_type = PayType.values()[item.type].type
+                item.pay_type = PayType.values()[item.destType].type
             return history
         }
         return null
@@ -91,7 +90,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         if (response.success) {
             var history = response.data
             for (item in history)
-                item.pay_type = PayType.values()[item.type].type
+                item.pay_type = PayType.values()[item.destType].type
             return history
         }
         return null

@@ -1,12 +1,14 @@
 package com.fefuproject.shared.account.domain.models
 
-import android.provider.ContactsContract
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class HistoryInstrumentModel(
     val id: Int,
-    val type: Int,
-    val instrument_type: Int?,
+    @SerializedName("type")
+    val destType: Int,
+    @SerializedName("instrument_type")
+    val sourceType: Int,
     val count: String,
     val date: Date,
     val dest: String,
