@@ -26,10 +26,11 @@ import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
 import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import com.fefuproject.weardruzhbank.UI.main.MainActivityViewModel
-import com.google.android.gms.wearable.DataClient
-import com.google.android.gms.wearable.DataEventBuffer
-import com.google.android.gms.wearable.Wearable
+import com.fefuproject.weardruzhbank.UI.payment.PaymentActivity
+import com.fefuproject.weardruzhbank.di.AuthStateObserver
+import com.google.android.gms.wearable.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 data class MainActivityElement(
     val name: String,
@@ -67,6 +68,9 @@ private val menuElements = listOf(
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
     private val viewModel: MainActivityViewModel by viewModels()
+
+    @Inject
+    lateinit var authObserver: AuthStateObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +120,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
         val scalingLazyListState: ScalingLazyListState =
             rememberScalingLazyListState()
         val username by viewModel.username.collectAsState()
-        DefaultScaffold(scalingLazyListState) {
+        DefaultScaffold(scalingLazyListState, verificationStateObserver = authObserver) {
             ScalingLazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),

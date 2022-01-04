@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.PasswordGuardActivity"
+            android:name=".UI.InputActivity"
             android:exported="true"
             android:label="@string/app_name" />
 

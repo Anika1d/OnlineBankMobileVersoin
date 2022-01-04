@@ -50,7 +50,7 @@ class AccountStateActivity : ComponentActivity() {
         setContent {
             val scalingLazyListState: ScalingLazyListState =
                 rememberScalingLazyListState()
-            DefaultScaffold(scalingLazyListState, authObserver.verificationState) {
+            DefaultScaffold(scalingLazyListState, authObserver) {
                 RootView(scalingLazyListState)
             }
         }

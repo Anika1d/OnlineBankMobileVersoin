@@ -23,12 +23,16 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Text
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
+import com.fefuproject.weardruzhbank.extensions.InputType
 
 
 @ExperimentalWearMaterialApi
-class PasswordGuardActivity : ComponentActivity() {
+class InputActivity : ComponentActivity() {
+    private lateinit var inputType: InputType
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        inputType = intent.getSerializableExtra("type") as InputType
         setContent {
             DefaultScaffold {
                 RootView()
@@ -48,7 +52,7 @@ class PasswordGuardActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Введите пин-код",
+                text = if (inputType == InputType.Password) "Введите пин-код" else "Введите сумму в рублях",
                 style = TextStyle(color = Color.White, textAlign = TextAlign.Center)
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -63,7 +67,14 @@ class PasswordGuardActivity : ComponentActivity() {
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = {
-                    setResult(RESULT_OK) //TODO:Verify
+                    setResult(
+                        RESULT_OK,
+                        Intent().apply {
+                            if (inputType == InputType.Number) putExtra(
+                                "number",
+                                input.toInt()
+                            ) else putExtra("PIN", input)
+                        })
                     finish()
                 }),
                 singleLine = true,
