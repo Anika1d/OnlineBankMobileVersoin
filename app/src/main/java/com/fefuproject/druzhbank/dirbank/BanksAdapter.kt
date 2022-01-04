@@ -1,10 +1,11 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirbank
 
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemBankBinding
 
 class BanksAdapter : RecyclerView.Adapter<BanksAdapter.BanksHolder>() {

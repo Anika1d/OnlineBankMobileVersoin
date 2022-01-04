@@ -10,10 +10,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.fefuproject.druzhbank.BankActivity
-import com.fefuproject.druzhbank.ProfileActivity
+import com.fefuproject.druzhbank.dirbank.BankActivity
+import com.fefuproject.druzhbank.dirprofile.ProfileActivity
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.ValuteActivity
+import com.fefuproject.druzhbank.dirvalute.ValuteActivity
 import com.fefuproject.druzhbank.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText

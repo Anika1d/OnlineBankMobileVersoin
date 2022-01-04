@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirbank
 
 data class Banks(
     val street :String,

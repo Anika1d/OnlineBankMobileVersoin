@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/bankActivity"
-        android:name="com.fefuproject.druzhbank.BankActivity"
+        android:name="com.fefuproject.druzhbank.dirbank.BankActivity"
         android:label="activity_bank"
         tools:layout="@layout/activity_bank" />
     <activity

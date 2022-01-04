@@ -1,10 +1,8 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirvalute
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fefuproject.druzhbank.Valute
-import com.fefuproject.druzhbank.ValuteAdapter
 import com.fefuproject.druzhbank.databinding.ActivityValuteBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import java.text.DateFormat

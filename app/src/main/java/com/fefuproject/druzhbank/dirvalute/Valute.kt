@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirvalute
 
 data class Valute(
     val isBuyUp:Boolean,

@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirbank
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank
+package com.fefuproject.druzhbank.dirprofile
 
 import android.content.Context
 import android.content.Intent
