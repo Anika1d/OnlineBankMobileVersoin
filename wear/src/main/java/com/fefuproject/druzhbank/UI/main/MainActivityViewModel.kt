@@ -1,12 +1,11 @@
-package com.fefuproject.weardruzhbank.UI.main
+package com.fefuproject.druzhbank.UI.main
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.shared.account.domain.usecase.GetUserUseCase
-import com.fefuproject.weardruzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.google.android.gms.wearable.DataClient
-import com.google.android.gms.wearable.PutDataRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

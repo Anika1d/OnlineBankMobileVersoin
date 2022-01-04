@@ -1,11 +1,10 @@
-package com.fefuproject.weardruzhbank.UI.transfer
+package com.fefuproject.druzhbank.UI.transfer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fefuproject.shared.account.domain.enums.InstrumetType
 import com.fefuproject.shared.account.domain.models.InstrumentModel
 import com.fefuproject.shared.account.domain.usecase.*
-import com.fefuproject.weardruzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

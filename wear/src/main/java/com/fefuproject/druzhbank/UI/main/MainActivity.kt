@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.UI
+package com.fefuproject.druzhbank.UI
 
 import android.app.Activity
 import android.content.Intent
@@ -19,15 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
-import com.fefuproject.weardruzhbank.R
-import com.fefuproject.weardruzhbank.UI.accountstate.AccountStateActivity
-import com.fefuproject.weardruzhbank.UI.recent_ops.RecentOpActivity
-import com.fefuproject.weardruzhbank.UI.transfer.TransferActivity
-import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
-import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
-import com.fefuproject.weardruzhbank.UI.main.MainActivityViewModel
-import com.fefuproject.weardruzhbank.UI.payment.PaymentActivity
-import com.fefuproject.weardruzhbank.di.AuthStateObserver
+import com.fefuproject.druzhbank.R
+import com.fefuproject.druzhbank.UI.accountstate.AccountStateActivity
+import com.fefuproject.druzhbank.UI.recent_ops.RecentOpActivity
+import com.fefuproject.druzhbank.UI.transfer.TransferActivity
+import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.roundedPlaceholder
+import com.fefuproject.druzhbank.UI.main.MainActivityViewModel
+import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.google.android.gms.wearable.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

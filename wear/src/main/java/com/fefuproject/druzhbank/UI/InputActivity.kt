@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.UI
+package com.fefuproject.druzhbank.UI
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Text
-import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
-import com.fefuproject.weardruzhbank.extensions.InputType
+import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.InputType
 
 
 @ExperimentalWearMaterialApi

@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.UI.transfer
+package com.fefuproject.druzhbank.UI.transfer
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
-import com.fefuproject.weardruzhbank.R
-import com.fefuproject.weardruzhbank.UI.InputActivity
-import com.fefuproject.weardruzhbank.di.AuthStateObserver
-import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
-import com.fefuproject.weardruzhbank.extensions.InputType
-import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
+import com.fefuproject.druzhbank.R
+import com.fefuproject.druzhbank.UI.InputActivity
+import com.fefuproject.druzhbank.di.AuthStateObserver
+import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.InputType
+import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

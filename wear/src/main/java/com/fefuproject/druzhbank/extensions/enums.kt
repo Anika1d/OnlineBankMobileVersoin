@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.extensions
+package com.fefuproject.druzhbank.extensions
 
 enum class InputType {
     Number,

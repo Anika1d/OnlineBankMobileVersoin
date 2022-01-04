@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.di
+package com.fefuproject.druzhbank.di
 
 import android.content.Context
 import android.content.Intent

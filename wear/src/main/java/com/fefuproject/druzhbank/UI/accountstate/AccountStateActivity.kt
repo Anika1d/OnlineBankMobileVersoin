@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.UI.accountstate
+package com.fefuproject.druzhbank.UI.accountstate
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
@@ -26,11 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
-import com.fefuproject.weardruzhbank.di.AuthStateObserver
-import com.fefuproject.weardruzhbank.R
-import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
-import com.fefuproject.weardruzhbank.extensions.defaultDataFormatter
-import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
+import com.fefuproject.druzhbank.di.AuthStateObserver
+import com.fefuproject.druzhbank.R
+import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.defaultDataFormatter
+import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint

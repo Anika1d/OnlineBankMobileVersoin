@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fefuproject.weardruzhbank">
+    package="com.fefuproject.druzhbank">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,7 +8,7 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
-        android:name=".App"
+        android:name="com.fefuproject.druzhbank.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +28,7 @@
             android:value="true" />
 
         <activity
-            android:name=".UI.MainActivity"
+            android:name="com.fefuproject.druzhbank.UI.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -38,20 +38,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.InputActivity"
+            android:name="com.fefuproject.druzhbank.UI.InputActivity"
             android:exported="true"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".UI.accountstate.AccountStateActivity"
+            android:name="com.fefuproject.druzhbank.UI.accountstate.AccountStateActivity"
             android:exported="true"
             android:label="@string/app_name" />
         <activity
-            android:name=".UI.transfer.TransferActivity"
+            android:name="com.fefuproject.druzhbank.UI.transfer.TransferActivity"
             android:exported="true"
             android:label="@string/app_name" />
         <activity
-            android:name=".UI.recent_ops.RecentOpActivity"
+            android:name="com.fefuproject.druzhbank.UI.recent_ops.RecentOpActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.fefuproject.druzhbank.UI.payment.PaymentActivity"
             android:exported="true"
             android:label="@string/app_name" />
     </application>

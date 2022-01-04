@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank.UI.accountstate
+package com.fefuproject.druzhbank.UI.accountstate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,7 @@ import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.BlockCardUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardHistoryUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
-import com.fefuproject.weardruzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

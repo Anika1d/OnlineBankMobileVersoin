@@ -1,4 +1,4 @@
-package com.fefuproject.weardruzhbank
+package com.fefuproject.druzhbank
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
