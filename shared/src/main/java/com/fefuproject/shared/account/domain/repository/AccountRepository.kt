@@ -2,6 +2,7 @@ package com.fefuproject.shared.account.domain.repository
 
 import com.fefuproject.shared.account.domain.entity.CardEvent
 import com.fefuproject.shared.account.domain.entity.CardSummary
+import com.fefuproject.shared.account.domain.enums.PayType
 import com.fefuproject.shared.account.domain.models.*
 import java.text.DecimalFormat
 
@@ -48,18 +49,20 @@ interface AccountRepository {
         token: String
     ): Boolean
 
-    suspend fun refillCard(
+    suspend fun PayByCard(
         cardSource: String,
         cardDest: String,
         sum: Double,
-        token: String
+        token: String,
+        payType: PayType
     ): Boolean
 
-    suspend fun PayCheck(
+    suspend fun PayByCheck(
         cardSource: String,
         cardDest: String,
         sum: Double,
-        token: String
+        token: String,
+        payType: PayType
     ): Boolean
 
     suspend fun PayCategory(

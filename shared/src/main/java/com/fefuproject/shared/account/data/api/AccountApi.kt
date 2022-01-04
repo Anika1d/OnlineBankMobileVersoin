@@ -38,10 +38,10 @@ interface AccountApi {
     suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): Int
 
     @POST("refill") // todo check format of sum
-    suspend fun refillCard(@Body request: TransferRequest): Int
+    suspend fun payByCard(@Body request: TransferRequest): Int
 
     @POST("pay") // todo check format of sum
-    suspend fun payCheck(@Body request: TransferRequest): Int
+    suspend fun payByCheck(@Body request: TransferRequest): Int
 
     @POST("pay/category") // todo check format of sum
     suspend fun payCategory(@Body request: PayCategoryRequest): Int

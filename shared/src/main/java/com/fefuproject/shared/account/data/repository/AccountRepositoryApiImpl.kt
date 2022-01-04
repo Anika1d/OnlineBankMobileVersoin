@@ -95,31 +95,35 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun blockCard(number: String, token: String): Boolean =
         ResultType.values()[accountApi.blockCard(GetInstrumentHistoryRequest(token, number))].type
 
-    override suspend fun refillCard(
+    override suspend fun PayByCard(
         cardSource: String,
         cardDest: String,
         sum: Double,
-        token: String
-    ): Boolean = ResultType.values()[accountApi.refillCard(
+        token: String,
+        payType: PayType
+    ): Boolean = ResultType.values()[accountApi.payByCard(
         TransferRequest(
             token,
             cardSource,
             cardDest,
-            sum
+            sum,
+            payType.ordinal
         )
     )].type
 
-    override suspend fun PayCheck(
+    override suspend fun PayByCheck(
         cardSource: String,
         cardDest: String,
         sum: Double,
-        token: String
-    ): Boolean = ResultType.values()[accountApi.payCheck(
+        token: String,
+        payType: PayType
+    ): Boolean = ResultType.values()[accountApi.payByCheck(
         TransferRequest(
             token,
             cardSource,
             cardDest,
-            sum
+            sum,
+            payType.ordinal
         )
     )].type
 
