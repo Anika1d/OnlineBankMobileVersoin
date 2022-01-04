@@ -1,7 +1,6 @@
 package com.fefuproject.shared.account.domain.requests
 
-data class GetInstrumentHistoryRequest(
+data class BlockCardRequest(
     val token: String,
     val number: String,
-    val operationCount: Int,
 )

@@ -32,11 +32,13 @@ interface AccountRepository {
     suspend fun getCardHistory(
         number: String,
         token: String,
+        operationCount: Int,
     ): List<HistoryInstrumentModel>?
 
     suspend fun getCheckHistory(
         number: String,
         token: String,
+        operationCount: Int,
     ): List<HistoryInstrumentModel>?
 
     suspend fun getAllHistory(

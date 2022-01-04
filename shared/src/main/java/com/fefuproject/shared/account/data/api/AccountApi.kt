@@ -35,7 +35,7 @@ interface AccountApi {
     suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): ResponseModel<List<HistoryInstrumentModel>>
 
     @POST("block")
-    suspend fun blockCard(@Body request: GetInstrumentHistoryRequest): Int
+    suspend fun blockCard(@Body request: BlockCardRequest): Int
 
     @POST("refill") // todo check format of sum
     suspend fun payByCard(@Body request: TransferRequest): Int

@@ -54,9 +54,10 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun getCardHistory(
         number: String,
-        token: String
+        token: String,
+        operationCount: Int,
     ): List<HistoryInstrumentModel>? {
-        var response = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
+        var response = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number,operationCount))
         if (response.success) {
             var history = response.data
             for (item in history)
@@ -68,9 +69,10 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun getCheckHistory(
         number: String,
-        token: String
+        token: String,
+        operationCount: Int,
     ): List<HistoryInstrumentModel>? {
-        var response = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
+        var response = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number,operationCount))
         if (response.success) {
             var history = response.data
             for (item in history)
@@ -96,7 +98,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     }
 
     override suspend fun blockCard(number: String, token: String): Boolean =
-        ResultType.values()[accountApi.blockCard(GetInstrumentHistoryRequest(token, number))].type
+        ResultType.values()[accountApi.blockCard(BlockCardRequest(token, number))].type
 
     override suspend fun PayByCard(
         cardSource: String,
