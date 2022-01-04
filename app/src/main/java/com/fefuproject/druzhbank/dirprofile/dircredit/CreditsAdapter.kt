@@ -1,13 +1,14 @@
 package com.fefuproject.druzhbank.dirprofile.dircredit
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCreditBinding
-class CreditsAdapter :RecyclerView.Adapter<CreditsAdapter.CreditsHolder>()
-{
+
+class CreditsAdapter : RecyclerView.Adapter<CreditsAdapter.CreditsHolder>() {
     val сreditsList = ArrayList<Credits>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditsHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,10 +27,16 @@ class CreditsAdapter :RecyclerView.Adapter<CreditsAdapter.CreditsHolder>()
     class CreditsHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val binding = ItemCreditBinding.bind(v)
         fun bind(credit: Credits) = with(binding) {
-            typecredit.text=credit.nameCredit
-            datecreditpay.text=credit.dateCredit
-            valuecredit.text=credit.valueCredit
+            typecredit.text = credit.nameCredit
+            datecreditpay.text = credit.dateCredit
+            valuecredit.text = credit.valueCredit
         }
 
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addCredit(credit: Credits) {
+        сreditsList.add(credit)
+        notifyDataSetChanged()
     }
 }

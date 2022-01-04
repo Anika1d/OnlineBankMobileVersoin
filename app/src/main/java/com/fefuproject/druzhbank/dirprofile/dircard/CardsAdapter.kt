@@ -1,5 +1,6 @@
 package com.fefuproject.druzhbank.dirprofile.dircard
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -34,5 +35,10 @@ class CardsAdapter : RecyclerView.Adapter<CardsAdapter.CardsHolder>() {
 
             }
 
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun addCard(card: Cards){
+        сardsList.add(card)
+        notifyDataSetChanged()
     }
 }
