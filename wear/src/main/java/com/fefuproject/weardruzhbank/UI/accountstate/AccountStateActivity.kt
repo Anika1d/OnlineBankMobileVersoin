@@ -248,7 +248,7 @@ class AccountStateActivity : ComponentActivity() {
                         modifier = Modifier
                             .offset(-1.dp, textOffset.dp)
                             .roundedPlaceholder(cardInfo == null),
-                        text = if (cardInfo != null) cardInfo[it].number.drop(12) else "1234",
+                        text = if (cardInfo != null) cardInfo[it].number.takeLast(4) else "1234",
                         textAlign = TextAlign.Center,
                         fontSize = textSize.sp
                     )

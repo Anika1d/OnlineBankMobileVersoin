@@ -1,27 +1,34 @@
 package com.fefuproject.weardruzhbank.UI.transfer
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
-import com.fefuproject.weardruzhbank.di.AuthStateObserver
 import com.fefuproject.weardruzhbank.R
+import com.fefuproject.weardruzhbank.UI.InputActivity
+import com.fefuproject.weardruzhbank.di.AuthStateObserver
 import com.fefuproject.weardruzhbank.extensions.DefaultScaffold
+import com.fefuproject.weardruzhbank.extensions.InputType
 import com.fefuproject.weardruzhbank.extensions.roundedPlaceholder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,11 +38,23 @@ import javax.inject.Inject
 class TransferActivity : ComponentActivity() {
     @Inject
     lateinit var authObserver: AuthStateObserver
+    val viewModel: TransferViewModel by viewModels()
+    private lateinit var authLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val contract = ActivityResultContracts.StartActivityForResult()
+        authLauncher = registerForActivityResult(contract) { result ->
+            if (result.resultCode == RESULT_OK) {
+                viewModel.startTransaction(
+                    result.data!!.getIntExtra("number", 0)
+                ) {
+                    Toast.makeText(this, "Перевод выполнен успешно!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         setContent {
-            DefaultScaffold(verificationState = authObserver.verificationState) {
+            DefaultScaffold(verificationStateObserver = authObserver) {
                 RootView()
             }
         }
@@ -48,8 +67,8 @@ class TransferActivity : ComponentActivity() {
         val targetToolListState = rememberScalingLazyListState()
         val selectionError =
             sourceToolListState.layoutInfo.centralItemIndex == targetToolListState.layoutInfo.centralItemIndex
-                    || (sourceToolListState.layoutInfo.centralItemIndex == sourceToolListState.layoutInfo.totalItemsCount - 2)
-                    || (targetToolListState.layoutInfo.centralItemIndex == targetToolListState.layoutInfo.totalItemsCount - 2)
+                    || (sourceToolListState.layoutInfo.centralItemIndex == sourceToolListState.layoutInfo.totalItemsCount - 1)
+                    || (targetToolListState.layoutInfo.centralItemIndex == targetToolListState.layoutInfo.totalItemsCount - 1)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,7 +108,22 @@ class TransferActivity : ComponentActivity() {
                 } else {
                     Button(
                         modifier = Modifier,
-                        onClick = { viewModel.startTransaction() },
+                        onClick = {
+                            viewModel.transactionBundle = PaymentRequestBundle(
+                                viewModel.sourceCards.value!![sourceToolListState.layoutInfo.centralItemIndex - 1],
+                                viewModel.sourceCards.value!![targetToolListState.layoutInfo.centralItemIndex - 1]
+                            )
+                            authLauncher.launch(
+                                Intent(
+                                    this@TransferActivity,
+                                    InputActivity::class.java
+                                ).apply {
+                                    putExtra(
+                                        "type",
+                                        InputType.Number
+                                    )
+                                })
+                        },
                         enabled = !selectionError
                     ) {
                         Image(
@@ -138,6 +172,7 @@ class TransferActivity : ComponentActivity() {
                                     FontWeight.Normal else FontWeight.Light,
                                 color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
                                     Color.Red else Color.White,
+                                fontSize = 10.sp
                             )
                         )
                     }
@@ -150,7 +185,9 @@ class TransferActivity : ComponentActivity() {
                         )
                     } else {
                         Text(
-                            cards!!.get(it).name ?: "*" + cards!!.get(it).number!!.drop(12),
+                            if (cards!![it].name.isNullOrBlank()) "*" + cards!![it].number!!.takeLast(
+                                4
+                            ) else cards!![it].name!!,
                             style = TextStyle(
                                 fontWeight =
                                 if (listState.layoutInfo.centralItemIndex - 1 == it)
@@ -193,13 +230,14 @@ class TransferActivity : ComponentActivity() {
                         Text(
                             "Тест",
                             modifier = Modifier
-                                .roundedPlaceholder(true)
+                                .roundedPlaceholder(true),
+                            fontSize = 10.sp
                         )
                     } else {
                         Text(
-                            if (cards!!.get(it).name.isNullOrBlank()) "*" + cards!!.get(it).number!!.drop(
-                                12
-                            ) else cards!!.get(it).name!!,
+                            if (cards!![it].name.isNullOrBlank()) "*" + cards!![it].number!!.takeLast(
+                                4
+                            ) else cards!![it].name!!,
                             style = TextStyle(
                                 fontWeight =
                                 if (listState.layoutInfo.centralItemIndex - 1 == it)
@@ -214,7 +252,8 @@ class TransferActivity : ComponentActivity() {
                         Text(
                             "Тест",
                             modifier = Modifier
-                                .roundedPlaceholder(true)
+                                .roundedPlaceholder(true),
+                            fontSize = 10.sp
                         )
                     } else {
                         Text(
@@ -225,6 +264,7 @@ class TransferActivity : ComponentActivity() {
                                     FontWeight.Normal else FontWeight.Light,
                                 color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
                                     Color.Red else Color.White,
+                                fontSize = 10.sp
                             )
                         )
                     }
