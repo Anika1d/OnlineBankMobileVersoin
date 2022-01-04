@@ -12,6 +12,6 @@ class PayByCardUseCase @Inject constructor(private val repository: AccountReposi
         cardDest: String,
         sum: Double,
         token: String,
-        payType: PayType
+        payType: Int
     ) = repository.PayByCard(cardSource, cardDest, sum, token,payType)
 }

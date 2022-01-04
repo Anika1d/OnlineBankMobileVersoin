@@ -100,14 +100,14 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         cardDest: String,
         sum: Double,
         token: String,
-        payType: PayType
+        payType: Int
     ): Boolean = ResultType.values()[accountApi.payByCard(
         TransferRequest(
             token,
             cardSource,
             cardDest,
             sum,
-            payType.ordinal
+            payType
         )
     )].type
 
@@ -116,14 +116,14 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         cardDest: String,
         sum: Double,
         token: String,
-        payType: PayType
+        payType: Int
     ): Boolean = ResultType.values()[accountApi.payByCheck(
         TransferRequest(
             token,
             cardSource,
             cardDest,
             sum,
-            payType.ordinal
+            payType
         )
     )].type
 

@@ -54,7 +54,7 @@ interface AccountRepository {
         cardDest: String,
         sum: Double,
         token: String,
-        payType: PayType
+        payType: Int
     ): Boolean
 
     suspend fun PayByCheck(
@@ -62,7 +62,7 @@ interface AccountRepository {
         cardDest: String,
         sum: Double,
         token: String,
-        payType: PayType
+        payType: Int
     ): Boolean
 
     suspend fun PayCategory(
