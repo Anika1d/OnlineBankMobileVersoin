@@ -46,11 +46,15 @@ class TransferActivity : ComponentActivity() {
         val contract = ActivityResultContracts.StartActivityForResult()
         authLauncher = registerForActivityResult(contract) { result ->
             if (result.resultCode == RESULT_OK) {
-                viewModel.startTransaction(
-                    result.data!!.getIntExtra("number", 0)
-                ) {
-                    Toast.makeText(this, "Перевод выполнен успешно!", Toast.LENGTH_SHORT).show()
-                }
+                val res = result.data!!.getIntExtra("number", -1)
+                if (res > 0)
+                    viewModel.startTransaction(
+                        res
+                    ) {
+                        Toast.makeText(this, "Перевод выполнен успешно!", Toast.LENGTH_SHORT).show()
+                    }
+                else
+                    Toast.makeText(this, "Введите корректную сумму", Toast.LENGTH_SHORT).show()
             }
         }
         setContent {

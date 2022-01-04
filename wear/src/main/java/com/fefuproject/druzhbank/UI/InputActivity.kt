@@ -24,6 +24,7 @@ import androidx.wear.compose.material.ExperimentalWearMaterialApi
 import androidx.wear.compose.material.Text
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.InputType
+import java.lang.Exception
 
 
 @ExperimentalWearMaterialApi
@@ -67,14 +68,15 @@ class InputActivity : ComponentActivity() {
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = {
-                    setResult(
-                        RESULT_OK,
-                        Intent().apply {
-                            if (inputType == InputType.Number) putExtra(
-                                "number",
-                                input.toInt()
-                            ) else putExtra("PIN", input)
-                        })
+                        setResult(
+                            RESULT_OK,
+                            Intent().apply {
+                                if (inputType == InputType.Number) putExtra(
+                                    "number",
+                                    input.toIntOrNull()
+                                ) else putExtra("PIN", input)
+                            }
+                        )
                     finish()
                 }),
                 singleLine = true,
