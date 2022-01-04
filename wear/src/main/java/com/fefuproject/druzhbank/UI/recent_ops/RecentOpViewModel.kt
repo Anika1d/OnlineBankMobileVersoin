@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class RecentOpViewModel @Inject constructor(
@@ -37,17 +38,19 @@ class RecentOpViewModel @Inject constructor(
     }
 
     fun repeatPayment(payment: HistoryInstrumentModel) {
-        if (isRefreshing.value) return
+        val cnt = payment.count.toDouble()
+        if (isRefreshing.value || cnt > 0) return
         viewModelScope.launch {
             _isRefreshing.value = true
             payUniversalUseCase.invoke(
                 payment.source,
                 payment.dest,
-                payment.count.toDouble(),
+                cnt.absoluteValue,
                 payment.instrument_type!!,
-                payment.,
+                payment.type,
                 preferenceProvider.token!!
             )
+            refresh()
         }
     }
 
