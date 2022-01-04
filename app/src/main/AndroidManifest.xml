@@ -30,7 +30,7 @@
             android:label="@string/title_activity_auth"
             android:theme="@style/Theme.Splash" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".dirprofile.ProfileActivity"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -45,10 +45,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ValuteActivity"
+            android:name=".dirvalute.ValuteActivity"
             android:exported="false" />
         <activity
-            android:name=".BankActivity"
+            android:name=".dirbank.BankActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
