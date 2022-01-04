@@ -47,7 +47,8 @@ class AccountStateViewModel @Inject constructor(
             _cardInfo.value = getCardUseCase.invoke(preferenceProvider.token!!)
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardHistoryUseCase.invoke(
                 number = _cardInfo.value!![card].number,
-                token = preferenceProvider.token!!
+                token = preferenceProvider.token!!,
+                10
             )
             _isRefreshing.value = false
         }
