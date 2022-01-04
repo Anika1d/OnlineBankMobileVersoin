@@ -42,8 +42,11 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         var response = accountApi.getAllInstruments(TokenRequest(token))
         if (response.success) {
             var instruments = response.data
-            for (instrument in instruments)
-                instrument.instrumentType = InstrumetType.values()[instrument.instrument_type!!].type
+            for (instrument in instruments) {
+                instrument.instrument_type = instrument.instrument_type?.minus(1);
+                instrument.instrumentType =
+                    InstrumetType.values()[instrument.instrument_type!!].type
+            }
             return instruments
         }
         return null
