@@ -26,6 +26,7 @@ import com.fefuproject.druzhbank.UI.transfer.TransferActivity
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import com.fefuproject.druzhbank.UI.main.MainActivityViewModel
+import com.fefuproject.druzhbank.UI.payment.PaymentActivity
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.google.android.gms.wearable.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +54,7 @@ private val menuElements = listOf(
     MainActivityElement(
         "Быстрый платёж",
         R.drawable.ic_baseline_receipt_long_24,
-        AccountStateActivity::class.java
+        PaymentActivity::class.java
     ),
     MainActivityElement(
         "Последние операции",
