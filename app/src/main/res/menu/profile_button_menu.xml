@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_menu">
 
     <item
-        android:id="@+id/change_password"
+        android:id="@+id/change_password_menu"
         android:title="Изменить пароль" />
     <item
-        android:id="@+id/change_login"
+        android:id="@+id/change_login_menu"
         android:title="Изменить логин" />
     <item
-        android:id="@+id/history_locale"
+        android:id="@+id/history_locale_menu"
         android:title="История посещений" />
     <item
-        android:id="@+id/info_from_pr"
+        android:id="@+id/info_from_pr_menu"
         android:title="Информация о приложении" />
     <item
-        android:id="@+id/out_account"
+        android:id="@+id/out_account_menu"
         android:title="Выйти" />
 </menu>

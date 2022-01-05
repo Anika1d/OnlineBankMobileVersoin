@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dirprofile.dirfragmentprofile.ProfileMainFragment">
+
+    <TextView
+        android:id="@+id/textView_cards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="#F1E6E6"
+        android:text="Мои карты"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_cards"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_pay"
+        app:layout_constraintTop_toBottomOf="@+id/textView_cards"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_card" />
+
+    <TextView
+        android:id="@+id/textView_pay"
+        android:layout_width="405dp"
+        android:layout_height="15dp"
+        android:background="#F1E6E6"
+        android:text="Мои счета"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycle_view_cards" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_pay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/space2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_pay"
+        tools:listitem="@layout/item_pay" />
+
+    <TextView
+        android:id="@+id/textView_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F1E6E6"
+        android:text="Мои кредиты"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space2" />
+
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="126dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_pay" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_credits"
+        android:layout_width="match_parent"
+        android:layout_height="227dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_credit"
+        app:layout_constraintVertical_bias="0.369"
+        tools:listitem="@layout/item_credit" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
