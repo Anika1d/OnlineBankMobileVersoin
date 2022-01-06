@@ -86,7 +86,7 @@ class ProfileMainFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding= FragmentProfileMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -97,7 +97,6 @@ class ProfileMainFragment : Fragment() {
         }
     private fun initDataRec(){
         binding.apply {
-
             cardsAdapter.addCard(cards)
             cardsAdapter.addCard(cards1)
             creditsAdapter.addCredit(credits)
