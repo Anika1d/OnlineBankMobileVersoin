@@ -22,7 +22,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val AUTH_ON = true;
+const val AUTH_ON =false;
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

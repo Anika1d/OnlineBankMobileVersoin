@@ -5,15 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
-import com.fefuproject.druzhbank.dirprofile.dircard.CardsAdapter
 import com.fefuproject.druzhbank.dirprofile.dircredit.Credits
 import com.fefuproject.druzhbank.dirprofile.dircredit.CreditsAdapter
 import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
+import com.fefuproject.druzhbank.dirprofile.dircard.*
+import java.io.Console
+import java.util.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,50 +36,62 @@ class ProfileMainFragment : Fragment() {
 
     private var _binding: FragmentProfileMainBinding? = null
     private val binding get() = _binding!!
+    private val cardService = CardService()
+    private var cardsAdapter = CardsAdapter(
+        object : CardsActionListener {
+            override fun onCardDetails(card: Cards) {
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
+                    }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        CardFragment(cards = card), "CardFragment"
+                    )
+                    commit()
+                }
+            }
+        }
 
-    private val cardsAdapter= CardsAdapter()
-    private val paysAdapter= PaysAdapter()
-    private  val creditsAdapter= CreditsAdapter()
+    )
+    private val paysAdapter = PaysAdapter()
+    private val creditsAdapter = CreditsAdapter()
 
 
-    private val credits= Credits(
+    private val credits = Credits(
         nameCredit = "Рассрочка на наушники",
         valueCredit = "15000 рублей",
         dateCredit = "Платеж 10.01.22"
     )
-    private val credits1= Credits(
+    private val credits1 = Credits(
         nameCredit = "Ипотека",
         valueCredit = "15314444000 рублей",
         dateCredit = "Платеж 15.01.22"
     )
 
 
-    private val pays= Pays(
-        namePay = "Пенсия"
-        , valuePay = "12000 рублей"
-        , numberPay = "****9999"
-    )
-    private val pays1= Pays(
-        namePay = "Накопления"
-        , valuePay = "912000 рублей"
-        , numberPay = "****9888"
-    )
-
-
-    private val cards= Cards(
+    private val cards = Cards(
         typeCard = "Кредитка",
-        valueCard = "2140000 рублей"
-        , whatBank ="mir",
+        valueCard = "2140000 рублей", whatBank = "mir",
         numberCard = "2145 1245 **** ****"
+        , isBlocked = false
     )
 
-    private val cards1= Cards(
+    private val cards1 = Cards(
         typeCard = "Зарплатная ",
-        valueCard = "40000 рублей"
-        , whatBank ="mir",
+        valueCard = "40000 рублей", whatBank = "mir",
         numberCard = "3333 9999 **** ****"
+        , isBlocked = false
     )
 
+    private val pays = Pays(
+        namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
+    )
+    private val pays1 = Pays(
+        namePay = "Накопления", valuePay = "912000 рублей", numberPay = "****9888"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,40 +101,58 @@ class ProfileMainFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
-        _binding= FragmentProfileMainBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileMainBinding.inflate(inflater, container, false)
         return binding.root
     }
-    override fun onViewCreated  (view: View, savedInstanceState: Bundle?) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initDataRec()
+        val recyclerView: RecyclerView = binding.recycleViewCards
+        LinearLayoutManager(this@ProfileMainFragment.context).also {
+            binding.recycleViewCards.layoutManager = it
         }
-    private fun initDataRec(){
+        recyclerView.adapter = cardsAdapter
+        cardsAdapter.addCard(cards)
+        cardsAdapter.addCard(cards1)
+        cardsAdapter.addCard(cards)
+        cardsAdapter.addCard(cards1)
+        initDataRec()
+
+    }
+
+    private fun initDataRec() {
         binding.apply {
-            cardsAdapter.addCard(cards)
-            cardsAdapter.addCard(cards1)
             creditsAdapter.addCredit(credits)
             creditsAdapter.addCredit(credits1)
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
+
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
-            LinearLayoutManager(this@ProfileMainFragment.context).also { recycleViewCards.layoutManager = it }
-            recycleViewCards.adapter=cardsAdapter
-            LinearLayoutManager(this@ProfileMainFragment.context).also { recycleViewCredits.layoutManager = it }
-            recycleViewCredits.adapter=creditsAdapter
-            LinearLayoutManager(this@ProfileMainFragment.context).also { recycleViewPay.layoutManager = it }
-            recycleViewPay.adapter=paysAdapter
-
-
+            LinearLayoutManager(this@ProfileMainFragment.context).also {
+                recycleViewCredits.layoutManager = it
+            }
+            recycleViewCredits.adapter = creditsAdapter
+            LinearLayoutManager(this@ProfileMainFragment.context).also {
+                recycleViewPay.layoutManager = it
+            }
+            recycleViewPay.adapter = paysAdapter
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -129,12 +163,13 @@ class ProfileMainFragment : Fragment() {
          * @return A new instance of fragment ProfileMainFragment.
          */
         // TODO: Rename and change types and number of parameters
-        @JvmStatic fun newInstance(param1: String, param2: String) =
-                ProfileMainFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ProfileMainFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 }

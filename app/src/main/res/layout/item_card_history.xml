@@ -14,12 +14,12 @@
 
 
     <TextView
-        android:id="@+id/dateopenapp"
+        android:id="@+id/operation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4sp"
         android:layout_marginTop="5sp"
-        android:text="12.12.2022"
+        android:text="Перевод на карту"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -27,15 +27,15 @@
         app:layout_constraintVertical_bias="0.567" />
 
     <TextView
-        android:id="@+id/timeopenapp"
+        android:id="@+id/summaoperation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="16:00"
+        android:text="16,00 рублей"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.905"
-        app:layout_constraintStart_toEndOf="@+id/dateopenapp"
+        app:layout_constraintStart_toEndOf="@+id/operation"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.619" />
 
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="dateopenapp"
+        app:constraint_referenced_ids="operation,dateoperationcard"
         app:layout_constraintBottom_toBottomOf="@+id/space"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -57,5 +57,15 @@
         app:layout_constraintHorizontal_bias="0.992"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="45sp" />
+
+    <TextView
+        android:id="@+id/dateoperationcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15.02.2019"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/summaoperation"
+        app:layout_constraintStart_toEndOf="@+id/operation"
+        tools:layout_editor_absoluteY="26dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
