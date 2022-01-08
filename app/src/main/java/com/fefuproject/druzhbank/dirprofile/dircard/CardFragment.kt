@@ -162,7 +162,6 @@ class CardFragment(cards: Cards) : Fragment() {
                 .inflate(R.layout.dialog_rename_card, null)
         alert.setView(promptsView)
         alert.setCancelable(false)
-        val textView = promptsView.findViewById<TextView>(R.id.block_your_card_text)
         val bun_cancel = promptsView.findViewById<MaterialButton>(R.id.cancel_button_rename)
         bun_cancel.setOnClickListener {
             Toast.makeText(

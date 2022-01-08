@@ -7,36 +7,51 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemPayBinding
+import com.fefuproject.druzhbank.databinding.ItemPayImageBinding
+import com.fefuproject.druzhbank.dirprofile.dircard.Cards
 
-class PaysAdapter : RecyclerView.Adapter<PaysAdapter.PaysHolder>() {
+interface PaysActionListener {
+    fun onPayDetails(pay: Pays) {
+
+    }
+}
+
+class PaysAdapter(
+    private val actionListener: PaysActionListener
+) : RecyclerView.Adapter<PaysAdapter.PaysHolder>(), View.OnClickListener {
     val paysList = ArrayList<Pays>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaysHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_pay, parent, false)
-        return PaysHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemPayBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return PaysHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PaysHolder, position: Int) {
-        holder.bind(pay = paysList[position])
+        val pay = paysList[position]
+        with(holder.binding) {
+            holder.itemView.tag = pay
+            valuepay.text = pay.valuePay
+            namepay.text = pay.namePay
+            numberpay.text = pay.numberPay
+        }
+
     }
 
     override fun getItemCount(): Int { ///возрашает кол-во елементов
         return paysList.size
     }
 
-    class PaysHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val binding = ItemPayBinding.bind(v)
-        fun bind(pay: Pays) = with(binding) {
-            namepay.text = pay.namePay
-            numberpay.text = pay.numberPay
-            valuepay.text = pay.valuePay
-        }
-
-    }
+    class PaysHolder(val binding: ItemPayBinding) : RecyclerView.ViewHolder(binding.root)
 
     @SuppressLint("NotifyDataSetChanged")
     fun addPay(pay: Pays) {
         paysList.add(pay)
         notifyDataSetChanged()
+    }
+
+    override fun onClick(p0: View) {
+        val pays: Pays = p0.tag as Pays
+        actionListener.onPayDetails(pays)
     }
 }

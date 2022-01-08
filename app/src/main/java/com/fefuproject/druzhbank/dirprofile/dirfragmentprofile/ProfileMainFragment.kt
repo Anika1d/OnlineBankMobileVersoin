@@ -16,8 +16,11 @@ import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
 import com.fefuproject.druzhbank.dirprofile.dircard.*
+import com.fefuproject.druzhbank.dirprofile.dirpay.PayFragment
+import com.fefuproject.druzhbank.dirprofile.dirpay.PaysActionListener
 import java.io.Console
 import java.util.ArrayList
+import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,7 +59,30 @@ class ProfileMainFragment : Fragment() {
         }
 
     )
-    private val paysAdapter = PaysAdapter()
+    lateinit var paysListCopy:ArrayList<Pays>
+    var startpays: Int? =null
+    private val paysAdapter = PaysAdapter(
+        object : PaysActionListener {
+            override fun onPayDetails(pay: Pays) {
+                super.onPayDetails(pay)
+                if (startpays!=null)
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
+                    }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        PayFragment(), "PayFragment"
+                    )
+                    commit()
+                }
+            }
+        }
+    //startPosition = paysListCopy.indexOf(pay)
+
+    )
     private val creditsAdapter = CreditsAdapter()
 
 
@@ -146,11 +172,9 @@ class ProfileMainFragment : Fragment() {
                 recycleViewPay.layoutManager = it
             }
             recycleViewPay.adapter = paysAdapter
+           paysListCopy=paysAdapter.paysList
+            startpays=1
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     companion object {

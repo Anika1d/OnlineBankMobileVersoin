@@ -28,7 +28,6 @@ import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.HistoryOpenApplic
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.RulesFragment
 import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
-import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.ui.main.AUTH_ON
 import com.fefuproject.druzhbank.ui.main.MainActivity
 import com.google.android.material.button.MaterialButton
