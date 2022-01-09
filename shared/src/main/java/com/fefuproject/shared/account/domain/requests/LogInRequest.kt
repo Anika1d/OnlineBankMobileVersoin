@@ -1,6 +1,6 @@
 package com.fefuproject.shared.account.domain.requests
 
 data class LogInRequest(
-    val username: String,
+    val login: String,
     val password: String,
 )
