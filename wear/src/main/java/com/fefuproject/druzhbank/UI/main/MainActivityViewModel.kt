@@ -35,7 +35,7 @@ class MainActivityViewModel @Inject constructor(
                     preferenceProvider.updateToken(null)
                     _tokenExists.value = false
                 } else {
-                    _username.value = user.username
+                    _username.value = user.name
                 }
             }
         }
