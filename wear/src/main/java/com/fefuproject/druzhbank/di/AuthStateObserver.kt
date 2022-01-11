@@ -31,6 +31,7 @@ class AuthStateObserver @Inject constructor(
     val verificationState get() = _verificationState.asStateFlow()
     private lateinit var authLauncher: ActivityResultLauncher<Intent>
     private val phoneCheckerContext = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var phoneCheckerJob: Job? = null
 
     init {
         activity.lifecycle.addObserver(this)
@@ -59,14 +60,22 @@ class AuthStateObserver @Inject constructor(
             val diff =
                 (System.currentTimeMillis() - preferenceProvider.lastVerifiedTimestamp) / 1000 // 60000 - minutes
             if (diff > 30) { // 60 might be better
-                if (!phoneCheckerContext.coroutineContext.job.children.any())
-                    phoneCheckerContext.launch {
+                if (phoneCheckerJob == null)
+                    phoneCheckerJob = phoneCheckerContext.launch {
+                        var checkDone: Boolean
                         while (_verificationState.value != true) {
+                            checkDone = false
                             Wearable.getNodeClient(activity).connectedNodes.addOnSuccessListener {
-                                _verificationState.value = it.isNotEmpty()
+                                if (it.isNotEmpty())
+                                    _verificationState.value = it.get(0)?.isNearby ?: false
+                                else
+                                    _verificationState.value = false
+                                checkDone = true
+                            }
+                            while (!checkDone) {
+                                delay(2000)
                             }
                         }
-                        delay(3000)
                     }
             } else {
                 _verificationState.value = true

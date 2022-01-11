@@ -57,7 +57,7 @@ fun DefaultScaffold(
             if (verificationStateObserver == null) {
                 content()
             } else {
-                if (isVerified!!.value != false) content()
+                if (isVerified!!.value == true) content()
                 else {
                     Column(
                         modifier = Modifier.fillMaxSize(),
