@@ -16,6 +16,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerViewProfile"
         android:layout_width="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_nav"
         app:layout_constraintEnd_toEndOf="parent"

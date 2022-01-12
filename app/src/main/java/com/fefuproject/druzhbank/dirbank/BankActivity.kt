@@ -40,7 +40,7 @@ class BankActivity : AppCompatActivity() {
     private fun initDataBanks() {
         binding.apply {
             recBank.layoutManager = LinearLayoutManager(this@BankActivity)
-            recBank.addItemDecoration(CommonItemSpaceDecoration(5));
+            recBank.addItemDecoration(CommonItemSpaceDecoration(5))
             adapter.addBank(bank1)
             adapter.addBank(bank2)
             recBank.adapter = adapter

@@ -14,6 +14,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardBinding
+import com.fefuproject.druzhbank.dirmoneytransfer.MoneyTransferFragment
+import com.fefuproject.druzhbank.dirpayment.PaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistoryFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.google.android.material.button.MaterialButton
@@ -86,6 +88,34 @@ class CardFragment(cards: Cards) : Fragment() {
                 commit()
             }
         }
+        binding.topUpButton.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                val visibleFragment =
+                    parentFragmentManager.fragments.firstOrNull { !isHidden }
+                visibleFragment?.let {
+                    hide(visibleFragment)
+                }
+                replace(
+                    R.id.fragmentContainerViewProfile,
+                    PaymentFragment(), "PaymentFragment"
+                )
+                commit()
+            }
+        }
+        binding.transferCard.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                val visibleFragment =
+                    parentFragmentManager.fragments.firstOrNull { !isHidden }
+                visibleFragment?.let {
+                    hide(visibleFragment)
+                }
+                replace(
+                    R.id.fragmentContainerViewProfile,
+                    MoneyTransferFragment(), " MoneyTransferFragment"
+                )
+                commit()
+            }
+        }
         activity?.onBackPressedDispatcher?.addCallback(
             this@CardFragment,
             object : OnBackPressedCallback(true) {
@@ -93,7 +123,7 @@ class CardFragment(cards: Cards) : Fragment() {
                     parentFragmentManager.beginTransaction().apply {
                         replace(
                             R.id.fragmentContainerViewProfile, ProfileMainFragment(),
-                            "FragmentProfileMainBinding"
+                            "FragmentProfileMain"
                         )
                         commit()
                     }
