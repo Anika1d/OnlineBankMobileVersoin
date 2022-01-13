@@ -8,5 +8,5 @@ data class CreditModel(
     val name: String,
     val number: String,
     val count: String,
-    val payment_date: Date,
+    val payment_date: String,
 )
