@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemHistoryOpenApplicationBinding
+import com.fefuproject.shared.account.domain.models.LoginHistoryModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HistoryOpenAppAdapter : RecyclerView.Adapter<HistoryOpenAppAdapter.HistoryOpenAppHolder>() {
 
-    val historyOpenAppList = ArrayList<HistoryOpenApp>()
+    val historyOpenAppList = ArrayList<LoginHistoryModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryOpenAppHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history_open_application, parent, false)
@@ -27,16 +32,21 @@ class HistoryOpenAppAdapter : RecyclerView.Adapter<HistoryOpenAppAdapter.History
 
     class HistoryOpenAppHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val binding = ItemHistoryOpenApplicationBinding.bind(v)
-        fun bind(historyOpenApp: HistoryOpenApp) = with(binding) {
-                dateopenapp.text=historyOpenApp.date
-                timeopenapp.text=historyOpenApp.time
+        fun bind(historyOpenApp:LoginHistoryModel) = with(binding) {
+            val currentDate = historyOpenApp.date_visit
+            val dateFormatDate: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val dateTextDate = dateFormatDate.format(currentDate)
+                dateopenapp.text=dateTextDate.toString()
+            val dateFormatTime: DateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val dateTextTime = dateFormatTime.format(currentDate)
+                timeopenapp.text=dateTextTime
         }
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addHistoryOpenApp(historyOpenApp: HistoryOpenApp) {
-        historyOpenAppList.add(historyOpenApp)
+    fun addHistoryOpenAppList(historyList: List<LoginHistoryModel>) {
+        historyOpenAppList.addAll(historyList)
         notifyDataSetChanged()
     }
 }
