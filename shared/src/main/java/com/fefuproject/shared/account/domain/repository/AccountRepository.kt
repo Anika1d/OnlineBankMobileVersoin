@@ -47,6 +47,11 @@ interface AccountRepository {
         token: String
     ): Boolean
 
+    suspend fun unblockCard(
+        number: String,
+        token: String
+    ): Boolean
+
     suspend fun PayByCard(
         cardSource: String,
         cardDest: String,

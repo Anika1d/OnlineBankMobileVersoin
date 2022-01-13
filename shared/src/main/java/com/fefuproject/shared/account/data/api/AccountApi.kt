@@ -37,6 +37,9 @@ interface AccountApi {
     @POST("block")
     suspend fun blockCard(@Body request: BlockCardRequest): Int
 
+    @POST("unblock")
+    suspend fun unblockCard(@Body request: BlockCardRequest): Int
+
     @POST("refill") // todo check format of sum
     suspend fun payByCard(@Body request: TransferRequest): Int
 
