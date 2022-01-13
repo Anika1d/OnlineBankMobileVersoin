@@ -7,9 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCreditBinding
+import com.fefuproject.shared.account.domain.models.CreditModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreditsAdapter : RecyclerView.Adapter<CreditsAdapter.CreditsHolder>() {
-    val сreditsList = ArrayList<Credits>()
+    val сreditsList = ArrayList<CreditModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditsHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_credit, parent, false)
@@ -26,17 +31,18 @@ class CreditsAdapter : RecyclerView.Adapter<CreditsAdapter.CreditsHolder>() {
 
     class CreditsHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val binding = ItemCreditBinding.bind(v)
-        fun bind(credit: Credits) = with(binding) {
-            typecredit.text = credit.nameCredit
-            datecreditpay.text = credit.dateCredit
-            valuecredit.text = credit.valueCredit
+        fun bind(credit:CreditModel) = with(binding) {
+            typecredit.text = credit.name
+        /*    val currentDate = credit.payment_date
+            val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val dateText = dateFormat.format(currentDate)*/
+            datecreditpay.text = "12.12.2002"
+            valuecredit.text = credit.count
         }
 
     }
-
     @SuppressLint("NotifyDataSetChanged")
-    fun addCredit(credit: Credits) {
-        сreditsList.add(credit)
-        notifyDataSetChanged()
+    fun addCreditList(creditsList: List<CreditModel>) {
+        сreditsList.addAll(creditsList)
     }
 }

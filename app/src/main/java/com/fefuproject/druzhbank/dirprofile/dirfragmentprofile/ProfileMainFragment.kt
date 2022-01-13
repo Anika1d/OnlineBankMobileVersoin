@@ -18,7 +18,11 @@ import com.fefuproject.druzhbank.dirprofile.dircard.*
 import com.fefuproject.druzhbank.dirprofile.dirpay.PayFragment
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysActionListener
 import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.models.CheckModel
+import com.fefuproject.shared.account.domain.models.CreditModel
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.shared.account.domain.usecase.GetChecksUseCase
+import com.fefuproject.shared.account.domain.usecase.GetCreditsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -84,20 +88,6 @@ class ProfileMainFragment : Fragment() {
     )
 
     private val creditsAdapter = CreditsAdapter()
-
-
-    private val credits = Credits(
-        nameCredit = "Рассрочка на наушники",
-        valueCredit = "15000 рублей",
-        dateCredit = "Платеж 10.01.22"
-    )
-    private val credits1 = Credits(
-        nameCredit = "Ипотека",
-        valueCredit = "15314444000 рублей",
-        dateCredit = "Платеж 15.01.22"
-    )
-
-
     private val pays = Pays(
         namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
     )
@@ -107,14 +97,22 @@ class ProfileMainFragment : Fragment() {
 
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
-
+    @Inject
+    lateinit var getCreditsUseCase: GetCreditsUseCase
+    @Inject
+    lateinit var getCheckUseCase: GetChecksUseCase
     @Inject
     lateinit var getCardsUseCase: GetCardsUseCase
     lateinit var card_list: List<CardModel>
+    lateinit var credits_list: List<CreditModel>
+    lateinit var check_list: List<CheckModel>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
             card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            credits_list= getCreditsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list=getCheckUseCase.invoke(preferenceProvider.token!!)!!
         }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -125,6 +123,8 @@ class ProfileMainFragment : Fragment() {
         super.onResume()
         runBlocking {
             card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            credits_list= getCreditsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list=getCheckUseCase.invoke(preferenceProvider.token!!)!!
         }
     }
     override fun onCreateView(
@@ -144,15 +144,12 @@ class ProfileMainFragment : Fragment() {
         }
         cardsAdapter.addListCard(card_list)
         recyclerView.adapter = cardsAdapter
-
         initDataRec()
-
+        creditsAdapter.addCreditList(credits_list)
     }
 
     private fun initDataRec() {
         binding.apply {
-            creditsAdapter.addCredit(credits)
-            creditsAdapter.addCredit(credits1)
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
