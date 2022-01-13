@@ -51,6 +51,8 @@ interface AccountApi {
 
     @POST("category")
     suspend fun getCategory(): ResponseModel<List<CategoryModel>>
+    @POST("edit/instrument/name")
+    suspend fun changeInstrumentName(@Body request: ChangeInstrumentNameRequest): Int
 
     @POST("signin")
     suspend fun signIn(@Body request: SignInRequest): ResponseModel<TokenModel>

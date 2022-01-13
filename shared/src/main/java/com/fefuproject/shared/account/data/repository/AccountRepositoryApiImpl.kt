@@ -17,7 +17,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getValute(): ValuteResponseModel = accountApi.getValute()
 
     override suspend fun getCards(token: String): List<CardModel>? {
-        var response =accountApi.getCards(TokenRequest(token))
+        var response = accountApi.getCards(TokenRequest(token))
         if (response.success)
             return response.data
         return null
@@ -55,7 +55,8 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         operationCount: Int,
     ): List<HistoryInstrumentModel>? {
-        var response = accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number,operationCount))
+        var response =
+            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number, operationCount))
         if (response.success) {
             var history = response.data
             for (item in history)
@@ -70,7 +71,8 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         operationCount: Int,
     ): List<HistoryInstrumentModel>? {
-        var response = accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number,operationCount))
+        var response =
+            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number, operationCount))
         if (response.success) {
             var history = response.data
             for (item in history)
@@ -100,6 +102,21 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun unblockCard(number: String, token: String): Boolean =
         ResultType.values()[accountApi.unblockCard(BlockCardRequest(token, number))].type
+
+    override suspend fun editInstrumentName(
+        name: String,
+        token: String,
+        number: String,
+        instrument: InstrumetType
+    ): Boolean = ResultType.values()[accountApi.changeInstrumentName(
+        ChangeInstrumentNameRequest(
+            token,
+            name,
+            number,
+            instrument.ordinal
+        )
+    )].type
+
 
     override suspend fun PayByCard(
         cardSource: String,
@@ -148,8 +165,8 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     )].type
 
     override suspend fun GetCategory(): List<CategoryModel>? {
-       var response = accountApi.getCategory()
-        if(response.success)
+        var response = accountApi.getCategory()
+        if (response.success)
             return response.data
         return null
     }

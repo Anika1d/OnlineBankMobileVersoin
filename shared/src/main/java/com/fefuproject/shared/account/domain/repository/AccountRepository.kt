@@ -1,5 +1,6 @@
 package com.fefuproject.shared.account.domain.repository
 
+import com.fefuproject.shared.account.domain.enums.InstrumetType
 import com.fefuproject.shared.account.domain.models.*
 
 interface AccountRepository {
@@ -50,6 +51,13 @@ interface AccountRepository {
     suspend fun unblockCard(
         number: String,
         token: String
+    ): Boolean
+
+    suspend fun editInstrumentName(
+        name: String,
+        token: String,
+        number: String,
+        instrument: InstrumetType,//todo check working of it
     ): Boolean
 
     suspend fun PayByCard(
