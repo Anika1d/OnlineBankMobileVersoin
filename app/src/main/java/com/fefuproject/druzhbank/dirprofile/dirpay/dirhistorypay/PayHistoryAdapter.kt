@@ -33,7 +33,7 @@ class  PayHistoryAdapter : RecyclerView.Adapter< PayHistoryAdapter.PayHistoryHol
             with(binding)
             {
                 valueOperationPay.text = payHistory.valueOperation
-                dateOperationPay1.text = payHistory.dateOperation
+                dateOperationPay.text = payHistory.dateOperation
                 nameOperationPay.text = payHistory.nameOperation
 
             }

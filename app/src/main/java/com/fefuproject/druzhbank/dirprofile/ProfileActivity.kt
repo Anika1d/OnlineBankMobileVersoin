@@ -21,6 +21,7 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.fefuproject.druzhbank.dirbank.BankActivity
+import com.fefuproject.druzhbank.dirhistoryallpayment.AllHistoryPaymentFragment
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dircard.Cards
 import com.fefuproject.druzhbank.dirprofile.dircard.CardsAdapter
@@ -87,7 +88,7 @@ class ProfileActivity : AppCompatActivity() {
                     R.id.pay->
                         makeCurrentFragment(MainPaymentFragment(),"MainPaymentFragment")
                 R.id.history->
-                    makeText(this.applicationContext,"история",Toast.LENGTH_SHORT).show()
+                    makeCurrentFragment(AllHistoryPaymentFragment(),"AllHistoryPaymentFragment")
                 R.id.chat->
                     makeText(this.applicationContext,"чат",Toast.LENGTH_SHORT).show()
             }

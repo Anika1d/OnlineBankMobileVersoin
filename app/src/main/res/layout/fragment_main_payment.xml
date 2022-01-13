@@ -13,7 +13,7 @@
         android:id="@+id/recycle_view_categories_horizotal"
         android:layout_width="393dp"
         android:layout_height="123dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="44dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,5 +34,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycle_view_categories_horizotal"
         tools:listitem="@layout/item_categories_rect" />
+
+    <TextView
+        android:id="@+id/all_shablons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12sp"
+        android:layout_marginBottom="12sp"
+        android:text="Смотреть все шаблоны"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

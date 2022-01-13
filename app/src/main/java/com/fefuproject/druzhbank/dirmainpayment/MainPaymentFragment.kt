@@ -2,10 +2,16 @@ package com.fefuproject.druzhbank.dirmainpayment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentMainPaymentBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
@@ -15,7 +21,7 @@ import com.fefuproject.druzhbank.dirmainpayment.dirpaymentcontract.diradapters.C
 import com.fefuproject.druzhbank.dirmainpayment.dirpaymentcontract.diradapters.CategoriesAdapterHorizotal
 import com.fefuproject.druzhbank.dirmainpayment.dirpaymentcontract.diradapters.CategoriesAdapterVertical
 import com.fefuproject.druzhbank.dirmainpayment.dirpaymentcontract.models.Categories
-import com.fefuproject.druzhbank.dirpayment.PaymentToCardFragment
+import com.fefuproject.druzhbank.dirmainpayment.dirsample.SampleFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -124,6 +130,44 @@ class MainPaymentFragment : Fragment() {
         binding.recycleViewCategoriesVertical.addItemDecoration(CommonItemSpaceDecoration(16))
         binding.recycleViewCategoriesVertical.adapter = adapterV
         binding.recycleViewCategoriesHorizotal.adapter = adapterH
+        cliker_all_shablons()
+    }
+
+    private fun cliker_all_shablons() {
+        val text_ = binding.allShablons.text
+        val s_r = SpannableString(text_);
+        val clickableSpanCon = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
+                    }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        SampleFragment(), "SampleFragment"
+                    )
+                    commit()
+                }
+
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.setColor(0xFFFFFFFF.toInt());
+                ds.setUnderlineText(false)
+            }
+        }
+        s_r.setSpan(
+            clickableSpanCon,
+            0,
+            text_.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.allShablons.movementMethod = LinkMovementMethod.getInstance()
+        binding.allShablons.text = s_r
+
 
     }
 }
