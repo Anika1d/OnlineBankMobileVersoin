@@ -33,10 +33,10 @@ class CreditsAdapter : RecyclerView.Adapter<CreditsAdapter.CreditsHolder>() {
         private val binding = ItemCreditBinding.bind(v)
         fun bind(credit:CreditModel) = with(binding) {
             typecredit.text = credit.name
-        /*    val currentDate = credit.payment_date
+            val currentDate = credit.payment_date
             val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val dateText = dateFormat.format(currentDate)*/
-            datecreditpay.text = "12.12.2002"
+            val dateText = dateFormat.format(currentDate)
+            datecreditpay.text = dateText.toString()
             valuecredit.text = credit.count
         }
 
