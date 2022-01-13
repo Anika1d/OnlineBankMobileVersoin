@@ -45,14 +45,14 @@ class AccountStateViewModel @Inject constructor(
         viewModelScope.launch {
             _cardEvents.value = null
             val buf = getCardUseCase.invoke(preferenceProvider.token!!)?.toMutableList()
+            buf?.removeAll { cardModel -> cardModel.is_blocked }
+            if (buf != null) if (buf.size > 3) buf.take(3)
+            _cardInfo.value = buf
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardHistoryUseCase.invoke(
                 number = _cardInfo.value!![card].number,
                 token = preferenceProvider.token!!,
                 10
             )
-            buf?.removeAll { cardModel -> cardModel.is_blocked }
-            if (buf != null) if (buf.size > 3) buf.take(3)
-            _cardInfo.value = buf
             _isRefreshing.value = false
         }
     }
