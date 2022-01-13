@@ -7,11 +7,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,6 +126,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
         val scalingLazyListState: ScalingLazyListState =
             rememberScalingLazyListState()
         val username by viewModel.username.collectAsState()
+        val currencyData by viewModel.currencyData.collectAsState()
         DefaultScaffold(scalingLazyListState, verificationStateObserver = authObserver) {
             ScalingLazyColumn(
                 modifier = Modifier
@@ -151,7 +154,43 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
                             fontSize = 10.sp
                         )
                     }
-
+                }
+                if (viewModel.currencyEnabled) {
+                    item {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(id = R.drawable.eur),
+                                modifier = Modifier.size(14.dp),
+                                contentDescription = "euro icon"
+                            )
+                            Text(
+                                if (currencyData != null)
+                                    "${currencyData!![1].Value.dropLast(3)}р " else "12,12",
+                                textAlign = TextAlign.Center,
+                                fontSize = 12.sp,
+                                modifier = Modifier
+                                    .roundedPlaceholder(currencyData == null)
+                                    .padding(2.dp, 0.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.usd),
+                                modifier = Modifier.size(12.dp),
+                                contentDescription = "usd icon"
+                            )
+                            Text(
+                                if (currencyData != null)
+                                    "${currencyData!![0].Value.dropLast(3)}р" else "12,12",
+                                textAlign = TextAlign.Center,
+                                fontSize = 12.sp,
+                                modifier = Modifier
+                                    .roundedPlaceholder(currencyData == null)
+                                    .padding(2.dp, 0.dp),
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
                 }
                 items(menuElements) { item ->
                     Chip(

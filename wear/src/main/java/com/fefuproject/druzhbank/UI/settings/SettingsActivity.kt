@@ -32,9 +32,9 @@ class SettingsActivity : ComponentActivity() {
     @ExperimentalWearMaterialApi
     @Composable
     fun RootView(viewModel: SettingsActivityViewModel = hiltViewModel()) {
-
         DefaultScaffold {
             val pinEnabled by viewModel.pinEnabled.collectAsState()
+            val currencyEnabled by viewModel.currencyEnabled.collectAsState()
             val isRefreshing by viewModel.isRefreshing.collectAsState()
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing),
@@ -59,6 +59,25 @@ class SettingsActivity : ComponentActivity() {
                             toggleIcon = {
                                 ToggleChipDefaults.SwitchIcon(
                                     checked = pinEnabled
+                                )
+                            },
+                            modifier = Modifier
+                                .width(140.dp)
+                                .padding(top = 10.dp),
+                        )
+                    }
+                    item {
+                        ToggleChip(
+                            checked = currencyEnabled,
+                            onCheckedChange = {
+                                viewModel.toggleCurrencyEnabled()
+                            },
+                            label = {
+                                Text(text = "Курс\nВалют")
+                            },
+                            toggleIcon = {
+                                ToggleChipDefaults.SwitchIcon(
+                                    checked = currencyEnabled
                                 )
                             },
                             modifier = Modifier

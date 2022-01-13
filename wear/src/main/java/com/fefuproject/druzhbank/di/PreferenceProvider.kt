@@ -12,6 +12,7 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
     var token: String? = sharedPreferences.getString("token", null)
     var PIN: String? = sharedPreferences.getString("PIN", null)
+    var currencyEnabled: Boolean = sharedPreferences.getBoolean("cur_enabled", true)
 
     fun updateToken(newToken: String?) {
         token = newToken
@@ -26,5 +27,10 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     fun updateLastVerifiedTime() {
         lastVerifiedTimestamp = System.currentTimeMillis()
         sharedPreferences.edit().putLong("lastVerifyTS", lastVerifiedTimestamp).apply()
+    }
+
+    fun updateCurrency(newState: Boolean) {
+        currencyEnabled = newState
+        sharedPreferences.edit().putBoolean("cur_enabled", newState).apply()
     }
 }

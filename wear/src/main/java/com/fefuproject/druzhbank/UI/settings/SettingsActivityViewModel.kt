@@ -19,6 +19,8 @@ class SettingsActivityViewModel @Inject constructor(
 ) : ViewModel() {
     private var _pinEnabled = MutableStateFlow(preferenceProvider.PIN != null)
     val pinEnabled get() = _pinEnabled.asStateFlow()
+    private var _currencyEnabled = MutableStateFlow(preferenceProvider.currencyEnabled)
+    val currencyEnabled get() = _currencyEnabled.asStateFlow()
     private var _isRefreshing = MutableStateFlow(false)
     val isRefreshing get() = _isRefreshing.asStateFlow()
 
@@ -44,5 +46,10 @@ class SettingsActivityViewModel @Inject constructor(
             preferenceProvider.updatePIN(null)
             _pinEnabled.value = false
         }
+    }
+
+    fun toggleCurrencyEnabled() {
+        _currencyEnabled.value = !_currencyEnabled.value
+        preferenceProvider.updateCurrency(currencyEnabled.value)
     }
 }
