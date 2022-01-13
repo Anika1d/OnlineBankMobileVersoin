@@ -10,18 +10,22 @@ import androidx.compose.ui.text.toLowerCase
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentAllHistoryPaymentBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
+import com.fefuproject.druzhbank.di.PreferenceProvider
+import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
+import com.fefuproject.shared.account.domain.usecase.GetAllHistoryUseCase
+import com.fefuproject.shared.account.domain.usecase.GetAllInstrumentHistoryUseCase
+import com.fefuproject.shared.account.domain.usecase.GetChecksUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.util.*
+import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AllHistoryPaymentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class AllHistoryPaymentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -30,8 +34,17 @@ class AllHistoryPaymentFragment : Fragment() {
     private var _binding: FragmentAllHistoryPaymentBinding? = null
     private val binding get() = _binding!!
     private val adapterf = AllHistoryPaymentAdapter()
+
+    @Inject
+    lateinit var preferenceProvider: PreferenceProvider
+    @Inject
+    lateinit var getAllHistoryInstrumentUseCase: GetAllInstrumentHistoryUseCase
+    lateinit var AllH_list: List<HistoryInstrumentModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        runBlocking {
+            AllH_list = getAllHistoryInstrumentUseCase.invoke(preferenceProvider.token!!,10)!!
+        }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -48,20 +61,7 @@ class AllHistoryPaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapterf.addOperationHistory(
-            AllOperationHistory(
-                name = "Перевод на карту",
-                value = 2000.0,
-                date = "11.12.21"
-            )
-        )
-        adapterf.addOperationHistory(
-            AllOperationHistory(
-                name = "Перевод на карту",
-                value = 2100.0,
-                date = "11.12.21"
-            )
-        )
+        adapterf.addOperationHistoryList(AllH_list)
         binding.historyAllRc.adapter = adapterf
         binding.historyAllRc.addItemDecoration(CommonItemSpaceDecoration(15))
         binding.searchView.maxWidth = Int.MAX_VALUE
@@ -76,7 +76,7 @@ class AllHistoryPaymentFragment : Fragment() {
 
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-               return false
+                    return false
                 }
 
             })

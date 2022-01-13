@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemHistoryPayBinding
+import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AllHistoryPaymentAdapter :
     RecyclerView.Adapter<AllHistoryPaymentAdapter.AllHistoryPaymentHolder>() {
 
-    val HistoryList = ArrayList<AllOperationHistory>()
-    val HistoryListAll = ArrayList<AllOperationHistory>()
+    val HistoryList = ArrayList<HistoryInstrumentModel>()
+    val HistoryListAll = ArrayList<HistoryInstrumentModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllHistoryPaymentHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_history_pay, parent, false)
@@ -32,26 +37,23 @@ class AllHistoryPaymentAdapter :
         private val binding = ItemHistoryPayBinding.bind(v)
 
         @SuppressLint("SetTextI18n")
-        fun bind(H: AllOperationHistory) = with(binding) {
-            valueOperationPay.text = H.value.toString() + " рублей"
-            nameOperationPay.text = H.name
-            dateOperationPay.text = H.date
+        fun bind(H: HistoryInstrumentModel) = with(binding) {
+            valueOperationPay.text = H.count + " руб."
+            val currentDate =H.date ///заполнение изменяемых данных
+            val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            val dateText = dateFormat.format(currentDate)
+            dateOperationPay.text = dateText
+            nameOperationPay.text=H.pay_type
 
         }
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addOperationHistory(H: AllOperationHistory) {
-        HistoryList.add(H)
-        HistoryListAll.add(H)
-        notifyDataSetChanged()
-    }
-
-    fun addListOperationHistory(H: ArrayList<AllOperationHistory>) {
-        HistoryList.addAll(H)
+    fun addOperationHistoryList(H: List<HistoryInstrumentModel>) {
         HistoryListAll.addAll(H)
         notifyDataSetChanged()
+
     }
 
 /*
