@@ -33,14 +33,14 @@ class CardTransferAdapter : RecyclerView.Adapter<CardTransferAdapter.CardTransfe
                     cardImage.setImageResource(R.drawable.ic_visa)
                 }
             }
-            balansCard.text = card.count+ " руб."
+            balansCard.text = card.count + " руб."
             numberCard.text = card.number[0].toString() + card.number[1].toString() +
                     card.number[2].toString() + card.number[3].toString() + "****" +
                     card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
                     card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
-            if (card.is_blocked) {
-                blockedCard.setTextColor(android.graphics.Color.RED)
-            }
+            if (card.is_blocked) blockedCard.setTextColor(android.graphics.Color.RED)
+            else blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
+
         }
     }
 

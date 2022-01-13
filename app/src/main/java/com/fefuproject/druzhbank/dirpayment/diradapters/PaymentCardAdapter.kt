@@ -27,6 +27,7 @@ class PaymentCardAdapter(
             notifyDataSetChanged()
 
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentCardHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemCardImageBinding.inflate(inflater, parent, false)
@@ -37,8 +38,8 @@ class PaymentCardAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PaymentCardHolder, position: Int) {
         val card = paymentCardList[position]
-        with( holder.binding) {
-            holder.itemView.tag=card
+        with(holder.binding) {
+            holder.itemView.tag = card
             val typeCard = Util.getCardIssuer(cardNumber = card.number)
             when (typeCard) {
                 CardType.MIR -> {
@@ -51,14 +52,13 @@ class PaymentCardAdapter(
                     cardImage.setImageResource(R.drawable.ic_visa)
                 }
             }
-            balansCard.text = card.count+ " руб."
+            balansCard.text = card.count + " руб."
             numberCard.text = card.number[0].toString() + card.number[1].toString() +
                     card.number[2].toString() + card.number[3].toString() + "****" +
                     card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
                     card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
-            if (card.is_blocked) {
-                blockedCard.setTextColor(android.graphics.Color.RED)
-            }
+            if (card.is_blocked) blockedCard.setTextColor(android.graphics.Color.RED)
+            else blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
         }
     }
 
@@ -70,12 +70,12 @@ class PaymentCardAdapter(
         RecyclerView.ViewHolder(binding.root)
 
 
-
     @SuppressLint("NotifyDataSetChanged")
     fun addCard(card: CardModel) {
         paymentCardList.add(card)
         notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
     }
+
     @SuppressLint("NotifyDataSetChanged")
     fun addPaymentCardList(card: List<CardModel>) {
         paymentCardList.addAll(card)

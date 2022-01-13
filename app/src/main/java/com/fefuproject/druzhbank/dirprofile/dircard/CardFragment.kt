@@ -14,57 +14,100 @@ import androidx.appcompat.app.AlertDialog
 import androidx.compose.ui.graphics.Color
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardBinding
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirmoneytransfer.MoneyTransferFragment
 import com.fefuproject.druzhbank.dirpayment.PaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistoryFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.usecase.BlockCardUseCase
+import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.shared.account.domain.usecase.UnblockCardUseCase
 import com.fefuproject.shared.account.util.CardType
 import com.fefuproject.shared.account.util.Util
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class CardFragment(cards: CardModel) : Fragment() {
     private var card = cards
     private var _binding: FragmentCardBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var preferenceProvider: PreferenceProvider
+
+    @Inject
+    lateinit var getCardsUseCase: GetCardsUseCase
+
+    @Inject
+    lateinit var useCaseBlockCard: BlockCardUseCase
+
+    @Inject
+    lateinit var useCaseUnblockCard: UnblockCardUseCase
+
+    lateinit var card_list: List<CardModel>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        runBlocking {
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+        }
         _binding = FragmentCardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        runBlocking {
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+        }
+    }
+
     private fun blockingCard(binding: FragmentCardBinding) {
         with(binding) {
-            topUpButton.setBackgroundColor(android.graphics.Color.DKGRAY)
-            transferCard.setBackgroundColor(android.graphics.Color.DKGRAY)
-            include.blockedCard.setTextColor(android.graphics.Color.RED)
-            blockCardButton.text = "Разблокировать"
-            card.is_blocked=true
-            historyCardButton.setBackgroundColor(android.graphics.Color.DKGRAY)
-            historyCardButton.isClickable = false
-            renameCard.setBackgroundColor(android.graphics.Color.DKGRAY)
+            runBlocking {
+                useCaseBlockCard.invoke(card.number, preferenceProvider.token!!)
+            }
+            historyCardButton.isEnabled = false
+            renameCard.isEnabled  = false
+            topUpButton.isEnabled  = false
+            transferCard.isEnabled = false
             renameCard.isClickable = false
             topUpButton.isClickable = false
             transferCard.isClickable = false
+            historyCardButton.isClickable = false
+            blockCardButton.text = "Разблокировать"
+            topUpButton.setBackgroundColor(android.graphics.Color.DKGRAY)
+            transferCard.setBackgroundColor(android.graphics.Color.DKGRAY)
+            include.blockedCard.setTextColor(android.graphics.Color.RED)
+            historyCardButton.setBackgroundColor(android.graphics.Color.DKGRAY)
+            renameCard.setBackgroundColor(android.graphics.Color.DKGRAY)
         }
     }
 
     private fun unBlockingCard(binding: FragmentCardBinding) {
 
         with(binding) {
-            include.blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
-            blockCardButton.text = "Заблокировать"
-            historyCardButton.setBackgroundColor(android.graphics.Color.WHITE)
+            runBlocking {
+                useCaseUnblockCard.invoke(card.number, preferenceProvider.token!!)
+            }
+            historyCardButton.isEnabled = true
+            renameCard.isEnabled  = true
+            topUpButton.isEnabled  = true
+            transferCard.isEnabled = true
             historyCardButton.isClickable = true
-            card.is_blocked=false
-            renameCard.setBackgroundColor(android.graphics.Color.WHITE)
             renameCard.isClickable = true
             topUpButton.isClickable = true
             transferCard.isClickable = true
+            include.blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
+            blockCardButton.text = "Заблокировать"
+            historyCardButton.setBackgroundColor(android.graphics.Color.WHITE)
+            renameCard.setBackgroundColor(android.graphics.Color.WHITE)
             topUpButton.setBackgroundColor(android.graphics.Color.parseColor("#ABFB3C3C"))
             transferCard.setBackgroundColor(android.graphics.Color.parseColor("#AB5CF164"))
         }
@@ -128,7 +171,7 @@ class CardFragment(cards: CardModel) : Fragment() {
                 }
                 replace(
                     R.id.fragmentContainerViewProfile,
-                    PaymentFragment(), "PaymentFragment"
+                    PaymentFragment(card), "PaymentFragment"
                 )
                 commit()
             }
@@ -142,7 +185,7 @@ class CardFragment(cards: CardModel) : Fragment() {
                 }
                 replace(
                     R.id.fragmentContainerViewProfile,
-                    MoneyTransferFragment(), " MoneyTransferFragment"
+                    MoneyTransferFragment(card), " MoneyTransferFragment"
                 )
                 commit()
             }

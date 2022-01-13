@@ -14,8 +14,7 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
     var biometricPreference: Int = sharedPreferences.getInt("biometricPref", STATUS_BIOMETRICS_NONE)
     var privateKey: String? = sharedPreferences.getString("privateKey", null)
-    var token: String? = sharedPreferences.getString("token", null)
-   lateinit var cardList:List<CardModel>
+    var token: String? ="asdf" //sharedPreferences.getString("token", null)
 
     lateinit var valuteList:List<ValuteResponseModel>
     fun updatePrivateKey(newKey: String) {

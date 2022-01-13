@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.fefuproject.druzhbank.databinding.FragmentPaymentBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirpayment.diradapters.*
+import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.shared.account.domain.models.CardModel
@@ -27,7 +29,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PaymentFragment : Fragment() {
+class PaymentFragment(val cardModel: CardModel) : Fragment() {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
@@ -42,6 +44,7 @@ class PaymentFragment : Fragment() {
         object : PaymentCardsActionListener {
             override fun onCardDetails(card: CardModel) {
                 super.onCardDetails(card)
+                if (!card.is_blocked)
                 activity!!.supportFragmentManager.beginTransaction().apply {
                     val visibleFragment =
                         activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
@@ -54,6 +57,7 @@ class PaymentFragment : Fragment() {
                     )
                     commit()
                 }
+                else makeText(this@PaymentFragment.context,"Карта заблокирована",Toast.LENGTH_LONG).show()
             }
         })
 
@@ -74,10 +78,15 @@ class PaymentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runBlocking { preferenceProvider.cardList = getCardsUseCase.invoke(preferenceProvider.token!!)!! }
-        card_list=preferenceProvider.cardList
-    }
+        runBlocking {card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!! }
 
+    }
+    override fun onResume() {
+        super.onResume()
+        runBlocking {
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+        }
+    }
 
     private val pays = Pays(
         namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
@@ -174,8 +183,8 @@ class PaymentFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     parentFragmentManager.beginTransaction().apply {
                         replace(
-                            R.id.fragmentContainerViewProfile, ProfileMainFragment(),
-                            "FragmentProfileMain"
+                            R.id.fragmentContainerViewProfile, CardFragment(cardModel),
+                            "CardFragment"
                         )
                         commit()
                     }

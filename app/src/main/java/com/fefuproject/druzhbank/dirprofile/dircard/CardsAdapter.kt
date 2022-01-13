@@ -53,7 +53,7 @@ class CardsAdapter(
                     card.number[2].toString() + card.number[3].toString() + "****" +
                     card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
                     card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
-            valuecard.text = card.count+ " руб."
+            valuecard.text = card.count + " руб."
             typecard.text = "Дебетовая карта"
 
             val typeCard = Util.getCardIssuer(cardNumber = card.number)
@@ -68,6 +68,10 @@ class CardsAdapter(
                     imagebank.setImageResource(R.drawable.ic_visa)
                 }
             }
+            if (card.is_blocked)
+                root.setBackgroundColor(android.graphics.Color.DKGRAY)
+            else root.setBackgroundColor(android.graphics.Color.WHITE)
+
         }
 
 

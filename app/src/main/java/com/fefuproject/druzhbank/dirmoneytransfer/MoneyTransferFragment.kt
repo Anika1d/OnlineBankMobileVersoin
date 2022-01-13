@@ -14,6 +14,7 @@ import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
 import com.fefuproject.druzhbank.dirmoneytransfer.diradapter.CardTransferAdapter
+import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
@@ -27,7 +28,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint
-class MoneyTransferFragment : Fragment() {
+class MoneyTransferFragment(val cardModel: CardModel) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -43,9 +44,8 @@ class MoneyTransferFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         runBlocking {
-            preferenceProvider.cardList = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
         }
-        card_list = preferenceProvider.cardList
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -57,10 +57,10 @@ class MoneyTransferFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         runBlocking {
-            preferenceProvider.cardList = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
         }
-        card_list = preferenceProvider.cardList
     }
+
     @SuppressLint("FragmentBackPressedCallback")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,8 +73,8 @@ class MoneyTransferFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     parentFragmentManager.beginTransaction().apply {
                         replace(
-                            R.id.fragmentContainerViewProfile, ProfileMainFragment(),
-                            "ProfileMainFragment"
+                            R.id.fragmentContainerViewProfile, CardFragment(cardModel),
+                            "CardFragment"
                         )
                         commit()
                     }
@@ -87,7 +87,6 @@ class MoneyTransferFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = CardTransferAdapter()
-
         LinearLayoutManager(this.context).also {
             binding.recycleViewPayment.layoutManager = it
         }

@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
@@ -23,10 +21,7 @@ import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import java.io.Console
-import java.util.ArrayList
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,13 +63,10 @@ class ProfileMainFragment : Fragment() {
         }
 
     )
-    lateinit var paysListCopy: ArrayList<Pays>
-    var startpays: Int? = null
     private val paysAdapter = PaysAdapter(
         object : PaysActionListener {
             override fun onPayDetails(pay: Pays) {
                 super.onPayDetails(pay)
-                if (startpays != null)
                     activity!!.supportFragmentManager.beginTransaction().apply {
                         val visibleFragment =
                             activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
@@ -89,8 +81,6 @@ class ProfileMainFragment : Fragment() {
                     }
             }
         }
-        //startPosition = paysListCopy.indexOf(pay)
-
     )
 
     private val creditsAdapter = CreditsAdapter()
@@ -119,20 +109,24 @@ class ProfileMainFragment : Fragment() {
     lateinit var preferenceProvider: PreferenceProvider
 
     @Inject
-    lateinit var useCaseCard: GetCardsUseCase
+    lateinit var getCardsUseCase: GetCardsUseCase
     lateinit var card_list: List<CardModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
-            preferenceProvider.cardList = useCaseCard.invoke(preferenceProvider.token!!)!!
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
         }
-        card_list = preferenceProvider.cardList
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        runBlocking {
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -175,8 +169,6 @@ class ProfileMainFragment : Fragment() {
                 recycleViewPay.layoutManager = it
             }
             recycleViewPay.adapter = paysAdapter
-            paysListCopy = paysAdapter.paysList
-            startpays = 1
         }
     }
 
