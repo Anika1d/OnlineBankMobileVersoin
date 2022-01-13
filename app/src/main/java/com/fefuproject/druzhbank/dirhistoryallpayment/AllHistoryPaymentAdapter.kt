@@ -4,15 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filterable
-import androidx.compose.ui.text.toLowerCase
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemHistoryPayBinding
-import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistory
-import com.fefuproject.druzhbank.dirprofile.dirpay.dirhistorypay.HistoryPayFragment
-import java.util.logging.Filter
-import java.util.logging.LogRecord
 
 class AllHistoryPaymentAdapter :
     RecyclerView.Adapter<AllHistoryPaymentAdapter.AllHistoryPaymentHolder>() {

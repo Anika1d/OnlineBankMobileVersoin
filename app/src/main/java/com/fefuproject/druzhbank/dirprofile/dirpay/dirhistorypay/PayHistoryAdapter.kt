@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.databinding.ItemCardHistoryBinding
 import com.fefuproject.druzhbank.databinding.ItemHistoryPayBinding
-import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistory
 
 class  PayHistoryAdapter : RecyclerView.Adapter< PayHistoryAdapter.PayHistoryHolder>() {
     val payHistoryList = ArrayList<PayHistory>()
