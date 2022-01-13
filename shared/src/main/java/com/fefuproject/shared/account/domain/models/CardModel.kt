@@ -1,5 +1,7 @@
 package com.fefuproject.shared.account.domain.models
 
+import java.util.*
+
 data class CardModel(
     val id: Int,
     val user_id: Int?,
@@ -8,5 +10,5 @@ data class CardModel(
     val hash_cvv: String?,
     val count: String,
     var is_blocked: Boolean,
-    val expairy_date: String,
+    val expairy_date: Date,
 )
