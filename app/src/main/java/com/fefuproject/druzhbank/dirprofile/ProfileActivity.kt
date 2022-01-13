@@ -15,16 +15,20 @@ import androidx.fragment.app.Fragment
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
 import com.fefuproject.druzhbank.di.AuthStateObserver
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirhistoryallpayment.AllHistoryPaymentFragment
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.HistoryOpenApplicationFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.RulesFragment
 import com.fefuproject.druzhbank.ui.main.MainActivity
+import com.fefuproject.shared.account.domain.models.UserModel
+import com.fefuproject.shared.account.domain.usecase.GetUserUseCase
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,7 +37,11 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var authObserver: AuthStateObserver
     lateinit var binding: ActivityProfileBinding
 
-
+    @Inject
+    lateinit var getUserUseCase: GetUserUseCase
+    @Inject
+    lateinit var preferenceProvider: PreferenceProvider
+    lateinit var modelUser:UserModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fun makeCurrentFragment(fragment: Fragment, tag: String) {
@@ -50,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
                 commit()
             }
         }
-
+        runBlocking { modelUser=getUserUseCase.invoke(preferenceProvider.token!!)!! }
 
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -69,6 +77,7 @@ class ProfileActivity : AppCompatActivity() {
                 commit()
             }
         }
+        binding.includeToolbar.namePesone.text=modelUser.name
         binding.btnNav.setOnItemSelectedListener{
             when (it.itemId) {
                     R.id.home->

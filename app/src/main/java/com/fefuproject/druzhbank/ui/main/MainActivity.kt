@@ -1,5 +1,6 @@
 package com.fefuproject.druzhbank.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var valute_list:List<ValuteModel>
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {valute_res=getValuteuse.invoke() }
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         binding.button.setOnClickListener { //вызов диалога авторизации
             AlertDialogAuthorize()
         }
-        val currentDate = Date() ///заполнение изменяемых данных
+        val currentDate = Date()
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val dateText = dateFormat.format(currentDate)
         binding.includeButtonValute.date.text = dateText.toString()
