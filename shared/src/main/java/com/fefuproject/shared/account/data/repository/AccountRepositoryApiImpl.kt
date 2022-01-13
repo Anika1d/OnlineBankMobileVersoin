@@ -99,7 +99,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         ResultType.values()[accountApi.blockCard(BlockCardRequest(token, number))].type
 
     override suspend fun unblockCard(number: String, token: String): Boolean =
-        ResultType.values()[accountApi.blockCard(BlockCardRequest(token, number))].type
+        ResultType.values()[accountApi.unblockCard(BlockCardRequest(token, number))].type
 
     override suspend fun PayByCard(
         cardSource: String,
