@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCardBinding
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.util.CardType
+import com.fefuproject.shared.account.util.Util
 import java.util.*
 
 @SuppressLint("NotifyDataSetChanged")
 interface CardsActionListener {
-    fun onCardDetails(card: Cards) {
+    fun onCardDetails(card: CardModel) {
 
     }
 }
@@ -18,7 +22,7 @@ interface CardsActionListener {
 class CardsAdapter(
     private val actionListener: CardsActionListener
 ) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>(), View.OnClickListener {
-    var cardsList = ArrayList<Cards>()
+    var cardsList = ArrayList<CardModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -26,7 +30,7 @@ class CardsAdapter(
         }
 
     override fun onClick(v: View) {
-        val card: Cards = v.tag as Cards
+        val card: CardModel = v.tag as CardModel
         actionListener.onCardDetails(card)
     }
 
@@ -45,18 +49,42 @@ class CardsAdapter(
         val card = cardsList[position]
         with(holder.binding) {
             holder.itemView.tag = card
-            numdercard.text = card.numberCard
-            valuecard.text = card.valueCard
-            typecard.text = card.typeCard
+            numdercard.text = card.number[0].toString() + card.number[1].toString() +
+                    card.number[2].toString() + card.number[3].toString() + "****" +
+                    card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
+                    card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
+            valuecard.text = card.count+ " руб."
+            typecard.text = "Дебетовая карта"
+
+            val typeCard = Util.getCardIssuer(cardNumber = card.number)
+            when (typeCard) {
+                CardType.MIR -> {
+                    imagebank.setImageResource(R.drawable.ic_mir)
+                }
+                CardType.Mastercard -> {
+                    imagebank.setImageResource(R.drawable.ic_mastercard)
+                }
+                CardType.VISA -> {
+                    imagebank.setImageResource(R.drawable.ic_visa)
+                }
+            }
         }
 
 
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun addCard(card: Cards){
+    fun addCard(card: CardModel) {
         cardsList.add(card)
         notifyDataSetChanged()
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addListCard(card: List<CardModel>) {
+        cardsList.addAll(card)
+        notifyDataSetChanged()
+    }
+
     class CardViewHolder(
         val binding: ItemCardBinding
     ) : RecyclerView.ViewHolder(binding.root)

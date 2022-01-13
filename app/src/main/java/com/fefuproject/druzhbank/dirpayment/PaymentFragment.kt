@@ -1,7 +1,6 @@
 package com.fefuproject.druzhbank.dirpayment
 
 import android.annotation.SuppressLint
-import android.graphics.ColorSpace
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,52 +8,54 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentPaymentBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirpayment.diradapters.*
-import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PaymentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
+@AndroidEntryPoint
 class PaymentFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var getCardsUseCase: GetCardsUseCase
+
+    @Inject
+    lateinit var preferenceProvider: PreferenceProvider
+    lateinit var card_list: List<CardModel>;
     private val adapterCard = PaymentCardAdapter(
         object : PaymentCardsActionListener {
-        override fun onCardDetails(card: Cards) {
-            super.onCardDetails(card)
-            activity!!.supportFragmentManager.beginTransaction().apply {
-                val visibleFragment =
-                    activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                visibleFragment?.let {
-                    hide(visibleFragment)
+            override fun onCardDetails(card: CardModel) {
+                super.onCardDetails(card)
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
+                    }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        PaymentToCardFragment(card), "PaymentToCardFragment"
+                    )
+                    commit()
                 }
-                replace(
-                    R.id.fragmentContainerViewProfile,
-                    PaymentToCardFragment(), "PaymentToCardFragment"
-                )
-                commit()
             }
-        }
-    })
+        })
 
 
     private val adapterPay = PaymentPayAdapter(
@@ -73,23 +74,9 @@ class PaymentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        runBlocking { preferenceProvider.cardList = getCardsUseCase.invoke(preferenceProvider.token!!)!! }
+        card_list=preferenceProvider.cardList
     }
-
-    private val cards = Cards(
-        typeCard = "Кредитка",
-        valueCard = "2140000 рублей", whatBank = "mir",
-        numberCard = "2145 1245 **** ****", isBlocked = false
-    )
-
-    private val cards1 = Cards(
-        typeCard = "Зарплатная ",
-        valueCard = "40000 рублей", whatBank = "mir",
-        numberCard = "3333 9999 **** ****", isBlocked = false
-    )
 
 
     private val pays = Pays(
@@ -110,16 +97,12 @@ class PaymentFragment : Fragment() {
     @SuppressLint("FragmentBackPressedCallback", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapterCard.addPaymentCard(cards)
-        adapterCard.addPaymentCard(cards1)
-        adapterCard.addPaymentCard(cards)
-        adapterCard.addPaymentCard(cards1)
-        adapterCard.addPaymentCard(cards)
         adapterPay.addPaymentPay(pays)
         adapterPay.addPaymentPay(pays1)
         adapterPay.addPaymentPay(pays)
         adapterPay.addPaymentPay(pays1)
         adapterPay.addPaymentPay(pays)
+        adapterCard.addPaymentCardList(card_list)
         binding.recycleViewPayment.adapter = adapterCard
         binding.recycleViewPayment.addItemDecoration(CommonItemSpaceDecoration(25))
         LinearLayoutManager(this.context).also {

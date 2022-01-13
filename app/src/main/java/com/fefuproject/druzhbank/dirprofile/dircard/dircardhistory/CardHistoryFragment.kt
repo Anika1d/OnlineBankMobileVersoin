@@ -11,10 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardHistoryBinding
 import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
+import com.fefuproject.shared.account.domain.models.CardModel
 
-class CardHistoryFragment(cards: Cards) : Fragment() {
+class CardHistoryFragment(cards: CardModel) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     val card=cards;

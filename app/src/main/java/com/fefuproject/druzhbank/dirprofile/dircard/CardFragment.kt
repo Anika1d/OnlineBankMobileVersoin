@@ -1,7 +1,6 @@
 package com.fefuproject.druzhbank.dirprofile.dircard
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,61 +11,93 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.ui.graphics.Color
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardBinding
 import com.fefuproject.druzhbank.dirmoneytransfer.MoneyTransferFragment
 import com.fefuproject.druzhbank.dirpayment.PaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistoryFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.util.CardType
+import com.fefuproject.shared.account.util.Util
 import com.google.android.material.button.MaterialButton
+import dagger.hilt.android.AndroidEntryPoint
 
-class CardFragment(cards: Cards) : Fragment() {
+
+class CardFragment(cards: CardModel) : Fragment() {
     private var card = cards
     private var _binding: FragmentCardBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     private fun blockingCard(binding: FragmentCardBinding) {
         with(binding) {
-
-            include.blockedCard.setTextColor(Color.RED)
+            topUpButton.setBackgroundColor(android.graphics.Color.DKGRAY)
+            transferCard.setBackgroundColor(android.graphics.Color.DKGRAY)
+            include.blockedCard.setTextColor(android.graphics.Color.RED)
             blockCardButton.text = "Разблокировать"
-            historyCardButton.setBackgroundColor(Color.DKGRAY)
+            card.is_blocked=true
+            historyCardButton.setBackgroundColor(android.graphics.Color.DKGRAY)
             historyCardButton.isClickable = false
-            renameCard.setBackgroundColor(Color.DKGRAY)
+            renameCard.setBackgroundColor(android.graphics.Color.DKGRAY)
             renameCard.isClickable = false
+            topUpButton.isClickable = false
+            transferCard.isClickable = false
         }
     }
 
     private fun unBlockingCard(binding: FragmentCardBinding) {
 
         with(binding) {
-            include.blockedCard.setTextColor(Color.TRANSPARENT)
+            include.blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
             blockCardButton.text = "Заблокировать"
-            historyCardButton.setBackgroundColor(Color.WHITE)
+            historyCardButton.setBackgroundColor(android.graphics.Color.WHITE)
             historyCardButton.isClickable = true
-            renameCard.setBackgroundColor(Color.WHITE)
+            card.is_blocked=false
+            renameCard.setBackgroundColor(android.graphics.Color.WHITE)
             renameCard.isClickable = true
+            topUpButton.isClickable = true
+            transferCard.isClickable = true
+            topUpButton.setBackgroundColor(android.graphics.Color.parseColor("#ABFB3C3C"))
+            transferCard.setBackgroundColor(android.graphics.Color.parseColor("#AB5CF164"))
         }
     }
 
-    @SuppressLint("FragmentBackPressedCallback")
+    @SuppressLint("FragmentBackPressedCallback", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (card.isBlocked) {
+        if (card.is_blocked) {
             blockingCard(binding = binding)
         } else {
             unBlockingCard(binding = binding)
         }
-
-
+        val typeCard = Util.getCardIssuer(cardNumber = card.number)
+        with(binding.include) {
+            when (typeCard) {
+                CardType.MIR -> {
+                    cardImage.setImageResource(R.drawable.ic_mir)
+                }
+                CardType.Mastercard -> {
+                    cardImage.setImageResource(R.drawable.ic_mastercard)
+                }
+                CardType.VISA -> {
+                    cardImage.setImageResource(R.drawable.ic_visa)
+                }
+            }
+            balansCard.text = card.count + " руб."
+            numberCard.text = card.number[0].toString() + card.number[1].toString() +
+                    card.number[2].toString() + card.number[3].toString() + "****" +
+                    card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
+                    card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
+        }
 
         binding.blockCardButton.setOnClickListener {
             AlertDialogBlockingOrUnCard()
@@ -135,7 +166,7 @@ class CardFragment(cards: Cards) : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun AlertDialogBlockingOrUnCard() {
-        val tagChange: String = if (card.isBlocked) "Разблокировать"
+        val tagChange: String = if (card.is_blocked) "Разблокировать"
         else "Заблокировать"
         val builder = AlertDialog.Builder(this@CardFragment.requireActivity())
         val alert = builder.create();
@@ -158,7 +189,7 @@ class CardFragment(cards: Cards) : Fragment() {
         val bun_bl_d = promptsView.findViewById<MaterialButton>(R.id.blocking_button_card)
         bun_bl_d.text = tagChange
         bun_bl_d.setOnClickListener {
-            if (!card.isBlocked) {
+            if (!card.is_blocked) {
                 blockingCard(binding = binding)
                 Toast.makeText(
                     this@CardFragment.requireActivity().applicationContext,
@@ -173,7 +204,7 @@ class CardFragment(cards: Cards) : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            card.isBlocked = !card.isBlocked
+            card.is_blocked = !card.is_blocked
 
             alert.dismiss()
 
@@ -204,23 +235,20 @@ class CardFragment(cards: Cards) : Fragment() {
         val newName = promptsView.findViewById<EditText>(R.id.name_card_edit_text)
         val bun_bl_d = promptsView.findViewById<MaterialButton>(R.id.rename_button_card)
         bun_bl_d.setOnClickListener {
-            if (newName.text.toString()!="") {
+            if (newName.text.toString() != "") {
                 Toast.makeText(
                     this@CardFragment.requireActivity().applicationContext,
                     "Вы переименовали карту",
                     Toast.LENGTH_SHORT
                 ).show()
-                card.typeCard = newName.text.toString()
-                binding.include.typecard.text = card.typeCard
                 alert.dismiss()
-            }
-            else {
+            } else {
 
-                    Toast.makeText(
-                        this@CardFragment.requireActivity().applicationContext,
-                        "Вы не ввели новое имя карты",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                Toast.makeText(
+                    this@CardFragment.requireActivity().applicationContext,
+                    "Вы не ввели новое имя карты",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         alert.show()

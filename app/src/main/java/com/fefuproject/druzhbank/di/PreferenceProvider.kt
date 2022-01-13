@@ -1,6 +1,8 @@
 package com.fefuproject.druzhbank.di
 
 import android.content.Context
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.models.ValuteResponseModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,7 +15,9 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     var biometricPreference: Int = sharedPreferences.getInt("biometricPref", STATUS_BIOMETRICS_NONE)
     var privateKey: String? = sharedPreferences.getString("privateKey", null)
     var token: String? = sharedPreferences.getString("token", null)
+   lateinit var cardList:List<CardModel>
 
+    lateinit var valuteList:List<ValuteResponseModel>
     fun updatePrivateKey(newKey: String) {
         privateKey = newKey
         sharedPreferences.edit().putString("privateKey", privateKey).apply()

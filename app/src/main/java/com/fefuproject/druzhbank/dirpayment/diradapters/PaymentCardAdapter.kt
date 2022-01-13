@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCardImageBinding
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.util.CardType
+import com.fefuproject.shared.account.util.Util
 
 interface PaymentCardsActionListener {
-    fun onCardDetails(card: Cards) {
+    fun onCardDetails(card: CardModel) {
 
     }
 }
@@ -17,7 +20,7 @@ interface PaymentCardsActionListener {
 class PaymentCardAdapter(
     private val actionListener: PaymentCardsActionListener
 ) : RecyclerView.Adapter<PaymentCardAdapter.PaymentCardHolder>(), View.OnClickListener {
-    var paymentCardList = ArrayList<Cards>()
+    var paymentCardList = ArrayList<CardModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -31,13 +34,31 @@ class PaymentCardAdapter(
         return PaymentCardHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PaymentCardHolder, position: Int) {
         val card = paymentCardList[position]
         with( holder.binding) {
             holder.itemView.tag=card
-            typecard.text = card.typeCard
-            numberCard.text = card.numberCard
-            balansCard.text = card.valueCard
+            val typeCard = Util.getCardIssuer(cardNumber = card.number)
+            when (typeCard) {
+                CardType.MIR -> {
+                    cardImage.setImageResource(R.drawable.ic_mir)
+                }
+                CardType.Mastercard -> {
+                    cardImage.setImageResource(R.drawable.ic_mastercard)
+                }
+                CardType.VISA -> {
+                    cardImage.setImageResource(R.drawable.ic_visa)
+                }
+            }
+            balansCard.text = card.count+ " руб."
+            numberCard.text = card.number[0].toString() + card.number[1].toString() +
+                    card.number[2].toString() + card.number[3].toString() + "****" +
+                    card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
+                    card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
+            if (card.is_blocked) {
+                blockedCard.setTextColor(android.graphics.Color.RED)
+            }
         }
     }
 
@@ -51,13 +72,18 @@ class PaymentCardAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addPaymentCard(card: Cards) {
+    fun addCard(card: CardModel) {
         paymentCardList.add(card)
+        notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun addPaymentCardList(card: List<CardModel>) {
+        paymentCardList.addAll(card)
         notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
     }
 
     override fun onClick(p0: View) {
-        val cards: Cards = p0.tag as Cards
+        val cards: CardModel = p0.tag as CardModel
         actionListener.onCardDetails(cards)
     }
 }

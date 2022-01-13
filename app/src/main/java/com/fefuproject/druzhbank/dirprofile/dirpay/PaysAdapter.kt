@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemPayBinding
-import com.fefuproject.druzhbank.databinding.ItemPayImageBinding
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
 
 interface PaysActionListener {
     fun onPayDetails(pay: Pays) {

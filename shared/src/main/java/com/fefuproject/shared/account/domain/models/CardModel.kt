@@ -7,6 +7,6 @@ data class CardModel(
     val number: String,
     val hash_cvv: String?,
     val count: String,
-    val is_blocked: Boolean,
+    var is_blocked: Boolean,
     val expairy_date: String,
 )

@@ -1,14 +1,10 @@
 package com.fefuproject.druzhbank.dirprofile
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
@@ -16,22 +12,14 @@ import android.widget.Toast.makeText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
 import com.fefuproject.druzhbank.di.AuthStateObserver
-import com.fefuproject.druzhbank.dirbank.BankActivity
 import com.fefuproject.druzhbank.dirhistoryallpayment.AllHistoryPaymentFragment
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
-import com.fefuproject.druzhbank.dirprofile.dircard.Cards
-import com.fefuproject.druzhbank.dirprofile.dircard.CardsAdapter
-import com.fefuproject.druzhbank.dirprofile.dircredit.Credits
-import com.fefuproject.druzhbank.dirprofile.dircredit.CreditsAdapter
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.HistoryOpenApplicationFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.RulesFragment
-import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
-import com.fefuproject.druzhbank.ui.main.AUTH_ON
 import com.fefuproject.druzhbank.ui.main.MainActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText

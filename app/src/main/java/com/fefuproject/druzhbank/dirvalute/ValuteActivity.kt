@@ -5,38 +5,29 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.databinding.ActivityValuteBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
+import com.fefuproject.shared.account.domain.models.BankomatModel
+import com.fefuproject.shared.account.domain.models.ValuteModel
+import com.fefuproject.shared.account.domain.models.ValuteResponseModel
+import com.fefuproject.shared.account.domain.usecase.GetBankomatsUseCase
+import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ValuteActivity : AppCompatActivity() {
     lateinit var binding: ActivityValuteBinding
     val adapter = ValuteAdapter()
 
-
-    /////ТУТ ЩАС БУДЕТ ЗАПОЛНЕНИЕ ВАЛЮТ В РУЧНУЮ, ПОТОМ ДОДЕЛАТЬ ДЛЯ GET ЗАПРОСА
-    //если нельзя получить нужный тип данных, а дает что либо другое
-    //либо пишем вове, либо меняем тип данных в Valute.kt and ValuteAdapter
-    val valute1 = Valute(
-        isBuyUp = true,
-        isResellUp = false,
-        price_Resell = 77.1.toFloat(),
-        price_Buy = 80.1.toFloat(),
-        long_name_valute = "Американский доллар",
-        short_name_valute = "USD"
-
-    )
-    val valute2 = Valute(
-        isBuyUp = false,
-        isResellUp = false,
-        price_Resell = 60.1.toFloat(),
-        price_Buy = 100.1.toFloat(),
-        long_name_valute = "Американский доллар",
-        short_name_valute = "USD"
-    )
-
+    @Inject
+    lateinit var getValuteuse:GetValuteUseCase
+     var valute_list:ValuteResponseModel?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        runBlocking {valute_list=getValuteuse.invoke() }
         binding = ActivityValuteBinding.inflate(layoutInflater)
         val currentDate = Date()
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
@@ -49,8 +40,6 @@ class ValuteActivity : AppCompatActivity() {
     private fun initDataValute() {
         binding.apply {
             recValute.layoutManager = LinearLayoutManager(this@ValuteActivity)
-            adapter.addValute(valute1)
-            adapter.addValute(valute2)
             recValute.adapter = adapter
             recValute.addItemDecoration(CommonItemSpaceDecoration(5));
         }

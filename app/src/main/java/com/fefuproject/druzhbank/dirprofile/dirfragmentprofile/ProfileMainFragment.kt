@@ -15,11 +15,17 @@ import com.fefuproject.druzhbank.dirprofile.dircredit.CreditsAdapter
 import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
+import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirprofile.dircard.*
 import com.fefuproject.druzhbank.dirprofile.dirpay.PayFragment
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysActionListener
+import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.io.Console
 import java.util.ArrayList
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +38,9 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ProfileMainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
+@AndroidEntryPoint
 class ProfileMainFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,10 +48,10 @@ class ProfileMainFragment : Fragment() {
 
     private var _binding: FragmentProfileMainBinding? = null
     private val binding get() = _binding!!
-    private val cardService = CardService()
+
     private var cardsAdapter = CardsAdapter(
         object : CardsActionListener {
-            override fun onCardDetails(card: Cards) {
+            override fun onCardDetails(card: CardModel) {
                 activity!!.supportFragmentManager.beginTransaction().apply {
                     val visibleFragment =
                         activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
@@ -59,30 +68,31 @@ class ProfileMainFragment : Fragment() {
         }
 
     )
-    lateinit var paysListCopy:ArrayList<Pays>
-    var startpays: Int? =null
+    lateinit var paysListCopy: ArrayList<Pays>
+    var startpays: Int? = null
     private val paysAdapter = PaysAdapter(
         object : PaysActionListener {
             override fun onPayDetails(pay: Pays) {
                 super.onPayDetails(pay)
-                if (startpays!=null)
-                activity!!.supportFragmentManager.beginTransaction().apply {
-                    val visibleFragment =
-                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                    visibleFragment?.let {
-                        hide(visibleFragment)
+                if (startpays != null)
+                    activity!!.supportFragmentManager.beginTransaction().apply {
+                        val visibleFragment =
+                            activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                        visibleFragment?.let {
+                            hide(visibleFragment)
+                        }
+                        replace(
+                            R.id.fragmentContainerViewProfile,
+                            PayFragment(), "PayFragment"
+                        )
+                        commit()
                     }
-                    replace(
-                        R.id.fragmentContainerViewProfile,
-                        PayFragment(), "PayFragment"
-                    )
-                    commit()
-                }
             }
         }
-    //startPosition = paysListCopy.indexOf(pay)
+        //startPosition = paysListCopy.indexOf(pay)
 
     )
+
     private val creditsAdapter = CreditsAdapter()
 
 
@@ -98,20 +108,6 @@ class ProfileMainFragment : Fragment() {
     )
 
 
-    private val cards = Cards(
-        typeCard = "Кредитка",
-        valueCard = "2140000 рублей", whatBank = "mir",
-        numberCard = "2145 1245 **** ****"
-        , isBlocked = false
-    )
-
-    private val cards1 = Cards(
-        typeCard = "Зарплатная ",
-        valueCard = "40000 рублей", whatBank = "mir",
-        numberCard = "3333 9999 **** ****"
-        , isBlocked = false
-    )
-
     private val pays = Pays(
         namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
     )
@@ -119,8 +115,18 @@ class ProfileMainFragment : Fragment() {
         namePay = "Накопления", valuePay = "912000 рублей", numberPay = "****9888"
     )
 
+    @Inject
+    lateinit var preferenceProvider: PreferenceProvider
+
+    @Inject
+    lateinit var useCaseCard: GetCardsUseCase
+    lateinit var card_list: List<CardModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        runBlocking {
+            preferenceProvider.cardList = useCaseCard.invoke(preferenceProvider.token!!)!!
+        }
+        card_list = preferenceProvider.cardList
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -142,11 +148,9 @@ class ProfileMainFragment : Fragment() {
         LinearLayoutManager(this@ProfileMainFragment.context).also {
             binding.recycleViewCards.layoutManager = it
         }
+        cardsAdapter.addListCard(card_list)
         recyclerView.adapter = cardsAdapter
-        cardsAdapter.addCard(cards)
-        cardsAdapter.addCard(cards1)
-        cardsAdapter.addCard(cards)
-        cardsAdapter.addCard(cards1)
+
         initDataRec()
 
     }
@@ -158,7 +162,6 @@ class ProfileMainFragment : Fragment() {
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
-
             paysAdapter.addPay(pays1)
             paysAdapter.addPay(pays)
             paysAdapter.addPay(pays1)
@@ -172,8 +175,8 @@ class ProfileMainFragment : Fragment() {
                 recycleViewPay.layoutManager = it
             }
             recycleViewPay.adapter = paysAdapter
-           paysListCopy=paysAdapter.paysList
-            startpays=1
+            paysListCopy = paysAdapter.paysList
+            startpays = 1
         }
     }
 
