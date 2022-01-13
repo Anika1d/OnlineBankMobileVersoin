@@ -5,10 +5,8 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.databinding.ActivityValuteBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
-import com.fefuproject.shared.account.domain.models.BankomatModel
 import com.fefuproject.shared.account.domain.models.ValuteModel
 import com.fefuproject.shared.account.domain.models.ValuteResponseModel
-import com.fefuproject.shared.account.domain.usecase.GetBankomatsUseCase
 import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -24,15 +22,18 @@ class ValuteActivity : AppCompatActivity() {
 
     @Inject
     lateinit var getValuteuse:GetValuteUseCase
-     var valute_list:ValuteResponseModel?=null
+     var valute_res:ValuteResponseModel?=null
+    lateinit var valute_list:List<ValuteModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runBlocking {valute_list=getValuteuse.invoke() }
+        runBlocking {valute_res=getValuteuse.invoke() }
         binding = ActivityValuteBinding.inflate(layoutInflater)
         val currentDate = Date()
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val dateText = dateFormat.format(currentDate)
         binding.today.text=dateText.toString()
+        valute_list=valute_res!!.ValCurs.Valute
+        adapter.addValuteList(valute_list)
         setContentView(binding.root)
         initDataValute() //инициализация элментов валют
     }

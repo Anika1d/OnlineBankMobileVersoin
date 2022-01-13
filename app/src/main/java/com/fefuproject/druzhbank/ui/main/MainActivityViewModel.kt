@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val loginUserUseCase: LogInUseCase,
-    private val preferenceProvider: PreferenceProvider
+    private val preferenceProvider: PreferenceProvider,
 ) : ViewModel() {
 
     fun login(username: String, password: String, context: Context, onSuccessListener: () -> Unit) {
