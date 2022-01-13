@@ -7,7 +7,6 @@ import com.fefuproject.shared.account.domain.enums.ResultType
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import com.fefuproject.shared.account.domain.requests.*
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 class AccountRepositoryApiImpl @Inject constructor(private val accountApi: AccountApi) :
@@ -15,7 +14,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getBankomats(): List<BankomatModel> =
         accountApi.getBankomats()
 
-    override suspend fun getValute(): ValuteModel = accountApi.getValute()
+    override suspend fun getValute(): ValuteResponseModel = accountApi.getValute()
 
     override suspend fun getCards(token: String): List<CardModel>? {
         var response =accountApi.getCards(TokenRequest(token))

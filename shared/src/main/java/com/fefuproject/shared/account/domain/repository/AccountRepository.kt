@@ -1,17 +1,13 @@
 package com.fefuproject.shared.account.domain.repository
 
-import com.fefuproject.shared.account.domain.entity.CardEvent
-import com.fefuproject.shared.account.domain.entity.CardSummary
-import com.fefuproject.shared.account.domain.enums.PayType
 import com.fefuproject.shared.account.domain.models.*
-import java.text.DecimalFormat
 
 interface AccountRepository {
     suspend fun getBankomats(
     ): List<BankomatModel>
 
     suspend fun getValute(
-    ): ValuteModel
+    ): ValuteResponseModel
 
     suspend fun getCards(
         token: String

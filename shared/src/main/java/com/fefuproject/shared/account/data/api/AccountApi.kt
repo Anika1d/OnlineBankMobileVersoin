@@ -11,7 +11,7 @@ interface AccountApi {
     suspend fun getBankomats(): List<BankomatModel>
 
     @GET("valute")
-    suspend fun getValute(): ValuteModel
+    suspend fun getValute(): ValuteResponseModel
 
     @POST("getcards")
     suspend fun getCards(@Body request: TokenRequest): ResponseModel<List<CardModel>>
