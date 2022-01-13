@@ -31,6 +31,7 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.defaultDataFormatter
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
+import com.fefuproject.shared.account.domain.enums.PayType
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
@@ -185,10 +186,20 @@ class AccountStateActivity : ComponentActivity() {
                 onClick = {}) {
                 if (events?.isNotEmpty() == true) {
                     Column {
-                        Text(
-                            text = events[i].pay_type!!,
-                            style = TextStyle(fontWeight = FontWeight.Bold)
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = events[i].pay_type!!,
+                                style = TextStyle(fontWeight = FontWeight.Bold)
+                            )
+                            Text(
+                                text = if (events[i].destType == PayType.onCategory.ordinal) events[i].dest
+                                else "*" + events[i].dest.takeLast(4),
+                                style = TextStyle(fontWeight = FontWeight.Bold)
+                            )
+                        }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
