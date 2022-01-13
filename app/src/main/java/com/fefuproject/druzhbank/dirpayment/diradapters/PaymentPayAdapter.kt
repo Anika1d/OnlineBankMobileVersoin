@@ -6,18 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.databinding.ItemPayImageBinding
-import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
+import com.fefuproject.shared.account.domain.models.CheckModel
 
 class PaymentPayAdapter(
     private val actionListener: PaymentPaysActionListener
 ) : RecyclerView.Adapter<PaymentPayAdapter.PaymentPayHolder>(), View.OnClickListener {
-    var paymentPayList = ArrayList<Pays>()
+    var paymentPayList = ArrayList<CheckModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
 
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentPayHolder {
 
         val inflater = LayoutInflater.from(parent.context)
@@ -26,12 +27,13 @@ class PaymentPayAdapter(
         return PaymentPayHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PaymentPayHolder, position: Int) {
         holder.itemView.tag = paymentPayList[position]
         with(holder.binding) {
-            namePay.text = paymentPayList[position].namePay
-            valuePay.text = paymentPayList[position].valuePay
-            fullNumberPay.text = paymentPayList[position].numberPay
+            namePay.text = paymentPayList[position].name
+            valuePay.text = paymentPayList[position].count+" руб."
+            fullNumberPay.text = "*********" + paymentPayList[position].number.takeLast(4)
         }
     }
 
@@ -45,19 +47,21 @@ class PaymentPayAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addPaymentPay(Pay: Pays) {
-        paymentPayList.add(Pay)
-        notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
+    fun addPaymentPayList(checkList: List<CheckModel>) {
+        paymentPayList.addAll(checkList)
+        notifyDataSetChanged()
     }
 
     override fun onClick(v: View) {
-        val p: Pays = v.tag as Pays
+        val p: CheckModel = v.tag as CheckModel
         actionListener.onPayDetails(p)
     }
+
+
 }
 
 interface PaymentPaysActionListener {
-    fun onPayDetails(pay: Pays) {
+    fun onPayDetails(pay: CheckModel) {
 
     }
 }

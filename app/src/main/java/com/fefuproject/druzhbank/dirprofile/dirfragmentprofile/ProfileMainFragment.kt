@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.dirprofile.dircredit.Credits
 import com.fefuproject.druzhbank.dirprofile.dircredit.CreditsAdapter
-import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
@@ -69,7 +67,7 @@ class ProfileMainFragment : Fragment() {
     )
     private val paysAdapter = PaysAdapter(
         object : PaysActionListener {
-            override fun onPayDetails(pay: Pays) {
+            override fun onPayDetails(pay: CheckModel) {
                 super.onPayDetails(pay)
                     activity!!.supportFragmentManager.beginTransaction().apply {
                         val visibleFragment =
@@ -79,7 +77,7 @@ class ProfileMainFragment : Fragment() {
                         }
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            PayFragment(), "PayFragment"
+                            PayFragment( pay), "PayFragment"
                         )
                         commit()
                     }
@@ -88,19 +86,12 @@ class ProfileMainFragment : Fragment() {
     )
 
     private val creditsAdapter = CreditsAdapter()
-    private val pays = Pays(
-        namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
-    )
-    private val pays1 = Pays(
-        namePay = "Накопления", valuePay = "912000 рублей", numberPay = "****9888"
-    )
-
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
     @Inject
-    lateinit var getCreditsUseCase: GetCreditsUseCase
-    @Inject
     lateinit var getCheckUseCase: GetChecksUseCase
+    @Inject
+    lateinit var getCreditsUseCase: GetCreditsUseCase
     @Inject
     lateinit var getCardsUseCase: GetCardsUseCase
     lateinit var card_list: List<CardModel>
@@ -146,18 +137,12 @@ class ProfileMainFragment : Fragment() {
         recyclerView.adapter = cardsAdapter
         initDataRec()
         creditsAdapter.addCreditList(credits_list)
+        paysAdapter.addPayList(check_list)
     }
 
     private fun initDataRec() {
         binding.apply {
-            paysAdapter.addPay(pays)
-            paysAdapter.addPay(pays1)
-            paysAdapter.addPay(pays)
-            paysAdapter.addPay(pays1)
-            paysAdapter.addPay(pays)
-            paysAdapter.addPay(pays1)
-            paysAdapter.addPay(pays)
-            paysAdapter.addPay(pays1)
+
             LinearLayoutManager(this@ProfileMainFragment.context).also {
                 recycleViewCredits.layoutManager = it
             }

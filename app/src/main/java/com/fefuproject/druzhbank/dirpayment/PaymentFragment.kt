@@ -17,10 +17,10 @@ import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirpayment.diradapters.*
 import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
-import com.fefuproject.druzhbank.dirprofile.dirpay.Pays
 import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.models.CheckModel
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.shared.account.domain.usecase.GetChecksUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -39,32 +39,40 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
 
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
+
+    @Inject
+    lateinit var getCheckUseCase: GetChecksUseCase
+    lateinit var check_list: List<CheckModel>
     lateinit var card_list: List<CardModel>;
     private val adapterCard = PaymentCardAdapter(
         object : PaymentCardsActionListener {
             override fun onCardDetails(card: CardModel) {
                 super.onCardDetails(card)
                 if (!card.is_blocked)
-                activity!!.supportFragmentManager.beginTransaction().apply {
-                    val visibleFragment =
-                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                    visibleFragment?.let {
-                        hide(visibleFragment)
+                    activity!!.supportFragmentManager.beginTransaction().apply {
+                        val visibleFragment =
+                            activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                        visibleFragment?.let {
+                            hide(visibleFragment)
+                        }
+                        replace(
+                            R.id.fragmentContainerViewProfile,
+                            PaymentToCardFragment(card), "PaymentToCardFragment"
+                        )
+                        commit()
                     }
-                    replace(
-                        R.id.fragmentContainerViewProfile,
-                        PaymentToCardFragment(card), "PaymentToCardFragment"
-                    )
-                    commit()
-                }
-                else makeText(this@PaymentFragment.context,"Карта заблокирована",Toast.LENGTH_LONG).show()
+                else makeText(
+                    this@PaymentFragment.context,
+                    "Карта заблокирована",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
 
 
     private val adapterPay = PaymentPayAdapter(
         object : PaymentPaysActionListener {
-            override fun onPayDetails(pay: Pays) {
+            override fun onPayDetails(pay: CheckModel) {
                 super.onPayDetails(pay)
                 Toast.makeText(
                     this@PaymentFragment.context,
@@ -78,22 +86,21 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runBlocking {card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!! }
+        runBlocking {
+            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list = getCheckUseCase.invoke(preferenceProvider.token!!)!!
+        }
 
     }
+
     override fun onResume() {
         super.onResume()
         runBlocking {
             card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list = getCheckUseCase.invoke(preferenceProvider.token!!)!!
         }
     }
 
-    private val pays = Pays(
-        namePay = "Пенсия", valuePay = "12000 рублей", numberPay = "****9999"
-    )
-    private val pays1 = Pays(
-        namePay = "Накопления", valuePay = "912000 рублей", numberPay = "****9888"
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,12 +113,8 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
     @SuppressLint("FragmentBackPressedCallback", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapterPay.addPaymentPay(pays)
-        adapterPay.addPaymentPay(pays1)
-        adapterPay.addPaymentPay(pays)
-        adapterPay.addPaymentPay(pays1)
-        adapterPay.addPaymentPay(pays)
         adapterCard.addPaymentCardList(card_list)
+        adapterPay.addPaymentPayList(check_list)
         binding.recycleViewPayment.adapter = adapterCard
         binding.recycleViewPayment.addItemDecoration(CommonItemSpaceDecoration(25))
         LinearLayoutManager(this.context).also {
