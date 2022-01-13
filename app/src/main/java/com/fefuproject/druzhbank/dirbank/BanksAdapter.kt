@@ -29,14 +29,17 @@ class BanksAdapter : RecyclerView.Adapter<BanksAdapter.BanksHolder>() {
 
     class BanksHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val binding = ItemBankBinding.bind(v)
+
         @SuppressLint("SetTextI18n")
-        fun bind(bank:  BankomatModel) = with(binding) {
-            if (bank.is_atm){
-                whoHouse.text="Банкомант"
-            }else {
-                whoHouse.text="Отделение"
+        fun bind(bank: BankomatModel) = with(binding) {
+            if (bank.is_atm) {
+                whoHouse.text = "Банкомант"
+            } else {
+                whoHouse.text = "Отделение"
             }
-         ///   timeDate.text = bank.time_start.toString()+"-"+bank.time_end.toString()
+            timeDate.text =
+                bank.time_start.substring(0,5) + "-" +
+                        bank.time_end.substring(0,5)
             if (bank.is_working == true) {
                 isWorked.text = "Работает"
                 isWorked.setTextColor(Color.GREEN)
@@ -47,13 +50,15 @@ class BanksAdapter : RecyclerView.Adapter<BanksAdapter.BanksHolder>() {
             Adress.text = bank.adress
         }
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun addBank(bank:  BankomatModel){
+    fun addBank(bank: BankomatModel) {
         banksList.add(bank)
         notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun addBankList(bank:  List<BankomatModel>){
+    fun addBankList(bank: List<BankomatModel>) {
         banksList.addAll(bank)
         notifyDataSetChanged() //данные обновились, адаптер теперь перерисует
     }
