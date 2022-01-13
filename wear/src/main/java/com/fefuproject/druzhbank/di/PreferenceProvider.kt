@@ -11,10 +11,16 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
     var token: String? = sharedPreferences.getString("token", null)
+    var PIN: String? = sharedPreferences.getString("PIN", null)
 
     fun updateToken(newToken: String?) {
         token = newToken
         sharedPreferences.edit().putString("token", token).apply()
+    }
+
+    fun updatePIN(newPIN: String?){
+        PIN = newPIN
+        sharedPreferences.edit().putString("PIN", newPIN).apply()
     }
 
     fun updateLastVerifiedTime() {

@@ -9,6 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.wear.compose.material.ExperimentalWearMaterialApi
+import com.fefuproject.druzhbank.UI.InputActivity
+import com.fefuproject.druzhbank.extensions.InputType
 import com.google.android.gms.wearable.Wearable
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
@@ -45,8 +47,10 @@ class AuthStateObserver @Inject constructor(
                 Toast.makeText(activity, "Не удалось войти...", Toast.LENGTH_SHORT).show()
                 activity.finish()
             } else {
-                preferenceProvider.updateLastVerifiedTime()
-                _verificationState.value = true
+                if (result.data?.getStringExtra("PIN") == preferenceProvider.PIN) {
+                    preferenceProvider.updateLastVerifiedTime()
+                    _verificationState.value = true
+                }
             }
         }
     }
@@ -60,37 +64,33 @@ class AuthStateObserver @Inject constructor(
             val diff =
                 (System.currentTimeMillis() - preferenceProvider.lastVerifiedTimestamp) / 1000 // 60000 - minutes
             if (diff > 30) { // 60 might be better
-                if (phoneCheckerJob == null)
-                    phoneCheckerJob = phoneCheckerContext.launch {
-                        var checkDone: Boolean
-                        while (_verificationState.value != true) {
-                            checkDone = false
-                            Wearable.getNodeClient(activity).connectedNodes.addOnSuccessListener {
-                                if (it.isNotEmpty())
-                                    _verificationState.value = it.get(0)?.isNearby ?: false
-                                else
-                                    _verificationState.value = false
-                                checkDone = true
-                            }
-                            while (!checkDone) {
-                                delay(2000)
+                if (preferenceProvider.PIN == null) {
+                    if (phoneCheckerJob == null)
+                        phoneCheckerJob = phoneCheckerContext.launch {
+                            var checkDone: Boolean
+                            while (_verificationState.value != true) {
+                                checkDone = false
+                                Wearable.getNodeClient(activity).connectedNodes.addOnSuccessListener {
+                                    if (it.isNotEmpty())
+                                        _verificationState.value = it.get(0)?.isNearby ?: false
+                                    else
+                                        _verificationState.value = false
+                                    checkDone = true
+                                }
+                                while (!checkDone) {
+                                    delay(2000)
+                                }
                             }
                         }
-                    }
+                } else {
+                    _verificationState.value = false
+                    val intent = Intent(activity, InputActivity::class.java)
+                    intent.putExtra("type", InputType.Password)
+                    authLauncher.launch(intent)
+                }
             } else {
                 _verificationState.value = true
             }
-            //PIN AUTH
-//            val diff =
-//                (System.currentTimeMillis() - preferenceProvider.lastVerifiedTimestamp) / 1000 // 60000 - minutes
-//            if (diff > 30) { // 60 might be better
-//                verificationState.value = false
-//                val intent = Intent(activity, InputActivity::class.java)
-//                intent.putExtra("type", InputType.Password)
-//                authLauncher.launch(intent)
-//            } else {
-//                verificationState.value = true
-//            }
         }
     }
 }

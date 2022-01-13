@@ -8,9 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,6 +25,7 @@ import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import com.fefuproject.druzhbank.UI.main.MainActivityViewModel
 import com.fefuproject.druzhbank.UI.payment.PaymentActivity
+import com.fefuproject.druzhbank.UI.settings.SettingsActivity
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.google.android.gms.wearable.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +59,11 @@ private val menuElements = listOf(
         "Последние операции",
         R.drawable.ic_baseline_history_24,
         RecentOpActivity::class.java
+    ),
+    MainActivityElement(
+        "Настройки",
+        R.drawable.ic_baseline_settings_24,
+        SettingsActivity::class.java
     ),
 )
 
