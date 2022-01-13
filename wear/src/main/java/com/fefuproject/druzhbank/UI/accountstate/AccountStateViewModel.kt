@@ -44,12 +44,15 @@ class AccountStateViewModel @Inject constructor(
     private fun reschedule(card: Int) {
         viewModelScope.launch {
             _cardEvents.value = null
-            _cardInfo.value = getCardUseCase.invoke(preferenceProvider.token!!)
+            val buf = getCardUseCase.invoke(preferenceProvider.token!!)?.toMutableList()
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardHistoryUseCase.invoke(
                 number = _cardInfo.value!![card].number,
                 token = preferenceProvider.token!!,
                 10
             )
+            buf?.removeAll { cardModel -> cardModel.is_blocked }
+            if (buf != null) if (buf.size > 3) buf.take(3)
+            _cardInfo.value = buf
             _isRefreshing.value = false
         }
     }
