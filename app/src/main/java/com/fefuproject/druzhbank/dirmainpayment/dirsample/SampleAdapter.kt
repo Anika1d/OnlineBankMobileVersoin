@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.databinding.ItemCategoriesRectBinding
 import com.fefuproject.druzhbank.dirmainpayment.dirpaymentcontract.models.Categories
+import com.fefuproject.shared.account.domain.models.CategoryModel
 
 
 interface SampleActionListener {
-    fun OnSampleDetails(categories: Categories){
+    fun OnSampleDetails(categories: CategoryModel){
 
     }
 }
@@ -18,7 +19,7 @@ interface SampleActionListener {
 class SampleAdapter (
     private val actionListener: SampleActionListener
 ): RecyclerView.Adapter<SampleAdapter.SampleHolder>(), View.OnClickListener {
-    var categoriesList= ArrayList<Categories>()
+    var categoriesList= ArrayList<CategoryModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -37,7 +38,7 @@ class SampleAdapter (
     }
 
     override fun onClick(p0: View) {
-        val categories: Categories = p0.tag as Categories
+        val categories: CategoryModel = p0.tag as CategoryModel
         actionListener.OnSampleDetails(categories = categories)
     }
     class SampleHolder(
@@ -46,17 +47,13 @@ class SampleAdapter (
 
 
     override fun onBindViewHolder(holder: SampleHolder, position: Int) {
-        holder.binding.nameCategories.text=categoriesList[position].name_categories
+        holder.binding.nameCategories.text=categoriesList[position].name
         holder.itemView.tag=categoriesList[position]
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun  addCat(categories: Categories){
-        categoriesList.add(categories)
-        notifyDataSetChanged()
-    }
-    @SuppressLint("NotifyDataSetChanged")
-    fun  delCat(categories: Categories){
-        categoriesList.remove(categories)
+    fun addCatList(sampleList: List<CategoryModel>) {
+        categoriesList.addAll(sampleList)
         notifyDataSetChanged()
     }
 }
