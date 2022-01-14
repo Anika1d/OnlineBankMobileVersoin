@@ -136,10 +136,7 @@ class CardFragment(cards: CardModel) : Fragment() {
                 }
             }
             balansCard.text = card.count + " руб."
-            numberCard.text = card.number[0].toString() + card.number[1].toString() +
-                    card.number[2].toString() + card.number[3].toString() + "****" +
-                    card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
-                    card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
+            numberCard.text = card.number.take(4)+"*".repeat(8)+card.number.takeLast(4)
         }
 
         binding.blockCardButton.setOnClickListener {

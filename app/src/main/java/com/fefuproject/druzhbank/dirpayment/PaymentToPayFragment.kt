@@ -11,17 +11,14 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.databinding.FragmentPaymentBinding
 import com.fefuproject.druzhbank.databinding.FragmentPaymentToCardBinding
+import com.fefuproject.druzhbank.databinding.FragmentPaymentToPayBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.models.CardModel
-import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.shared.account.domain.models.CheckModel
 import com.fefuproject.shared.account.domain.usecase.PayUniversalUseCase
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -33,16 +30,16 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PaymentToCardFragment.newInstance] factory method to
+ * Use the [PaymentToPayFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-
 @AndroidEntryPoint
-class PaymentToCardFragment(val carduser: CardModel, val cardfriends: CardModel) : Fragment() {
+class PaymentToPayFragment(val carduser: CardModel, val payfriend: CheckModel) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private var _binding: FragmentPaymentToCardBinding? = null
+
+    private var _binding: FragmentPaymentToPayBinding? = null
     private val binding get() = _binding!!
 
     @Inject
@@ -63,8 +60,7 @@ class PaymentToCardFragment(val carduser: CardModel, val cardfriends: CardModel)
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentPaymentToCardBinding.inflate(inflater, container, false)
+        _binding = FragmentPaymentToPayBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -74,18 +70,18 @@ class PaymentToCardFragment(val carduser: CardModel, val cardfriends: CardModel)
         binding.includeItemUserCard.cardUserNumber.text =
             carduser.number.take(4) + "*".repeat(8) + carduser.number.takeLast(4)
         binding.includeItemFriendCard.cardFriendNumber.text =
-            cardfriends.number.take(4) + "*".repeat(8) + cardfriends.number.takeLast(4)
+        "*".repeat(9) + payfriend.number.takeLast(4)
         binding.includeItemUserCard.cardUserValue.text = carduser.count + " руб."
-
+        binding.includeItemFriendCard.cardFriend.text="Счет получателя"
 
 
         activity?.onBackPressedDispatcher?.addCallback(
-            this@PaymentToCardFragment,
+            this@PaymentToPayFragment,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     parentFragmentManager.beginTransaction().apply {
                         replace(
-                            R.id.fragmentContainerViewProfile, PaymentFragment(carduser),
+                            R.id.fragmentContainerViewProfile,PaymentFragment(carduser),
                             "PaymentFragment"
                         )
                         commit()
@@ -108,10 +104,10 @@ class PaymentToCardFragment(val carduser: CardModel, val cardfriends: CardModel)
 
     @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
     private fun AlertDialogTransaction() { //создание диалога авторизации
-        val builder = this@PaymentToCardFragment.context!!.let { AlertDialog.Builder(it) }
+        val builder = this@PaymentToPayFragment.context!!.let { AlertDialog.Builder(it) }
         val alert = builder.create();
         val promptsView: View =
-            LayoutInflater.from(this@PaymentToCardFragment.context!!)
+            LayoutInflater.from(this@PaymentToPayFragment.context!!)
                 .inflate(R.layout.dialog_transaction_card, null)
         alert.setView(promptsView)
         alert.setCancelable(false)
@@ -130,28 +126,29 @@ class PaymentToCardFragment(val carduser: CardModel, val cardfriends: CardModel)
                 runBlocking {
                     f = payUniversalUseCase.invoke(
                         carduser.number,
-                        cardfriends.number,
+                        payfriend.number,
                         c,
                         0,
-                        0,
+                        1,
                         preferenceProvider.token!!
                     )
                 }
                 f = true
             }
-            if (f) {
+            if (f)
                 Toast.makeText(
                     activity!!.applicationContext,
                     "Вы перевели " + binding.valueEditText.text + " руб",
                     Toast.LENGTH_SHORT
                 ).show()
-                alert.dismiss()
-            } else Toast.makeText(
+            else Toast.makeText(
                 activity!!.applicationContext,
                 "Перевод не удался проверейте, правильность введенных данных",
                 Toast.LENGTH_SHORT
             ).show()
+            alert.dismiss()
         }
         alert.show()
     }
+
 }

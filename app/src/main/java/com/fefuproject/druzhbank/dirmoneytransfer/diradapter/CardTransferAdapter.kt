@@ -7,20 +7,51 @@ import android.view.ViewGroup
 import androidx.compose.ui.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
+import com.fefuproject.druzhbank.databinding.ItemCardBinding
 import com.fefuproject.druzhbank.databinding.ItemCardImageBinding
+import com.fefuproject.druzhbank.dirmainpayment.dirsample.SampleActionListener
+import com.fefuproject.druzhbank.dirprofile.dircard.CardsAdapter
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.util.CardType
 import com.fefuproject.shared.account.util.Util
 
+interface CardsActionListenerT {
+    fun onCardDetails(card: CardModel) {
 
-class CardTransferAdapter : RecyclerView.Adapter<CardTransferAdapter.CardTransferHolder>() {
+    }
+}
+
+class CardTransferAdapter(
+    val actionListener: CardsActionListenerT
+) : RecyclerView.Adapter<CardTransferAdapter.CardTransferHolder>(), View.OnClickListener {
     val cardList = ArrayList<CardModel>()
 
-    class CardTransferHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val binding = ItemCardImageBinding.bind(v)
+    override fun onClick(v: View) {
+        val card: CardModel = v.tag as CardModel
+        actionListener.onCardDetails(card)
+    }
 
-        @SuppressLint("SetTextI18n")
-        fun bind(card: CardModel) = with(binding) {
+    class CardTransferHolder(
+        val binding: ItemCardImageBinding
+    ) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardTransferHolder {
+
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemCardImageBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return CardTransferHolder(binding)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: CardTransferHolder, position: Int) {
+        val card = cardList[position]
+        with(holder.binding) {
+            holder.itemView.tag = card
+            numberCard.text = card.number.take(4) + "*".repeat(8) + card.number.takeLast(4)
+            balansCard.text = card.count + " руб."
+            typecard.text = "Дебетовая карта"
+
             val typeCard = Util.getCardIssuer(cardNumber = card.number)
             when (typeCard) {
                 CardType.MIR -> {
@@ -33,25 +64,11 @@ class CardTransferAdapter : RecyclerView.Adapter<CardTransferAdapter.CardTransfe
                     cardImage.setImageResource(R.drawable.ic_visa)
                 }
             }
-            balansCard.text = card.count + " руб."
-            numberCard.text = card.number[0].toString() + card.number[1].toString() +
-                    card.number[2].toString() + card.number[3].toString() + "****" +
-                    card.number[card.number.length - 4].toString() + card.number[card.number.length - 3].toString() +
-                    card.number[card.number.length - 2].toString() + card.number[card.number.length - 1].toString()
-            if (card.is_blocked) blockedCard.setTextColor(android.graphics.Color.RED)
-            else blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
+            if (card.is_blocked)
+                root.setBackgroundColor(android.graphics.Color.DKGRAY)
+            else root.setBackgroundColor(android.graphics.Color.WHITE)
 
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardTransferHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_card_image, parent, false)
-        return CardTransferHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: CardTransferHolder, position: Int) {
-        holder.bind(card = cardList[position])
     }
 
     override fun getItemCount(): Int { ///возрашает кол-во елементов

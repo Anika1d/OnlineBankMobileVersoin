@@ -57,7 +57,7 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
                         }
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            PaymentToCardFragment(cardfriends =card,carduser=cardModel), "PaymentToCardFragment"
+                            PaymentToCardFragment(cardfriends = card,carduser=cardModel), "PaymentToCardFragment"
                         )
                         commit()
                     }
@@ -74,11 +74,18 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
         object : PaymentPaysActionListener {
             override fun onPayDetails(pay: CheckModel) {
                 super.onPayDetails(pay)
-                Toast.makeText(
-                    this@PaymentFragment.context,
-                    "счета",
-                    Toast.LENGTH_SHORT
-                ).show()
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
+                    }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        PaymentToPayFragment( carduser=cardModel, payfriend = pay), "PaymentToCardFragment"
+                    )
+                    commit()
+                }
             }
         }
 

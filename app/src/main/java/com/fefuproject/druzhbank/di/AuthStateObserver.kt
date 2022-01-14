@@ -15,7 +15,7 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
-const val DISABLE_AUTH_OBSERVER = true
+const val DISABLE_AUTH_OBSERVER = false
 
 @ActivityScoped
 class AuthStateObserver @Inject constructor(

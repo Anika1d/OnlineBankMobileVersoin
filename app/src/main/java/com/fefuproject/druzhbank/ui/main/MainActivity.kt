@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-const val AUTH_ON =false;
+const val AUTH_ON =true;
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

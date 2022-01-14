@@ -23,6 +23,8 @@ import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragme
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.RulesFragment
 import com.fefuproject.druzhbank.ui.main.MainActivity
 import com.fefuproject.shared.account.domain.models.UserModel
+import com.fefuproject.shared.account.domain.usecase.ChangePasswordUseCase
+import com.fefuproject.shared.account.domain.usecase.ChangeUsernameUseCase
 import com.fefuproject.shared.account.domain.usecase.GetUserUseCase
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -39,9 +41,17 @@ class ProfileActivity : AppCompatActivity() {
 
     @Inject
     lateinit var getUserUseCase: GetUserUseCase
+
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
-    lateinit var modelUser:UserModel
+
+    @Inject
+    lateinit var changeUsernameUseCase: ChangeUsernameUseCase
+
+    @Inject
+    lateinit var changePasswordUseCase : ChangePasswordUseCase
+
+    lateinit var modelUser: UserModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fun makeCurrentFragment(fragment: Fragment, tag: String) {
@@ -58,7 +68,7 @@ class ProfileActivity : AppCompatActivity() {
                 commit()
             }
         }
-        runBlocking { modelUser=getUserUseCase.invoke(preferenceProvider.token!!)!! }
+        runBlocking { modelUser = getUserUseCase.invoke(preferenceProvider.token!!)!! }
 
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -77,19 +87,19 @@ class ProfileActivity : AppCompatActivity() {
                 commit()
             }
         }
-        binding.includeToolbar.namePesone.text=modelUser.name
-        binding.btnNav.setOnItemSelectedListener{
+        binding.includeToolbar.namePesone.text = modelUser.name
+        binding.btnNav.setOnItemSelectedListener {
             when (it.itemId) {
-                    R.id.home->
-                       makeCurrentFragment(ProfileMainFragment(),"ProfileMainFragment")
-                    R.id.pay->
-                        makeCurrentFragment(MainPaymentFragment(),"MainPaymentFragment")
-                R.id.history->
-                    makeCurrentFragment(AllHistoryPaymentFragment(),"AllHistoryPaymentFragment")
-                R.id.chat->
-                    makeText(this.applicationContext,"чат",Toast.LENGTH_SHORT).show()
+                R.id.home ->
+                    makeCurrentFragment(ProfileMainFragment(), "ProfileMainFragment")
+                R.id.pay ->
+                    makeCurrentFragment(MainPaymentFragment(), "MainPaymentFragment")
+                R.id.history ->
+                    makeCurrentFragment(AllHistoryPaymentFragment(), "AllHistoryPaymentFragment")
+                R.id.chat ->
+                    makeText(this.applicationContext, "чат", Toast.LENGTH_SHORT).show()
             }
-        true
+            true
         }
         binding.includeToolbar.personeBI.setOnClickListener {
             val popupMenu = PopupMenu(this@ProfileActivity.applicationContext, it)
@@ -101,7 +111,7 @@ class ProfileActivity : AppCompatActivity() {
                         AlertDialogChange("пароль")
                     }
                     R.id.change_login_menu -> {
-                        AlertDialogChange("логин")
+                        AlertDialogChange("имя")
                     }
                     R.id.history_locale_menu -> {
                         supportFragmentManager.beginTransaction().apply {
@@ -147,27 +157,60 @@ class ProfileActivity : AppCompatActivity() {
             LayoutInflater.from(this).inflate(R.layout.change_private_data_in_user, null)
         alert.setView(promptsView)
         alert.setCancelable(false)
-        val textView = promptsView.findViewById<TextView>(R.id.change_your)
-        textView.text = textView.text.toString() + tagChange
-        val textView2 = promptsView.findViewById<TextView>(R.id.enter_your)
-        textView2.text = textView2.text.toString() + tagChange
-        val editText = promptsView.findViewById<TextInputEditText>(R.id.new_password)
-        editText.hint = "Введите ваш новый $tagChange"
-        val inputTextLayout = promptsView.findViewById<TextInputLayout>(R.id.textInputNewPass)
-        inputTextLayout.hint = "Новый $tagChange"
         val bun_cancel = promptsView.findViewById<MaterialButton>(R.id.cancel_button_change)
         bun_cancel.setOnClickListener {
             alert.dismiss()
         }
-        val bun_ch_d = promptsView.findViewById<MaterialButton>(R.id.change_button_data)
+        val textView = promptsView.findViewById<TextView>(R.id.change_your)
+        textView.text = textView.text.toString() + tagChange
+        val textView2 = promptsView.findViewById<TextView>(R.id.enter_your)
+        textView2.text = textView2.text.toString() + tagChange
+        if (tagChange != "имя") {
+            val editText = promptsView.findViewById<TextInputEditText>(R.id.new_password)
+            editText.hint = "Введите ваш новый $tagChange"
+            val inputTextLayout = promptsView.findViewById<TextInputLayout>(R.id.textInputNewPass)
+            inputTextLayout.hint = "Новый $tagChange"
 
-        bun_ch_d.setOnClickListener {
-            makeText(
-                this.applicationContext,
-                "Вы изменили $tagChange",
-                Toast.LENGTH_SHORT
-            ).show()
-            alert.dismiss()
+            val bun_ch_d = promptsView.findViewById<MaterialButton>(R.id.change_button_data)
+
+            bun_ch_d.setOnClickListener {
+                runBlocking {
+                    changePasswordUseCase.invoke(
+                        token = preferenceProvider.token!!,
+                        new_password = editText.text.toString(),
+                        old_password = ""
+                    )
+                }
+                makeText(
+                    this.applicationContext,
+                    "Вы изменили $tagChange",
+                    Toast.LENGTH_SHORT
+                ).show()
+                alert.dismiss()
+            }
+        }
+        else{
+            val editText = promptsView.findViewById<TextInputEditText>(R.id.new_password)
+            editText.hint = "Введите ваше новое $tagChange"
+            val inputTextLayout = promptsView.findViewById<TextInputLayout>(R.id.textInputNewPass)
+            inputTextLayout.hint = "Новое $tagChange"
+
+            val bun_ch_d = promptsView.findViewById<MaterialButton>(R.id.change_button_data)
+
+            bun_ch_d.setOnClickListener {
+                runBlocking {
+                    changeUsernameUseCase.invoke(
+                        token = preferenceProvider.token!!,
+                        username = editText.text.toString()
+                    )
+                }
+                makeText(
+                    this.applicationContext,
+                    "Вы изменили $tagChange",
+                    Toast.LENGTH_SHORT
+                ).show()
+                alert.dismiss()
+            }
         }
         alert.show()
     }

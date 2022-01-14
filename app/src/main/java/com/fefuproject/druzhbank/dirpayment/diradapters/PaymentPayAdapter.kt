@@ -33,7 +33,7 @@ class PaymentPayAdapter(
         with(holder.binding) {
             namePay.text = paymentPayList[position].name
             valuePay.text = paymentPayList[position].count+" руб."
-            fullNumberPay.text = "*********" + paymentPayList[position].number.takeLast(4)
+            fullNumberPay.text = "*".repeat(9) + paymentPayList[position].number.takeLast(4)
         }
     }
 

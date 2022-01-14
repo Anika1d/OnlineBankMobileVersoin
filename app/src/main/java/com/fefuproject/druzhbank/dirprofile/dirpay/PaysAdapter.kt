@@ -32,7 +32,7 @@ class PaysAdapter(
             holder.itemView.tag = pay
             valuepay.text = pay.count
             namepay.text = pay.name
-            numberpay.text = "*********"+pay.number.takeLast(4)
+            numberpay.text = "*".repeat(9)+pay.number.takeLast(4)
         }
 
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
@@ -14,6 +15,9 @@ import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
 import com.fefuproject.druzhbank.dirmoneytransfer.diradapter.CardTransferAdapter
+import com.fefuproject.druzhbank.dirmoneytransfer.diradapter.CardsActionListenerT
+import com.fefuproject.druzhbank.dirpayment.PaymentToCardFragment
+import com.fefuproject.druzhbank.dirpayment.diradapters.PaymentCardsActionListener
 import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
 import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.models.CardModel
@@ -39,6 +43,31 @@ class MoneyTransferFragment(val cardModel: CardModel) : Fragment() {
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
     lateinit var card_list: List<CardModel>;
+    val adapter = CardTransferAdapter(
+
+        object : CardsActionListenerT {
+            override fun onCardDetails(card: CardModel) {
+                super.onCardDetails(card)
+                if (!card.is_blocked)
+                    activity!!.supportFragmentManager.beginTransaction().apply {
+                        val visibleFragment =
+                            activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                        visibleFragment?.let {
+                            hide(visibleFragment)
+                        }
+                        replace(
+                            R.id.fragmentContainerViewProfile,
+                            PaymentToCardFragment(cardfriends = card,carduser=cardModel), "PaymentToCardFragment"
+                        )
+                        commit()
+                    }
+                else Toast.makeText(
+                    this@MoneyTransferFragment.context,
+                    "Карта заблокирована",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
 
     private var _binding: FragmentMoneyTransferBinding? = null
     private val binding get() = _binding!!
@@ -86,7 +115,6 @@ class MoneyTransferFragment(val cardModel: CardModel) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = CardTransferAdapter()
         LinearLayoutManager(this.context).also {
             binding.recycleViewPayment.layoutManager = it
         }
