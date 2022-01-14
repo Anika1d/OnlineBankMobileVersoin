@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         }
         val bun_auth = promptsView.findViewById<MaterialButton>(R.id.auth_button)
         if (AUTH_ON){
-            if(viewModel.preferenceProvider.token == null)
                 bun_auth.setOnClickListener {
                     viewModel.login(
                         promptsView.findViewById<TextInputEditText>(R.id.login_edit).text.toString(),
@@ -92,7 +91,8 @@ class MainActivity : AppCompatActivity() {
                 }
         }
         else startActivity(Intent(this, ProfileActivity::class.java))
-        alert.show()
+        if(viewModel.preferenceProvider.token == null) alert.show()
+        else startActivity(Intent(this, ProfileActivity::class.java))
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
