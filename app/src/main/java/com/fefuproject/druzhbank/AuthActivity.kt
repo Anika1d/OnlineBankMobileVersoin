@@ -147,7 +147,7 @@ class AuthActivity : FragmentActivity() {
                 preferenceProvider.updatePrivateKey(input)
                 Wearable.getDataClient(this)
                     .putDataItem(PutDataRequest.create("/pin").apply { data = input.toByteArray() })
-                launchBiometrics(true)
+                launchBiometrics(preferenceProvider.biometricPreference == PreferenceProvider.STATUS_BIOMETRICS_NONE)
             } else if (input != preferenceProvider.privateKey) {
                 input = ""
                 Toast.makeText(this, "Неправильный код!", Toast.LENGTH_SHORT).show()

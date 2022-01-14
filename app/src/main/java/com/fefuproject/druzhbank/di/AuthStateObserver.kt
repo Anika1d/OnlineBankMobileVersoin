@@ -53,7 +53,7 @@ class AuthStateObserver @Inject constructor(
         }
         val diff =
             (System.currentTimeMillis() - preferenceProvider.lastVerifiedTimestamp) / 60000
-        if (diff >= 3) { // 3 минуты
+        if (diff >= 1) { // 1 минута
             verificationState.value = false
             authLauncher.launch(Intent(activity, AuthActivity::class.java))
         } else {

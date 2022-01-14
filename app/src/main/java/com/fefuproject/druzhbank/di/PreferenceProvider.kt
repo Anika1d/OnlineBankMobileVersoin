@@ -29,7 +29,7 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
 
     fun updateBiometricPreference(newStatus: Int) {
         biometricPreference = newStatus
-        sharedPreferences.edit().putInt("newStatus", newStatus).apply()
+        sharedPreferences.edit().putInt("biometricPref", newStatus).apply()
     }
 
     fun updateLastVerifiedTime() {
