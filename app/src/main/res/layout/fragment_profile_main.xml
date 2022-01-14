@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#700A95"
     tools:context=".dirprofile.dirfragmentprofile.ProfileMainFragment">
 
     <TextView
@@ -13,16 +14,18 @@
         android:layout_marginTop="4dp"
         android:background="#F1E6E6"
         android:text="Мои карты"
+        android:textSize="25sp"
+        android:paddingStart="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_cards"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:minHeight="300sp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/textView_pay"
         app:layout_constraintTop_toBottomOf="@+id/textView_cards"
@@ -31,10 +34,12 @@
 
     <TextView
         android:id="@+id/textView_pay"
-        android:layout_width="405dp"
-        android:layout_height="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#F1E6E6"
         android:text="Мои счета"
+        android:textSize="25sp"
+        android:paddingStart="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +61,8 @@
         android:layout_height="wrap_content"
         android:background="#F1E6E6"
         android:text="Мои кредиты"
+        android:textSize="25sp"
+        android:paddingStart="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space2" />
 
@@ -78,9 +85,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_credit"
         app:layout_constraintVertical_bias="0.369"
         tools:listitem="@layout/item_credit" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

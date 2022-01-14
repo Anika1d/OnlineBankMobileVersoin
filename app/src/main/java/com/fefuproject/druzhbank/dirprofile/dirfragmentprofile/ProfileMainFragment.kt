@@ -11,6 +11,7 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.dirprofile.dircredit.CreditsAdapter
 import com.fefuproject.druzhbank.dirprofile.dirpay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
+import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.dirprofile.dircard.*
 import com.fefuproject.druzhbank.dirprofile.dirpay.PayFragment
@@ -150,6 +151,9 @@ class ProfileMainFragment : Fragment() {
             LinearLayoutManager(this@ProfileMainFragment.context).also {
                 recycleViewPay.layoutManager = it
             }
+            recycleViewPay.addItemDecoration(CommonItemSpaceDecoration(5))
+            recycleViewCredits.addItemDecoration(CommonItemSpaceDecoration(5))
+            recycleViewCards.addItemDecoration(CommonItemSpaceDecoration(5))
             recycleViewPay.adapter = paysAdapter
         }
     }
