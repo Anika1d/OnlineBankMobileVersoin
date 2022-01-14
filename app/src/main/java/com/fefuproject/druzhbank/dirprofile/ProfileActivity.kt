@@ -129,6 +129,7 @@ class ProfileActivity : AppCompatActivity() {
                             "Вы вышли из аккаунта",
                             Toast.LENGTH_SHORT
                         ).show()
+                        preferenceProvider.updateToken(null)
                         startActivity(Intent(this, MainActivity::class.java))
                     }
                 }

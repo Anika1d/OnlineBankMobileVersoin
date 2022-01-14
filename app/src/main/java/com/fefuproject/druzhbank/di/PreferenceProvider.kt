@@ -22,7 +22,7 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
         sharedPreferences.edit().putString("privateKey", privateKey).apply()
     }
 
-    fun updateToken(newToken: String) {
+    fun updateToken(newToken: String?) {
         token = newToken
         sharedPreferences.edit().putString("token", token).apply()
     }
