@@ -90,6 +90,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
         val dataClient = Wearable.getDataClient(this)
         if (!viewModel.tokenExists.value) viewModel.updateAuth(dataClient)
         dataClient.addListener(this)
+        viewModel.refreshOnResume()
     }
 
     override fun onPause() {
@@ -127,6 +128,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
             rememberScalingLazyListState()
         val username by viewModel.username.collectAsState()
         val currencyData by viewModel.currencyData.collectAsState()
+        val currencyEnabled by viewModel.currencyEnabled.collectAsState()
         DefaultScaffold(scalingLazyListState, verificationStateObserver = authObserver) {
             ScalingLazyColumn(
                 modifier = Modifier
@@ -155,7 +157,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
                         )
                     }
                 }
-                if (viewModel.currencyEnabled) {
+                if (currencyEnabled) {
                     item {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Image(

@@ -26,13 +26,14 @@ class MainActivityViewModel @Inject constructor(
     val tokenExists get() = _tokenExists.asStateFlow()
     private val _currencyData = MutableStateFlow<List<ValuteModel>?>(null)
     val currencyData get() = _currencyData.asStateFlow()
-    val currencyEnabled = preferenceProvider.currencyEnabled
+    private val _currencyEnabled = MutableStateFlow(preferenceProvider.currencyEnabled)
+    val currencyEnabled get() = _currencyEnabled.asStateFlow()
 
     init {
         refreshUserData()
     }
 
-    fun refreshUserData() {
+    private fun refreshUserData() {
         viewModelScope.launch {
             _tokenExists.value = preferenceProvider.token != null
             if (tokenExists.value) {
@@ -48,6 +49,13 @@ class MainActivityViewModel @Inject constructor(
                         }
                 }
             }
+        }
+    }
+
+    fun refreshOnResume() {
+        if (preferenceProvider.currencyEnabled != currencyEnabled.value) {
+            _currencyEnabled.value = preferenceProvider.currencyEnabled
+            if (currencyEnabled.value) refreshUserData()
         }
     }
 
