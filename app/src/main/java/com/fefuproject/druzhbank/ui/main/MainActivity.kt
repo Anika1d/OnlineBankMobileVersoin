@@ -88,7 +88,9 @@ class MainActivity : AppCompatActivity() {
                         promptsView.findViewById<TextInputEditText>(R.id.password_edit).text.toString(),
                         this
                     ) { startActivity(Intent(this, ProfileActivity::class.java)) }
+                    alert.dismiss()
                 }
+
         }
         else startActivity(Intent(this, ProfileActivity::class.java))
         if(viewModel.preferenceProvider.token == null) alert.show()
