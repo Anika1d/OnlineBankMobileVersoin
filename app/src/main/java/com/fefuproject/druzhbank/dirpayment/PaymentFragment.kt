@@ -57,7 +57,7 @@ class PaymentFragment(val cardModel: CardModel) : Fragment() {
                         }
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            PaymentToCardFragment(card), "PaymentToCardFragment"
+                            PaymentToCardFragment(cardfriends =card,carduser=cardModel), "PaymentToCardFragment"
                         )
                         commit()
                     }

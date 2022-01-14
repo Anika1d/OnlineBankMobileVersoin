@@ -42,7 +42,7 @@ class CardHistoryFragment(cards: CardModel) : Fragment() {
     ): View {
         runBlocking {
             cardHistoryList =
-                getCardHistoryUseCase.invoke(card.number, preferenceProvider.token!!, 0)!!
+                getCardHistoryUseCase.invoke(card.number, preferenceProvider.token!!, 42)!!
         }
         _binding = FragmentCardHistoryBinding.inflate(inflater, container, false)
         binding.recycleViewCardsHistory.adapter = adapter

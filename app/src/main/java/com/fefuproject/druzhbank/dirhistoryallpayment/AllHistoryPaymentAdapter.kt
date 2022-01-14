@@ -51,7 +51,7 @@ class AllHistoryPaymentAdapter :
 
     @SuppressLint("NotifyDataSetChanged")
     fun addOperationHistoryList(H: List<HistoryInstrumentModel>) {
-        HistoryListAll.addAll(H)
+        HistoryList.addAll(H)
         notifyDataSetChanged()
 
     }
