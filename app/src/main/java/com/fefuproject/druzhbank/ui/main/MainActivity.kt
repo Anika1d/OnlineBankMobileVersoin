@@ -81,16 +81,17 @@ class MainActivity : AppCompatActivity() {
             alert.dismiss()
         }
         val bun_auth = promptsView.findViewById<MaterialButton>(R.id.auth_button)
-        if (AUTH_ON)
-            bun_auth.setOnClickListener {
-                viewModel.login(
-                    promptsView.findViewById<TextInputEditText>(R.id.login_edit).text.toString(),
-                    promptsView.findViewById<TextInputEditText>(R.id.password_edit).text.toString(),
-                    this
-                ) { startActivity(Intent(this, ProfileActivity::class.java)) }
-            }
+        if (AUTH_ON){
+            if(viewModel.preferenceProvider.token == null)
+                bun_auth.setOnClickListener {
+                    viewModel.login(
+                        promptsView.findViewById<TextInputEditText>(R.id.login_edit).text.toString(),
+                        promptsView.findViewById<TextInputEditText>(R.id.password_edit).text.toString(),
+                        this
+                    ) { startActivity(Intent(this, ProfileActivity::class.java)) }
+                }
+        }
         else startActivity(Intent(this, ProfileActivity::class.java))
-
         alert.show()
     }
 

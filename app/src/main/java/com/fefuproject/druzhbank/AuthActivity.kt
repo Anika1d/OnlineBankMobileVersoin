@@ -75,7 +75,7 @@ class AuthActivity : FragmentActivity() {
             DruzhbankTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     RootView(
-                        preferenceProvider.biometricPreference == PreferenceProvider.STATUS_BIOMETRICS_NONE
+                        preferenceProvider.privateKey == null
                     )
                 }
             }
