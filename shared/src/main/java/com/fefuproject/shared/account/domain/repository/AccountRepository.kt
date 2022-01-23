@@ -29,19 +29,22 @@ interface AccountRepository {
     suspend fun getCardHistory(
         number: String,
         token: String,
-        operationCount: Int,
-    ): List<HistoryInstrumentModel>?
+        pageNumber:Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>?
 
     suspend fun getCheckHistory(
         number: String,
         token: String,
-        operationCount: Int,
-    ): List<HistoryInstrumentModel>?
+        pageNumber:Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>?
 
     suspend fun getAllHistory(
         token: String,
-        operationCount: Int,
-    ): List<HistoryInstrumentModel>?
+        pageNumber:Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>?
 
     suspend fun blockCard(
         number: String,

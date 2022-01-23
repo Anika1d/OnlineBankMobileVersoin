@@ -43,7 +43,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
             var instruments = response.data
             for (instrument in instruments) {
                 instrument.instrumentType =
-                    InstrumetType.values()[instrument.instrument_type!!].type
+                    InstrumetType.values()[instrument.instrument_type].type
             }
             return instruments
         }
@@ -53,15 +53,17 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getCardHistory(
         number: String,
         token: String,
-        operationCount: Int,
-    ): List<HistoryInstrumentModel>? {
-        var response =
-            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number, operationCount))
+        pageNumber: Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>? {
+        val response =
+            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
         if (response.success) {
-            var history = response.data
+            val history = response.data.historyList
             for (item in history)
                 item.pay_type = PayType.values()[item.destType].type
-            return history
+            response.data.historyList = history
+            return response.data
         }
         return null
     }
@@ -69,30 +71,34 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getCheckHistory(
         number: String,
         token: String,
-        operationCount: Int,
-    ): List<HistoryInstrumentModel>? {
-        var response =
-            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number, operationCount))
+        pageNumber: Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>? {
+        val response =
+            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
         if (response.success) {
-            var history = response.data
+            val history = response.data.historyList
             for (item in history)
                 item.pay_type = PayType.values()[item.destType].type
-            return history
+            response.data.historyList = history
+            return response.data
         }
         return null
     }
 
     override suspend fun getAllHistory(
         token: String,
-        operationCount: Int
-    ): List<HistoryInstrumentModel>? {
-        var response =
-            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, operationCount))
+        pageNumber: Int,
+        pageSize: Int
+    ): PagListModel<HistoryInstrumentModel>? {
+        val response =
+            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token))
         if (response.success) {
-            var history = response.data
+            var history = response.data.historyList
             for (item in history)
                 item.pay_type = PayType.values()[item.destType].type
-            return history
+            response.data.historyList = history
+            return response.data
         }
         return null
     }

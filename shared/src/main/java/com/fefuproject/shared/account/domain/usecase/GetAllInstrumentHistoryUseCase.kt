@@ -5,6 +5,6 @@ import com.fefuproject.shared.account.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class GetAllInstrumentHistoryUseCase @Inject constructor(private val repository: AccountRepository) {
-    suspend operator fun invoke(token: String, operationCount: Int) =
-        repository.getAllHistory(token,operationCount)
+    suspend operator fun invoke(token: String, pageNumber:Int, pageSize: Int) =
+        repository.getAllHistory(token,pageNumber,pageSize)
 }
