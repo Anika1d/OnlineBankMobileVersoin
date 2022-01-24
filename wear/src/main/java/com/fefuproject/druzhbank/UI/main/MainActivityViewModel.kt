@@ -61,8 +61,10 @@ class MainActivityViewModel @Inject constructor(
 
     fun updateAuth(dataClient: DataClient) {
         dataClient.getDataItems(Uri.parse("wear://*/token")).addOnSuccessListener {
-            preferenceProvider.updateToken(String(it[0].data, Charsets.UTF_8))
-            refreshUserData()
+            if(it.count > 0){
+                preferenceProvider.updateToken(String(it[0].data, Charsets.UTF_8))
+                refreshUserData()
+            }
         }
     }
 }
