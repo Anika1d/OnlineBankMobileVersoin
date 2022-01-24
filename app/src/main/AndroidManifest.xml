@@ -47,10 +47,10 @@
             android:name=".dirprofile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".dirvalute.ValuteActivity"
+            android:name=".valute.ValuteActivity"
             android:exported="false" />
         <activity
-            android:name=".dirbank.BankActivity"
+            android:name=".bank.BankActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"

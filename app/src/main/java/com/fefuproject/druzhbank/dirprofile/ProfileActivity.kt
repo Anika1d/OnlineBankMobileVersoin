@@ -16,11 +16,11 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirhistoryallpayment.AllHistoryPaymentFragment
-import com.fefuproject.druzhbank.dirmainpayment.MainPaymentFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.HistoryOpenApplicationFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.RulesFragment
+import com.fefuproject.druzhbank.historyallpayment.AllHistoryPaymentFragment
+import com.fefuproject.druzhbank.mainpayment.MainPaymentFragment
+import com.fefuproject.druzhbank.dirprofile.fragmentprofile.HistoryOpenApplicationFragment
+import com.fefuproject.druzhbank.dirprofile.fragmentprofile.ProfileMainFragment
+import com.fefuproject.druzhbank.dirprofile.fragmentprofile.RulesFragment
 import com.fefuproject.druzhbank.ui.main.MainActivity
 import com.fefuproject.shared.account.domain.models.UserModel
 import com.fefuproject.shared.account.domain.usecase.ChangePasswordUseCase

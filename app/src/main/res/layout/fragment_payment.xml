@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xiphone"
-    tools:context=".dirpayment.PaymentFragment">
+    tools:context=".payment.PaymentFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

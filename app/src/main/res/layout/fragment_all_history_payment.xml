@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xiphone"
-    tools:context=".dirhistoryallpayment.AllHistoryPaymentFragment">
+    tools:context=".historyallpayment.AllHistoryPaymentFragment">
 
     <SearchView
         android:id="@+id/searchView"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xiphone"
-    tools:context=".dirmainpayment.MainPaymentFragment">
+    tools:context=".mainpayment.MainPaymentFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -42,7 +42,8 @@
         android:layout_marginTop="12sp"
         android:layout_marginBottom="12sp"
         android:text="Смотреть все шаблоны"
-
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"

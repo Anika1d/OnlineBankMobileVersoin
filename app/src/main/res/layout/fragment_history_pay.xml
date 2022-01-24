@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/xiphone"
-    tools:context=".dirprofile.dirpay.dirhistorypay.HistoryPayFragment">
+    tools:context=".dirprofile.pay.historypay.HistoryPayFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_history_pay"

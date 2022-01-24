@@ -11,14 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.ui.graphics.Color
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirmoneytransfer.MoneyTransferFragment
-import com.fefuproject.druzhbank.dirpayment.PaymentFragment
+import com.fefuproject.druzhbank.moneytransfer.MoneyTransferFragment
+import com.fefuproject.druzhbank.payment.PaymentFragment
 import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistoryFragment
-import com.fefuproject.druzhbank.dirprofile.dirfragmentprofile.ProfileMainFragment
+import com.fefuproject.druzhbank.dirprofile.fragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.usecase.BlockCardUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase

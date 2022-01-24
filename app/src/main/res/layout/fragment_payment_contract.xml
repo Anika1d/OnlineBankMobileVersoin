@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/xiphone"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".dirmainpayment.dirpaymentcontract.PaymentContractFragment">
+    tools:context=".mainpayment.paymentcontract.PaymentContractFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

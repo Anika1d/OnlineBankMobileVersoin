@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/xiphone"
-    tools:context=".dirmainpayment.dirsample.SampleFragment">
+    tools:context=".mainpayment.sample.SampleFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_categories_vertical"
