@@ -70,9 +70,9 @@ class TransferActivity : ComponentActivity() {
         val sourceToolListState = rememberScalingLazyListState()
         val targetToolListState = rememberScalingLazyListState()
         val selectionError =
-            sourceToolListState.layoutInfo.centralItemIndex == targetToolListState.layoutInfo.centralItemIndex
-                    || (sourceToolListState.layoutInfo.centralItemIndex == sourceToolListState.layoutInfo.totalItemsCount - 1)
-                    || (targetToolListState.layoutInfo.centralItemIndex == targetToolListState.layoutInfo.totalItemsCount - 1)
+            sourceToolListState.centerItemIndex == targetToolListState.centerItemIndex
+                    || (sourceToolListState.centerItemIndex == sourceToolListState.centerItemIndex - 1)
+                    || (targetToolListState.centerItemIndex == targetToolListState.centerItemIndex - 1)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -114,8 +114,8 @@ class TransferActivity : ComponentActivity() {
                         modifier = Modifier,
                         onClick = {
                             viewModel.transactionBundle = PaymentRequestBundle(
-                                viewModel.sourceCards.value!![sourceToolListState.layoutInfo.centralItemIndex - 1],
-                                viewModel.sourceCards.value!![targetToolListState.layoutInfo.centralItemIndex - 1]
+                                viewModel.sourceCards.value!![sourceToolListState.centerItemIndex - 1],
+                                viewModel.sourceCards.value!![targetToolListState.centerItemIndex - 1]
                             )
                             authLauncher.launch(
                                 Intent(
@@ -172,9 +172,9 @@ class TransferActivity : ComponentActivity() {
                             cards!!.get(it).instrumentType!!,
                             style = TextStyle(
                                 fontWeight =
-                                if (listState.layoutInfo.centralItemIndex - 1 == it)
+                                if (listState.centerItemIndex - 1 == it)
                                     FontWeight.Normal else FontWeight.Light,
-                                color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
+                                color = if (it == listState.centerItemIndex - 1 && isError)
                                     Color.Red else Color.White,
                                 fontSize = 10.sp
                             )
@@ -194,9 +194,9 @@ class TransferActivity : ComponentActivity() {
                             ) else cards!![it].name!!,
                             style = TextStyle(
                                 fontWeight =
-                                if (listState.layoutInfo.centralItemIndex - 1 == it)
+                                if (listState.centerItemIndex - 1 == it)
                                     FontWeight.ExtraBold else FontWeight.Normal,
-                                color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
+                                color = if (it == listState.centerItemIndex - 1 && isError)
                                     Color.Red else Color.White
                             )
                         )
@@ -244,9 +244,9 @@ class TransferActivity : ComponentActivity() {
                             ) else cards!![it].name!!,
                             style = TextStyle(
                                 fontWeight =
-                                if (listState.layoutInfo.centralItemIndex - 1 == it)
+                                if (listState.centerItemIndex - 1 == it)
                                     FontWeight.ExtraBold else FontWeight.Normal,
-                                color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
+                                color = if (it == listState.centerItemIndex - 1 && isError)
                                     Color.Red else Color.White
                             )
                         )
@@ -264,9 +264,9 @@ class TransferActivity : ComponentActivity() {
                             cards!!.get(it).instrumentType!!,
                             style = TextStyle(
                                 fontWeight =
-                                if (listState.layoutInfo.centralItemIndex - 1 == it)
+                                if (listState.centerItemIndex - 1 == it)
                                     FontWeight.Normal else FontWeight.Light,
-                                color = if (it == listState.layoutInfo.centralItemIndex - 1 && isError)
+                                color = if (it == listState.centerItemIndex - 1 && isError)
                                     Color.Red else Color.White,
                                 fontSize = 10.sp
                             )

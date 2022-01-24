@@ -229,7 +229,7 @@ class AccountStateActivity : ComponentActivity() {
         val shouldShrink =
             if (scalingLazyListState.layoutInfo.visibleItemsInfo.isNotEmpty())
                 if (scalingLazyListState.layoutInfo.visibleItemsInfo[0].index == 0)
-                    scalingLazyListState.layoutInfo.visibleItemsInfo[0].unadjustedOffset < -40 else true else false
+                    scalingLazyListState.layoutInfo.visibleItemsInfo[0].unadjustedOffset < -110 else true else false
         val rowYOffset by animateDpAsState(
             targetValue = if (shouldShrink) 20.dp else 40.dp
         )
