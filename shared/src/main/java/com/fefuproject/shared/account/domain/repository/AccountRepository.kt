@@ -31,20 +31,20 @@ interface AccountRepository {
         token: String,
         pageNumber:Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>?
+    ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun getCheckHistory(
         number: String,
         token: String,
         pageNumber:Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>?
+    ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun getAllHistory(
         token: String,
         pageNumber:Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>?
+    ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun blockCard(
         number: String,

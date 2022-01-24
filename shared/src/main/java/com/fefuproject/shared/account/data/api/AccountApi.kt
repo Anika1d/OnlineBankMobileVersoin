@@ -26,13 +26,13 @@ interface AccountApi {
     suspend fun getAllInstruments(@Body request: TokenRequest): ResponseModel<List<InstrumentModel>>
 
     @POST("history/card")
-    suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<PagListModel<HistoryInstrumentModel>>
+    suspend fun getCardHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<PageListModel<HistoryInstrumentModel>>
 
     @POST("history/check")
-    suspend fun getCheckHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<PagListModel<HistoryInstrumentModel>>
+    suspend fun getCheckHistory(@Body request: GetInstrumentHistoryRequest): ResponseModel<PageListModel<HistoryInstrumentModel>>
 
     @POST("history/all")
-    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): ResponseModel<PagListModel<HistoryInstrumentModel>>
+    suspend fun getAllHistory(@Body request: GetAllInstrumentHistoryRequest): ResponseModel<PageListModel<HistoryInstrumentModel>>
 
     @POST("block")
     suspend fun blockCard(@Body request: BlockCardRequest): Int

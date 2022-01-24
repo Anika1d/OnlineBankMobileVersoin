@@ -55,7 +55,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         pageNumber: Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>? {
+    ): PageListModel<HistoryInstrumentModel>? {
         val response =
             accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
         if (response.success) {
@@ -73,7 +73,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         pageNumber: Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>? {
+    ): PageListModel<HistoryInstrumentModel>? {
         val response =
             accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
         if (response.success) {
@@ -90,7 +90,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         pageNumber: Int,
         pageSize: Int
-    ): PagListModel<HistoryInstrumentModel>? {
+    ): PageListModel<HistoryInstrumentModel>? {
         val response =
             accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token))
         if (response.success) {
