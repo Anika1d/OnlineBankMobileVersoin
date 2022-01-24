@@ -20,6 +20,8 @@ class RecentOpViewModel @Inject constructor(
     private val payUniversalUseCase: PayUniversalUseCase
 ) : ViewModel() {
 
+    private val recentOpPageSize = 10
+
     private var _cardEvents = MutableStateFlow<List<HistoryInstrumentModel>?>(null)
     val cardEvents get() = _cardEvents.asStateFlow()
     private val _isRefreshing = MutableStateFlow(true)
@@ -32,7 +34,11 @@ class RecentOpViewModel @Inject constructor(
     private fun reschedule() {
         viewModelScope.launch {
             _cardEvents.value = null
-            _cardEvents.value = getAllInstrumentHistoryUseCase(preferenceProvider.token!!, 10)
+            _cardEvents.value = getAllInstrumentHistoryUseCase(
+                preferenceProvider.token!!,
+                10,
+                recentOpPageSize
+            )?.historyList
             _isRefreshing.value = false
         }
     }

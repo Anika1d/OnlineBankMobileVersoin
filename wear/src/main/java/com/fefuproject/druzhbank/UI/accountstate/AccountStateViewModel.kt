@@ -22,6 +22,8 @@ class AccountStateViewModel @Inject constructor(
     private val preferenceProvider: PreferenceProvider
 ) : ViewModel() {
 
+    private val historyPageSize = 5
+
     private val _isRefreshing = MutableStateFlow(true)
     val isRefreshing get() = _isRefreshing.asStateFlow()
 
@@ -51,8 +53,9 @@ class AccountStateViewModel @Inject constructor(
             if (cardInfo.value!!.isNotEmpty()) _cardEvents.value = getCardHistoryUseCase.invoke(
                 number = _cardInfo.value!![card].number,
                 token = preferenceProvider.token!!,
-                10
-            )
+                1,
+                historyPageSize
+            )?.historyList
             _isRefreshing.value = false
         }
     }
