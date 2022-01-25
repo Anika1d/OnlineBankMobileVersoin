@@ -19,8 +19,10 @@ import androidx.wear.compose.material.*
 import com.fefuproject.shared.account.domain.enums.PayType
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.OnBottomReached
 import com.fefuproject.druzhbank.extensions.defaultDataFormatter
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
+import com.fefuproject.druzhbank.model.LoadableItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +48,7 @@ class RecentOpActivity : ComponentActivity() {
         viewModel: RecentOpViewModel = hiltViewModel()
     ) {
         val isRefreshing by viewModel.isRefreshing.collectAsState()
+        val events by viewModel.cardEvents.collectAsState()
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing),
             onRefresh = { viewModel.refresh() },
@@ -61,19 +64,20 @@ class RecentOpActivity : ComponentActivity() {
             ) {
                 CardEvents(
                     this,
-                    viewModel.cardEvents.value,
-                    viewModel.isRefreshing.value,
+                    events,
                     defaultDataFormatter,
                     viewModel
                 )
             }
         }
+        scalingLazyListState.OnBottomReached {
+            viewModel.loadNextPage()
+        }
     }
 
     fun CardEvents(
         listScope: ScalingLazyListScope,
-        events: List<HistoryInstrumentModel>?,
-        isRefreshing: Boolean,
+        events: List<HistoryInstrumentModel?>,
         dateFormat: SimpleDateFormat,
         viewModel: RecentOpViewModel
     ) {
@@ -86,27 +90,29 @@ class RecentOpActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        listScope.items(events?.size ?: 3) { i ->
+        listScope.items(events) {
+            val isLoading = it == null
             Card(
                 modifier = Modifier
-                    .roundedPlaceholder(isRefreshing)
+                    .roundedPlaceholder(isLoading)
                     .fillMaxWidth(1f),
                 onClick = {
-                    if (!isRefreshing) viewModel.repeatPayment(events!![i])
+                    if (!isLoading) viewModel.repeatPayment(it!!)
                 }) {
-                if (events?.isNotEmpty() == true) {
+                if (!isLoading) {
+                    val op = it!!
                     Column {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = events[i].pay_type!!,
+                                text = op.pay_type!!,
                                 style = TextStyle(fontWeight = FontWeight.Bold)
                             )
                             Text(
-                                text = if (events[i].destType == PayType.onCategory.ordinal) events[i].dest
-                                else "*" + events[i].dest.takeLast(4),
+                                text = if (op.destType == PayType.onCategory.ordinal) op.dest
+                                else "*" + op.dest.takeLast(4),
                                 style = TextStyle(fontWeight = FontWeight.Bold)
                             )
                         }
@@ -115,11 +121,11 @@ class RecentOpActivity : ComponentActivity() {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = dateFormat.format(events[i].date),
+                                text = dateFormat.format(op.date),
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                             Text(
-                                text = events[i].count + "р",
+                                text = op.count + "р",
                                 style = TextStyle(fontWeight = FontWeight.Light)
                             )
                         }
