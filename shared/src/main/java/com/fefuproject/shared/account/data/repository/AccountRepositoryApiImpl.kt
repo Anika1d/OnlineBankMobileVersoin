@@ -57,7 +57,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number))
+            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number,pageNumber,pageSize))
         if (response.success) {
             val history = response.data.historyList
             for (item in history)
@@ -75,7 +75,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number))
+            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number,pageNumber, pageSize))
         if (response.success) {
             val history = response.data.historyList
             for (item in history)
@@ -92,9 +92,9 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token))
+            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token,pageNumber, pageSize))
         if (response.success) {
-            var history = response.data.historyList
+            val history = response.data.historyList
             for (item in history)
                 item.pay_type = PayType.values()[item.destType].type
             response.data.historyList = history
