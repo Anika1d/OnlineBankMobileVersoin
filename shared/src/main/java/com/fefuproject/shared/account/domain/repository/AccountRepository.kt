@@ -12,17 +12,17 @@ interface AccountRepository {
 
     suspend fun getCards(
         token: String,
-        number: String?
+        number: String? = null
     ): List<CardModel>?
 
     suspend fun getChecks(
         token: String,
-        number: String?
+        number: String? = null
     ): List<CheckModel>?
 
     suspend fun getCredits(
         token: String,
-        number: String?
+        number: String? = null
     ): List<CreditModel>?
 
     suspend fun getAllInstruments(
