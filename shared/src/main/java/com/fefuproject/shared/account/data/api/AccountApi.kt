@@ -14,13 +14,13 @@ interface AccountApi {
     suspend fun getValute(): ValuteResponseModel
 
     @POST("getcards")
-    suspend fun getCards(@Body request: TokenRequest): ResponseModel<List<CardModel>>
+    suspend fun getCards(@Body request: GetInstrumentRequest): ResponseModel<List<CardModel>>
 
     @POST("getcheck")
-    suspend fun getChecks(@Body request: TokenRequest): ResponseModel<List<CheckModel>>
+    suspend fun getChecks(@Body request: GetInstrumentRequest): ResponseModel<List<CheckModel>>
 
     @POST("getcredits")
-    suspend fun getCredits(@Body request: TokenRequest): ResponseModel<List<CreditModel>>
+    suspend fun getCredits(@Body request: GetInstrumentRequest): ResponseModel<List<CreditModel>>
 
     @POST("getallinstruments")
     suspend fun getAllInstruments(@Body request: TokenRequest): ResponseModel<List<InstrumentModel>>

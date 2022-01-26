@@ -16,22 +16,22 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun getValute(): ValuteResponseModel = accountApi.getValute()
 
-    override suspend fun getCards(token: String): List<CardModel>? {
-        var response = accountApi.getCards(TokenRequest(token))
+    override suspend fun getCards(token: String,number: String?): List<CardModel>? {
+        var response = accountApi.getCards(GetInstrumentRequest(token, number))
         if (response.success)
             return response.data
         return null
     }
 
-    override suspend fun getChecks(token: String): List<CheckModel>? {
-        var response = accountApi.getChecks(TokenRequest(token))
+    override suspend fun getChecks(token: String,number: String?): List<CheckModel>? {
+        var response = accountApi.getChecks(GetInstrumentRequest(token,number))
         if (response.success)
             return response.data
         return null
     }
 
-    override suspend fun getCredits(token: String): List<CreditModel>? {
-        var response = accountApi.getCredits(TokenRequest(token))
+    override suspend fun getCredits(token: String,number: String?): List<CreditModel>? {
+        var response = accountApi.getCredits(GetInstrumentRequest(token,number))
         if (response.success)
             return response.data
         return null

@@ -5,5 +5,5 @@ import com.fefuproject.shared.account.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class GetCardsUseCase @Inject constructor(private val repository: AccountRepository) {
-    suspend operator fun invoke(token:String) = repository.getCards(token)
+    suspend operator fun invoke(token:String,number:String? = null) = repository.getCards(token,number)
 }

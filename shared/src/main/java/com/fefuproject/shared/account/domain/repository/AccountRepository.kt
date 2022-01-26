@@ -11,15 +11,18 @@ interface AccountRepository {
     ): ValuteResponseModel
 
     suspend fun getCards(
-        token: String
+        token: String,
+        number: String?
     ): List<CardModel>?
 
     suspend fun getChecks(
-        token: String
+        token: String,
+        number: String?
     ): List<CheckModel>?
 
     suspend fun getCredits(
-        token: String
+        token: String,
+        number: String?
     ): List<CreditModel>?
 
     suspend fun getAllInstruments(
