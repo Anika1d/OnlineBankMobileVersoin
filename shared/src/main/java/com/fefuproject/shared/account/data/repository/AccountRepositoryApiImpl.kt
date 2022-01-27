@@ -16,31 +16,31 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
     override suspend fun getValute(): ValuteResponseModel = accountApi.getValute()
 
-    override suspend fun getCards(token: String,number: String?): List<CardModel>? {
-        var response = accountApi.getCards(GetInstrumentRequest(token, number))
+    override suspend fun getCards(token: String, number: String?): List<CardModel>? {
+        val response = accountApi.getCards(GetInstrumentRequest(token, number))
         if (response.success)
             return response.data
         return null
     }
 
-    override suspend fun getChecks(token: String,number: String?): List<CheckModel>? {
-        var response = accountApi.getChecks(GetInstrumentRequest(token,number))
+    override suspend fun getChecks(token: String, number: String?): List<CheckModel>? {
+        val response = accountApi.getChecks(GetInstrumentRequest(token, number))
         if (response.success)
             return response.data
         return null
     }
 
-    override suspend fun getCredits(token: String,number: String?): List<CreditModel>? {
-        var response = accountApi.getCredits(GetInstrumentRequest(token,number))
+    override suspend fun getCredits(token: String, number: String?): List<CreditModel>? {
+        val response = accountApi.getCredits(GetInstrumentRequest(token, number))
         if (response.success)
             return response.data
         return null
     }
 
     override suspend fun getAllInstruments(token: String): List<InstrumentModel>? {
-        var response = accountApi.getAllInstruments(TokenRequest(token))
+        val response = accountApi.getAllInstruments(TokenRequest(token))
         if (response.success) {
-            var instruments = response.data
+            val instruments = response.data
             for (instrument in instruments) {
                 instrument.instrumentType =
                     InstrumetType.values()[instrument.instrument_type].type
@@ -57,7 +57,14 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getCardHistory(GetInstrumentHistoryRequest(token, number,pageNumber,pageSize))
+            accountApi.getCardHistory(
+                GetInstrumentHistoryRequest(
+                    token,
+                    number,
+                    pageNumber,
+                    pageSize
+                )
+            )
         if (response.success) {
             val history = response.data.historyList
             for (item in history)
@@ -75,7 +82,14 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getCheckHistory(GetInstrumentHistoryRequest(token, number,pageNumber, pageSize))
+            accountApi.getCheckHistory(
+                GetInstrumentHistoryRequest(
+                    token,
+                    number,
+                    pageNumber,
+                    pageSize
+                )
+            )
         if (response.success) {
             val history = response.data.historyList
             for (item in history)
@@ -92,7 +106,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token,pageNumber, pageSize))
+            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, pageNumber, pageSize))
         if (response.success) {
             val history = response.data.historyList
             for (item in history)
@@ -171,7 +185,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     )].type
 
     override suspend fun GetCategory(): List<CategoryModel>? {
-        var response = accountApi.getCategory()
+        val response = accountApi.getCategory()
         if (response.success)
             return response.data
         return null
@@ -183,7 +197,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         username: String,
         password: String,
     ): String? {
-        var response = accountApi.signIn(SignInRequest(name, username, password))
+        val response = accountApi.signIn(SignInRequest(name, username, password))
         if (response.success)
             return response.data.token
         return null
@@ -191,25 +205,48 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
 
 
     override suspend fun logIn(username: String, password: String): UserModel? {
-        var response = accountApi.logIn(LogInRequest(username, password))
+        val response = accountApi.logIn(LogInRequest(username, password))
         if (response.success)
             return response.data
         return null
     }
 
     override suspend fun getUser(token: String): UserModel? {
-        var response = accountApi.getUser(TokenRequest(token))
+        val response = accountApi.getUser(TokenRequest(token))
         if (response.success)
             return response.data
         return null
     }
+
+    override suspend fun getTemplate(token: String, number: String?): List<TemplateModel>? {
+        val response = accountApi.getTemplate(GetTemplateRequest(token, number))
+        if (response.success)
+            return response.data
+        return null
+    }
+
+    override suspend fun setTemplate(
+        token: String,
+        source: String,
+        dest: String,
+        name: String,
+        sum: Double
+    ): Boolean = ResultType.values()[accountApi.setTemplate(
+        SetTemplateRequest(
+            token,
+            source,
+            dest,
+            name,
+            sum
+        )
+    )].type
 
     override suspend fun changePassword(
         old_password: String,
         new_password: String,
         token: String
     ): String? {
-        var response =
+        val response =
             accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password))
         if (response.success)
             return response.data.token
@@ -220,7 +257,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         ResultType.values()[accountApi.changeUsername(ChangeUsernameRequest(token, username))].type
 
     override suspend fun getLoginHistory(token: String): List<LoginHistoryModel>? {
-        var response = accountApi.getLoginHistory(TokenRequest(token))
+        val response = accountApi.getLoginHistory(TokenRequest(token))
         if (response.success)
             return response.data
         return null

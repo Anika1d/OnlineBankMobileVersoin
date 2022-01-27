@@ -32,20 +32,20 @@ interface AccountRepository {
     suspend fun getCardHistory(
         number: String,
         token: String,
-        pageNumber:Int,
+        pageNumber: Int,
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun getCheckHistory(
         number: String,
         token: String,
-        pageNumber:Int,
+        pageNumber: Int,
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun getAllHistory(
         token: String,
-        pageNumber:Int,
+        pageNumber: Int,
         pageSize: Int
     ): PageListModel<HistoryInstrumentModel>?
 
@@ -103,6 +103,19 @@ interface AccountRepository {
     ): UserModel?
 
     suspend fun getUser(token: String): UserModel?
+
+    suspend fun getTemplate(
+        token: String,
+        number: String? = null
+    ): List<TemplateModel>?
+
+    suspend fun setTemplate(
+        token: String,
+        source: String,
+        dest: String,
+        name: String,
+        sum: Double,
+    ): Boolean
 
     suspend fun changePassword(
         old_password: String,

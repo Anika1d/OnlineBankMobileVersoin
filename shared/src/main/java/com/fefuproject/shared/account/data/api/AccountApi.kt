@@ -51,6 +51,7 @@ interface AccountApi {
 
     @POST("category")
     suspend fun getCategory(): ResponseModel<List<CategoryModel>>
+
     @POST("edit/instrument/name")
     suspend fun changeInstrumentName(@Body request: ChangeInstrumentNameRequest): Int
 
@@ -62,6 +63,12 @@ interface AccountApi {
 
     @POST("getuser")
     suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
+
+    @POST("get/template")
+    suspend fun getTemplate(@Body request: GetTemplateRequest): ResponseModel<List<TemplateModel>>
+
+    @POST("set/template")
+    suspend fun setTemplate(@Body request: SetTemplateRequest): Int
 
     @PUT("editepassword")
     suspend fun changePassword(@Body request: ChangePasswordRequest): ResponseModel<TokenModel>
