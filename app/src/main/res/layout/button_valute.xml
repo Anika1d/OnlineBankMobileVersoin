@@ -54,6 +54,7 @@
         android:layout_marginStart="120dp"
         android:layout_marginTop="28dp"
         android:text="USD"
+        android:visibility="gone"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0sp"
         android:text="EUR"
+        android:visibility="gone"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +75,32 @@
         app:layout_constraintStart_toEndOf="@+id/usd_text"
         app:layout_constraintTop_toBottomOf="@+id/date"
         app:layout_constraintVertical_bias="0.769" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/shimmer_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.95">
+
+        <TextView
+            android:id="@+id/shimmer_usd_text"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:background="@color/shimmer_color" />
+
+        <TextView
+            android:id="@+id/shimmer_eur_text"
+            android:layout_width="50sp"
+            android:layout_height="wrap_content"
+            android:background="@color/shimmer_color" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

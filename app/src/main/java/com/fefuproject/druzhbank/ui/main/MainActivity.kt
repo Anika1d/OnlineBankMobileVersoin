@@ -1,10 +1,8 @@
 package com.fefuproject.druzhbank.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -35,19 +33,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainActivityViewModel by viewModels()
 
-    @Inject
-    lateinit var getValuteuse: GetValuteUseCase
-    var valute_res: ValuteResponseModel?=null
-    lateinit var valute_list:List<ValuteModel>
-
-
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runBlocking {valute_res=getValuteuse.invoke() }
-        valute_list=valute_res!!.ValCurs.Valute
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.includeButtonValute.shimmerText.startShimmer()
         binding.includeButtonBunk.conBank.setOnClickListener {
             val intentt = Intent(this, BankActivity::class.java) //переход на другую активити
             startActivity(intentt)
@@ -62,9 +53,10 @@ class MainActivity : AppCompatActivity() {
         val currentDate = Date()
         val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val dateText = dateFormat.format(currentDate)
+
+        viewModel.checkValute(binding)
         binding.includeButtonValute.date.text = dateText.toString()
-        binding.includeButtonValute.eurText.text = "EUR ${valute_list[10].Value}" ///ТАКЖЕ ИЗ БД
-        binding.includeButtonValute.usdText.text = "USD ${valute_list[11].Value}"
+
         setContentView(binding.root)
     }
 
@@ -95,9 +87,5 @@ class MainActivity : AppCompatActivity() {
         else startActivity(Intent(this, ProfileActivity::class.java))
         if(viewModel.preferenceProvider.token == null) alert.show()
         else startActivity(Intent(this, ProfileActivity::class.java))
-    }
-
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        return super.onCreateView(name, context, attrs)
     }
 }
