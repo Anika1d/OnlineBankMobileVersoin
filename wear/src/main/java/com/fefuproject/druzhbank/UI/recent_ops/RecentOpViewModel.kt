@@ -55,6 +55,7 @@ class RecentOpViewModel @Inject constructor(
 
     fun loadNextPage() {
         if(isPageLoading) return
+        if (currentPage == -1) return // we've reached the lowest point
         currentPage++
         viewModelScope.launch {
             isPageLoading = true
@@ -68,6 +69,7 @@ class RecentOpViewModel @Inject constructor(
             if (temp != null) _cardEvents.value = _cardEvents.value.mergeFromList(temp, pageSize)
             else _cardEvents.value = originalList
             _isRefreshing.value = false
+            if(cardEvents.value.size -  originalList.size < pageSize) currentPage = -1
             isPageLoading = false
         }
     }
