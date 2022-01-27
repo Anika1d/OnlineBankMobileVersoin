@@ -29,6 +29,7 @@ import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.OnBottomReached
 import com.fefuproject.druzhbank.extensions.defaultDataFormatter
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import com.fefuproject.shared.account.domain.enums.PayType
@@ -70,7 +71,7 @@ class AccountStateActivity : ComponentActivity() {
         val cardBeingBlocked by viewModel.cardBeingBlocked.collectAsState()
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing),
-            onRefresh = { viewModel.refresh(card = selectedCard) },
+            onRefresh = { viewModel.refresh() },
         ) {
             if (cardInfo == null || (cardInfo != null && cardInfo!!.isNotEmpty())) {
                 ScalingLazyColumn(
@@ -96,7 +97,7 @@ class AccountStateActivity : ComponentActivity() {
                         viewModel,
                         coroutineScope
                     )
-                    CardEvents(this, cardEvents, isRefreshing, defaultDataFormatter)
+                    CardEvents(this, cardEvents, defaultDataFormatter)
                 }
                 CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
             } else {
@@ -115,6 +116,10 @@ class AccountStateActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+        scalingLazyListState.OnBottomReached {
+            if(!isRefreshing)
+                viewModel.loadNextHistoryPage()
         }
     }
 
@@ -172,47 +177,45 @@ class AccountStateActivity : ComponentActivity() {
         }
     }
 
-    fun CardEvents(
+    private fun CardEvents(
         listScope: ScalingLazyListScope,
-        events: List<HistoryInstrumentModel>?,
-        isRefreshing: Boolean,
+        events: List<HistoryInstrumentModel?>,
         dateFormat: SimpleDateFormat
     ) {
-        listScope.items(events?.size ?: 3) { i ->
+        listScope.items(events) { event ->
             Card(
                 modifier = Modifier
-                    .roundedPlaceholder(isRefreshing)
+                    .roundedPlaceholder(event == null)
                     .fillMaxWidth(1f),
                 onClick = {}) {
-                if (events?.isNotEmpty() == true) {
-                    Column {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = events[i].pay_type!!,
-                                style = TextStyle(fontWeight = FontWeight.Bold)
-                            )
-                            Text(
-                                text = if (events[i].destType == PayType.onCategory.ordinal) events[i].dest
-                                else "*" + events[i].dest.takeLast(4),
-                                style = TextStyle(fontWeight = FontWeight.Bold)
-                            )
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = dateFormat.format(events[i].date),
-                                style = TextStyle(fontWeight = FontWeight.Light)
-                            )
-                            Text(
-                                text = events[i].count + 'р',
-                                style = TextStyle(fontWeight = FontWeight.Light)
-                            )
-                        }
+                if (event == null) return@Card
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = event.pay_type!!,
+                            style = TextStyle(fontWeight = FontWeight.Bold)
+                        )
+                        Text(
+                            text = if (event.destType == PayType.onCategory.ordinal) event.dest
+                            else "*" + event.dest.takeLast(4),
+                            style = TextStyle(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = dateFormat.format(event.date),
+                            style = TextStyle(fontWeight = FontWeight.Light)
+                        )
+                        Text(
+                            text = event.count + 'р',
+                            style = TextStyle(fontWeight = FontWeight.Light)
+                        )
                     }
                 }
             }
@@ -268,7 +271,7 @@ class AccountStateActivity : ComponentActivity() {
                             .size(size)
                             .clickable {
                                 if (cardInfo != null)
-                                    viewModel.refresh(it)
+                                    viewModel.changeCard(it)
                             },
                         painter = painterResource(id = R.drawable.ic_baseline_credit_card_24),
                         contentDescription = "card image"
