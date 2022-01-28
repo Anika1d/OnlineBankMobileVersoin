@@ -225,21 +225,26 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         return null
     }
 
-    override suspend fun setTemplate(
+    override suspend fun setTemplate(//todo
         token: String,
         source: String,
         dest: String,
+        source_type: Int,
+        dest_type: Int,
         name: String,
         sum: Double
     ): Boolean = ResultType.values()[accountApi.setTemplate(
         SetTemplateRequest(
-            token,
-            source,
-            dest,
-            name,
-            sum
+            token, name, source, dest, source_type , dest_type, sum
         )
     )].type
+
+    override suspend fun deleteTemplate(token: String, id: Int): Boolean =
+        ResultType.values()[accountApi.deleteTemplate(
+            DeletetTemplateRequest(
+                token, id
+            )
+        )].type
 
     override suspend fun changePassword(
         old_password: String,

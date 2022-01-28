@@ -1,6 +1,7 @@
 package com.fefuproject.shared.account.domain.repository
 
 import com.fefuproject.shared.account.domain.enums.InstrumetType
+import com.fefuproject.shared.account.domain.enums.PayType
 import com.fefuproject.shared.account.domain.models.*
 
 interface AccountRepository {
@@ -113,8 +114,15 @@ interface AccountRepository {
         token: String,
         source: String,
         dest: String,
+        source_type: Int,
+        dest_type: Int,
         name: String,
         sum: Double,
+    ): Boolean
+
+    suspend fun deleteTemplate(
+        token: String,
+        id: Int
     ): Boolean
 
     suspend fun changePassword(

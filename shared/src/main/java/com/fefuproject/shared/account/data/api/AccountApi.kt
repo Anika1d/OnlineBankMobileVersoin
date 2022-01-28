@@ -40,13 +40,13 @@ interface AccountApi {
     @POST("unblock")
     suspend fun unblockCard(@Body request: BlockCardRequest): Int
 
-    @POST("refill") // todo check format of sum
+    @POST("refill")
     suspend fun payByCard(@Body request: TransferRequest): Int
 
-    @POST("pay") // todo check format of sum
+    @POST("pay")
     suspend fun payByCheck(@Body request: TransferRequest): Int
 
-    @POST("pay/category") // todo check format of sum
+    @POST("pay/category")
     suspend fun payCategory(@Body request: PayCategoryRequest): Int
 
     @POST("category")
@@ -69,6 +69,9 @@ interface AccountApi {
 
     @POST("set/template")
     suspend fun setTemplate(@Body request: SetTemplateRequest): Int
+
+    @DELETE("delete/template")
+    suspend fun deleteTemplate(@Body request: DeletetTemplateRequest): Int
 
     @PUT("editepassword")
     suspend fun changePassword(@Body request: ChangePasswordRequest): ResponseModel<TokenModel>
