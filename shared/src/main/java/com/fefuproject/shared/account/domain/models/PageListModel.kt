@@ -7,5 +7,6 @@ data class PageListModel<T> (
     var historyList :List<T>,
     val currentPage: Int,
     @SerializedName("isNext")
-    val hasNext: Boolean
+    val hasNext: Boolean,
+    val countPage: Int
     )
