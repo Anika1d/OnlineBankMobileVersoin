@@ -53,9 +53,9 @@ class AccountStateViewModel @Inject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             currentPage = 0
-            val buf = getCardUseCase.invoke(preferenceProvider.token!!)?.toMutableList()
+            var buf = getCardUseCase.invoke(preferenceProvider.token!!)?.toMutableList()
             buf?.removeAll { cardModel -> cardModel.is_blocked }
-            if (buf != null) if (buf.size > 3) buf.take(3)
+            if (buf != null) if (buf.size > 4) buf = buf.take(4).toMutableList()
             _cardInfo.value = buf
             _cardEvents.value = listOf()
             if (cardInfo.value!!.isNotEmpty()) loadNextHistoryPage(this)
@@ -79,7 +79,7 @@ class AccountStateViewModel @Inject constructor(
             )?.historyList
             if (temp != null) _cardEvents.value = _cardEvents.value.mergeFromList(temp, pageSize)
             else _cardEvents.value = originalList
-            if(cardEvents.value.size -  originalList.size < pageSize) currentPage = -1
+            if (cardEvents.value.size - originalList.size < pageSize) currentPage = -1
             isPageLoading = false
         }
     }
