@@ -64,13 +64,13 @@ interface AccountApi {
     @POST("getuser")
     suspend fun getUser(@Body request: TokenRequest): ResponseModel<UserModel>
 
-    @POST("get/template")
+    @POST("templates/get")
     suspend fun getTemplate(@Body request: GetTemplateRequest): ResponseModel<List<TemplateModel>>
 
-    @POST("set/template")
+    @POST("templates/set")
     suspend fun setTemplate(@Body request: SetTemplateRequest): Int
 
-    @DELETE("delete/template")
+    @DELETE("templates/delete")
     suspend fun deleteTemplate(@Body request: DeletetTemplateRequest): Int
 
     @PUT("editepassword")
