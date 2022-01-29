@@ -15,16 +15,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.*
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
+import com.fefuproject.druzhbank.extensions.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.google.android.gms.wearable.DataClient
-import com.google.android.gms.wearable.DataEventBuffer
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalWearMaterialApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class PaymentActivity : ComponentActivity(), DataClient.OnDataChangedListener {
+class PaymentActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,8 +35,9 @@ class PaymentActivity : ComponentActivity(), DataClient.OnDataChangedListener {
     @Composable
     fun RootView(viewModel: PaymentActivityViewModel = hiltViewModel()) {
         val scalingLazyListState = rememberScalingLazyListState()
+        val payments by viewModel.payments.collectAsState()
         DefaultScaffold(scalingLazyListState = scalingLazyListState) {
-            if (viewModel.payments == null) {
+            if (payments.isEmpty()) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,17 +74,26 @@ class PaymentActivity : ComponentActivity(), DataClient.OnDataChangedListener {
                             maxTransitionArea = 1f
                         )
                     ) {
-                        items(viewModel.payments) {
+                        items(payments) {
                             Button(
-                                modifier = Modifier.size(120.dp),
-                                onClick = { viewModel.makePayment(it, applicationContext) }) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = it.name, textAlign = TextAlign.Center)
-                                    Spacer(modifier = Modifier.height(7.dp))
-                                    Text(
-                                        text = it.amount.toString() + "р",
-                                        textAlign = TextAlign.Center
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .roundedPlaceholder(it == null),
+                                onClick = {
+                                    if (it != null) viewModel.makePayment(
+                                        it,
+                                        applicationContext
                                     )
+                                }) {
+                                if (it != null) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(text = it.name, textAlign = TextAlign.Center)
+                                        Spacer(modifier = Modifier.height(7.dp))
+                                        Text(
+                                            text = it.sum.toString() + "р",
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -92,9 +101,5 @@ class PaymentActivity : ComponentActivity(), DataClient.OnDataChangedListener {
                 }
             }
         }
-    }
-
-    override fun onDataChanged(p0: DataEventBuffer) {
-        TODO("Not yet implemented")
     }
 }

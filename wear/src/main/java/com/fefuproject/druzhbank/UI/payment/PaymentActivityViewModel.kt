@@ -5,8 +5,10 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.druzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.extensions.createNullList
 import com.fefuproject.shared.account.domain.enums.PayType
-import com.fefuproject.shared.account.domain.usecase.PayCategoryUseCase
+import com.fefuproject.shared.account.domain.models.TemplateModel
+import com.fefuproject.shared.account.domain.usecase.GetTemplatesUseCase
 import com.fefuproject.shared.account.domain.usecase.PayUniversalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,26 +19,31 @@ import javax.inject.Inject
 @HiltViewModel
 class PaymentActivityViewModel @Inject constructor(
     private val preferenceProvider: PreferenceProvider,
-    private val payUniversalUseCase: PayUniversalUseCase
+    private val payUniversalUseCase: PayUniversalUseCase,
+    private val getTemplatesUseCase: GetTemplatesUseCase
 ) : ViewModel() {
     private var _isRefreshing = MutableStateFlow(false)
     val isRefreshing get() = _isRefreshing.asStateFlow()
 
-    val payments: List<PaymentModel>? = listOf(
-        PaymentModel("Общага", 3990, "5238393521747493", PayType.onCard.ordinal, "ДВФУ"),
-        PaymentModel("ЖКХ", 7000, "5238393521747493", PayType.onCard.ordinal, "ЖКХ"),
-        PaymentModel("Связь", 200, "5238393521747493", PayType.onCard.ordinal, "Связь")
-    )
+    private var _payments = MutableStateFlow<List<TemplateModel?>>(createNullList(3))
+    val payments get() = _payments.asStateFlow()
 
-    fun makePayment(payment: PaymentModel, context: Context) {
+    init {
+        viewModelScope.launch {
+            _payments.value =
+                getTemplatesUseCase.invoke(preferenceProvider.token!!) ?: _payments.value
+        }
+    }
+
+    fun makePayment(payment: TemplateModel, context: Context) {
         viewModelScope.launch {
             _isRefreshing.value = true
             val res = payUniversalUseCase.invoke(
                 payment.source,
-                payment.id.toString(),
-                payment.amount.toDouble(),
-                payment.sourceType,
-                PayType.onCategory.ordinal,
+                payment.dest,
+                payment.sum.toDouble(),
+                payment.source_type,
+                payment.dest_type,
                 preferenceProvider.token!!
             )
             Toast.makeText(
@@ -48,11 +55,3 @@ class PaymentActivityViewModel @Inject constructor(
         }
     }
 }
-
-data class PaymentModel(
-    val name: String,
-    val amount: Int,
-    val source: String,
-    val sourceType: Int,
-    val id: String,
-)
