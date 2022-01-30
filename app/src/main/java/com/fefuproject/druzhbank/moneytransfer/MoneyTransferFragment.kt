@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentMoneyTransferBinding
@@ -29,94 +30,50 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 @AndroidEntryPoint
-class MoneyTransferFragment(val cardModel: CardModel) : Fragment() {
+class MoneyTransferFragment() : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    @Inject
-    lateinit var getCardsUseCase: GetCardsUseCase
 
-    @Inject
-    lateinit var preferenceProvider: PreferenceProvider
-    lateinit var card_list: List<CardModel>;
-    val adapter = CardTransferAdapter(
 
-        object : CardsActionListenerT {
-            override fun onCardDetails(card: CardModel) {
-                super.onCardDetails(card)
-                if (!card.is_blocked)
-                    activity!!.supportFragmentManager.beginTransaction().apply {
-                        val visibleFragment =
-                            activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                        visibleFragment?.let {
-                            hide(visibleFragment)
-                        }
-                        replace(
-                            R.id.fragmentContainerViewProfile,
-                            PaymentToCardFragment(cardfriends = card,carduser=cardModel), "PaymentToCardFragment"
-                        )
-                        commit()
-                    }
-                else Toast.makeText(
-                    this@MoneyTransferFragment.context,
-                    "Карта заблокирована",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
-
+    lateinit var tmp_number_card: String
     private var _binding: FragmentMoneyTransferBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: MoneyTransferViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
-        runBlocking {
-            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
-        }
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        tmp_number_card = arguments?.get("myArg") as String
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        runBlocking {
-            card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
-        }
-    }
-
-    @SuppressLint("FragmentBackPressedCallback")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoneyTransferBinding.inflate(inflater, container, false)
+        binding.shimmerCardPayment.startShimmer()
+        viewModel.initData(tmp_number_card, binding, this)
+        return binding.root
+    }
+
+    @SuppressLint("FragmentBackPressedCallback")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(
             this@MoneyTransferFragment,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    val bundle = Bundle()
+                    bundle.putString("myArg", tmp_number_card)
+                    val fr = CardFragment()
+                    fr.arguments = bundle
                     parentFragmentManager.beginTransaction().apply {
                         replace(
-                            R.id.fragmentContainerViewProfile, CardFragment(cardModel),
+                            R.id.fragmentContainerViewProfile, fr,
                             "CardFragment"
                         )
                         commit()
                     }
+
                 }
             })
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        LinearLayoutManager(this.context).also {
-            binding.recycleViewPayment.layoutManager = it
-        }
-        adapter.addListCard(card_list)
-        binding.recycleViewPayment.addItemDecoration(CommonItemSpaceDecoration(25))
-        binding.recycleViewPayment.adapter = adapter
     }
 }

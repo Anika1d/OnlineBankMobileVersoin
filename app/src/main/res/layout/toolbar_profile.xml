@@ -5,6 +5,7 @@
     android:id="@+id/toolbar_rel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <!--- onclick-->
     <ImageButton
         android:id="@+id/persone_b_i"
         android:layout_width="wrap_content"
@@ -14,7 +15,6 @@
         android:layout_toEndOf="@+id/name_pesone"
         android:backgroundTint="#FFFFFF"
         android:clickable="true"
-        android:onClick="onClick"
         android:src="@drawable/ic_baseline_person_48"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

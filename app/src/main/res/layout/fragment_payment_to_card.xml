@@ -5,11 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xiphone"
-    tools:context=".payment.PaymentToCardFragment"
-    >
+    tools:context=".payment.PaymentToCardFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sh_p"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/sh_card_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Карта отправителя"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/sh_card_user_value"
+                android:layout_width="120sp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sh_card_user" />
+
+            <TextView
+                android:id="@+id/sh_card_user_number"
+                android:layout_width="120sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sh_card_user" />
+
+            <TextView
+                android:id="@+id/sh_card_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Карта получателя"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/sh_card_user_number"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/sh_card_friend_number"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/shimmer_color"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sh_card_friend" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <include
         android:id="@+id/include_item_user_card"
@@ -17,6 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -26,6 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/include_item_user_card"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -34,13 +107,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="200dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include_item_friend_card"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/sh_p">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/value_edit_text"

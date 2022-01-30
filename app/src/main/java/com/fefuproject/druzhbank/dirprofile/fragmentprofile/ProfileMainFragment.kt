@@ -1,21 +1,26 @@
 package com.fefuproject.druzhbank.dirprofile.fragmentprofile
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toast.makeText
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.dirprofile.credit.CreditsAdapter
-import com.fefuproject.druzhbank.dirprofile.pay.PaysAdapter
 import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
 import com.fefuproject.druzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.dirprofile.credit.CreditsAdapter
 import com.fefuproject.druzhbank.dirprofile.dircard.*
 import com.fefuproject.druzhbank.dirprofile.pay.PayFragment
 import com.fefuproject.druzhbank.dirprofile.pay.PaysActionListener
+import com.fefuproject.druzhbank.dirprofile.pay.PaysAdapter
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.CheckModel
 import com.fefuproject.shared.account.domain.models.CreditModel
@@ -25,6 +30,7 @@ import com.fefuproject.shared.account.domain.usecase.GetCreditsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +56,10 @@ class ProfileMainFragment : Fragment() {
     private var cardsAdapter = CardsAdapter(
         object : CardsActionListener {
             override fun onCardDetails(card: CardModel) {
+                val bundle = Bundle()
+                bundle.putString("myArg", card.number)
+                val fr = CardFragment()
+                fr.arguments = bundle
                 activity!!.supportFragmentManager.beginTransaction().apply {
                     val visibleFragment =
                         activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
@@ -58,7 +68,7 @@ class ProfileMainFragment : Fragment() {
                     }
                     replace(
                         R.id.fragmentContainerViewProfile,
-                        CardFragment(cards = card), "CardFragment"
+                        fr, "CardFragment"
                     )
                     commit()
                 }
@@ -70,55 +80,66 @@ class ProfileMainFragment : Fragment() {
         object : PaysActionListener {
             override fun onPayDetails(pay: CheckModel) {
                 super.onPayDetails(pay)
-                    activity!!.supportFragmentManager.beginTransaction().apply {
-                        val visibleFragment =
-                            activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                        visibleFragment?.let {
-                            hide(visibleFragment)
-                        }
-                        replace(
-                            R.id.fragmentContainerViewProfile,
-                            PayFragment( pay), "PayFragment"
-                        )
-                        commit()
+                val bundle = Bundle()
+                bundle.putString("myArg", pay.number)
+                val fr = PayFragment()
+                fr.arguments = bundle
+                activity!!.supportFragmentManager.beginTransaction().apply {
+                    val visibleFragment =
+                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
+                    visibleFragment?.let {
+                        hide(visibleFragment)
                     }
+                    replace(
+                        R.id.fragmentContainerViewProfile,
+                        fr, "PayFragment"
+                    )
+                    commit()
+                }
             }
         }
     )
 
     private val creditsAdapter = CreditsAdapter()
+
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
+
     @Inject
     lateinit var getCheckUseCase: GetChecksUseCase
+
     @Inject
     lateinit var getCreditsUseCase: GetCreditsUseCase
+
     @Inject
     lateinit var getCardsUseCase: GetCardsUseCase
     lateinit var card_list: List<CardModel>
     lateinit var credits_list: List<CreditModel>
     lateinit var check_list: List<CheckModel>
+    private var backButtonCount=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
             card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
-            credits_list= getCreditsUseCase.invoke(preferenceProvider.token!!)!!
-            check_list=getCheckUseCase.invoke(preferenceProvider.token!!)!!
+            credits_list = getCreditsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list = getCheckUseCase.invoke(preferenceProvider.token!!)!!
         }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
     }
+
     override fun onResume() {
         super.onResume()
         runBlocking {
             card_list = getCardsUseCase.invoke(preferenceProvider.token!!)!!
-            credits_list= getCreditsUseCase.invoke(preferenceProvider.token!!)!!
-            check_list=getCheckUseCase.invoke(preferenceProvider.token!!)!!
+            credits_list = getCreditsUseCase.invoke(preferenceProvider.token!!)!!
+            check_list = getCheckUseCase.invoke(preferenceProvider.token!!)!!
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -128,6 +149,7 @@ class ProfileMainFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("FragmentBackPressedCallback")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = binding.recycleViewCards
@@ -139,6 +161,28 @@ class ProfileMainFragment : Fragment() {
         initDataRec()
         creditsAdapter.addCreditList(credits_list)
         paysAdapter.addPayList(check_list)
+
+
+//        activity?.onBackPressedDispatcher?.addCallback(
+//            this@ProfileMainFragment,
+//            object : OnBackPressedCallback(true) {
+//                override fun handleOnBackPressed() {
+//                    if (backButtonCount >= 1) {
+//                        val intent = Intent(Intent.ACTION_MAIN)
+//                        intent.addCategory(Intent.CATEGORY_HOME)
+//                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                        startActivity(intent)
+//                    } else {
+//                       makeText(
+//                            this@ProfileMainFragment.context,
+//                            "Нажмите еще раз,чтобы выйти из приложения.",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        backButtonCount++
+//                    }
+//                }
+//            })
+
     }
 
     private fun initDataRec() {
