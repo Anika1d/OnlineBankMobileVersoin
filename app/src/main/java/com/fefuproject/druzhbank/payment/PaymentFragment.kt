@@ -6,26 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentPaymentBinding
-import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
-import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.payment.adapters.*
-import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
+import com.fefuproject.druzhbank.profile.dircard.CardFragment
 import com.fefuproject.druzhbank.payment.viewmodels.PaymentViewModel
-import com.fefuproject.shared.account.domain.models.CardModel
-import com.fefuproject.shared.account.domain.models.CheckModel
-import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
-import com.fefuproject.shared.account.domain.usecase.GetChecksUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

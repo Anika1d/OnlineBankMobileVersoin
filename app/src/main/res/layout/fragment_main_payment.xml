@@ -8,31 +8,108 @@
     tools:context=".mainpayment.MainPaymentFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_circle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52sp"
+        android:foregroundGravity="top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_templates"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <include layout="@layout/ship_item_categories_circle" />
+
+            <include layout="@layout/ship_item_categories_circle" />
+
+            <include layout="@layout/ship_item_categories_circle" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <ImageButton
+        android:id="@+id/add_templates"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/oval"
+        android:gravity="center"
+        android:paddingStart="5sp"
+        android:paddingEnd="5sp"
+        android:src="@drawable/plus_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_categories_horizotal"
-        android:layout_width="393dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_templates"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_categories_circle" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="top"
+        android:layout_marginEnd="8sp"
+        android:layout_marginStart="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_templates">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+            <include layout="@layout/ship_item_categories_rect" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_categories_vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16sp"
-        android:layout_marginEnd="16sp"
+        android:visibility="gone"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycle_view_categories_horizotal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_templates"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_categories_rect" />
 
     <TextView
@@ -41,9 +118,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12sp"
         android:layout_marginBottom="12sp"
+        android:backgroundTint="@color/black"
         android:text="Смотреть все шаблоны"
         android:textColor="@color/black"
-        android:backgroundTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"

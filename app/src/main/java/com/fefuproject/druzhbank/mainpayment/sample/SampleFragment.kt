@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentSampleBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
@@ -35,39 +36,16 @@ class SampleFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    @Inject
-    lateinit var preferenceProvider: PreferenceProvider
-
-    @Inject
-    lateinit var getCategoryUseCase: GetCategoryUseCase
-    lateinit var sample_list: List<CategoryModel>
     private var _binding: FragmentSampleBinding? = null
     private val binding get() = _binding!!
 
 
-    private val adapter = SampleAdapter(
-        object : SampleActionListener {
-            override fun OnSampleDetails(categories: CategoryModel) {
-                activity!!.supportFragmentManager.beginTransaction().apply {
-                    val visibleFragment =
-                        activity!!.supportFragmentManager.fragments.firstOrNull { !isHidden }
-                    visibleFragment?.let {
-                        hide(visibleFragment)
-                    }
-                    replace(
-                        R.id.fragmentContainerViewProfile,
-                        PaymentContractFragment(), "PaymentContractFragment"
-                    )
-                    commit()
-                }
-            }
-        }
-    )
+    private val viewModel:SampleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
-            sample_list = getCategoryUseCase.invoke()!!
+
         }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -80,18 +58,14 @@ class SampleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSampleBinding.inflate(inflater, container, false)
+        viewModel.initData(binding,this)
         return binding.root
     }
 
     @SuppressLint("FragmentBackPressedCallback")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recycleViewCategoriesVertical.adapter = adapter
-        binding.recycleViewCategoriesVertical.addItemDecoration(
-            CommonItemSpaceDecoration
-                (15)
-        )
-        adapter.addCatList(sample_list)
+
         activity?.onBackPressedDispatcher?.addCallback(
             this,
             object : OnBackPressedCallback(true) {

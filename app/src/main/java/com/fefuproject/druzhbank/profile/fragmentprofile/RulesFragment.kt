@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.fragmentprofile
+package com.fefuproject.druzhbank.profile.fragmentprofile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

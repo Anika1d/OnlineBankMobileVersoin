@@ -1,8 +1,7 @@
-package com.fefuproject.druzhbank.dirprofile.dircard
+package com.fefuproject.druzhbank.profile.dircard
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,8 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardBinding
 import com.fefuproject.druzhbank.moneytransfer.MoneyTransferFragment
 import com.fefuproject.druzhbank.payment.PaymentFragment
-import com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory.CardHistoryFragment
-import com.fefuproject.druzhbank.dirprofile.fragmentprofile.ProfileMainFragment
+import com.fefuproject.druzhbank.profile.dircard.dircardhistory.CardHistoryFragment
+import com.fefuproject.druzhbank.profile.fragmentprofile.ProfileMainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

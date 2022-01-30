@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory
+package com.fefuproject.druzhbank.profile.dircard.dircardhistory
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
-import com.fefuproject.druzhbank.databinding.FragmentProfileMainBinding
 import com.fefuproject.druzhbank.databinding.ItemCardHistoryBinding
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import java.text.DateFormat
@@ -14,7 +13,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CardHistoryAdapter : RecyclerView.Adapter<CardHistoryAdapter.CardHistoryHolder>() {
+class CardHistoryAdapter :
+
+
+    RecyclerView.Adapter<CardHistoryAdapter.CardHistoryHolder>() {
     val сardHistoryList = ArrayList<HistoryInstrumentModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHistoryHolder {
         val view = LayoutInflater.from(parent.context)

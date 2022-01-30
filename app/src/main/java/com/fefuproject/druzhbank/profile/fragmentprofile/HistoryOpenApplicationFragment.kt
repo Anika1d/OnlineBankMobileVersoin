@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.fragmentprofile
+package com.fefuproject.druzhbank.profile.fragmentprofile
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentHistoryOpenApplicationBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirprofile.fragmentprofile.historyopenapp.HistoryOpenAppAdapter
+import com.fefuproject.druzhbank.profile.fragmentprofile.historyopenapp.HistoryOpenAppAdapter
 import com.fefuproject.shared.account.domain.models.LoginHistoryModel
 import com.fefuproject.shared.account.domain.usecase.GetLoginHistoryUseCase
 import dagger.hilt.android.AndroidEntryPoint

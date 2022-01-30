@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.fragmentprofile.historyopenapp
+package com.fefuproject.druzhbank.profile.fragmentprofile.historyopenapp
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/oval"
         android:gravity="center"
+        android:minWidth="64sp"
+        android:minHeight="64sp"
         android:text="Мобильная связь"
         android:paddingStart="5sp"
         android:paddingEnd="5sp"

@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.pay
+package com.fefuproject.druzhbank.profile.pay
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,22 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentPayBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirprofile.fragmentprofile.ProfileMainFragment
-import com.fefuproject.druzhbank.dirprofile.pay.historypay.HistoryPayFragment
-import com.fefuproject.shared.account.domain.enums.InstrumetType
-import com.fefuproject.shared.account.domain.models.CheckModel
+import com.fefuproject.druzhbank.profile.fragmentprofile.ProfileMainFragment
 import com.fefuproject.shared.account.domain.usecase.EditInstrumentNameUseCase
-import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match

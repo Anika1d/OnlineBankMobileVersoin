@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.credit
+package com.fefuproject.druzhbank.profile.credit
 
 data class Credits(
     val nameCredit: String,

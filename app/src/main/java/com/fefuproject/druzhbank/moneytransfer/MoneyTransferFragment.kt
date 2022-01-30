@@ -6,23 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentMoneyTransferBinding
-import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
-import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.moneytransfer.adapter.CardTransferAdapter
-import com.fefuproject.druzhbank.moneytransfer.adapter.CardsActionListenerT
-import com.fefuproject.druzhbank.payment.PaymentToCardFragment
-import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
-import com.fefuproject.shared.account.domain.models.CardModel
-import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
+import com.fefuproject.druzhbank.profile.dircard.CardFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

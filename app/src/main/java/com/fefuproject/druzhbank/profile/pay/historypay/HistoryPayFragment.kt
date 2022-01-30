@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.pay.historypay
+package com.fefuproject.druzhbank.profile.pay.historypay
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentHistoryPayBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirprofile.pay.PayFragment
+import com.fefuproject.druzhbank.profile.pay.PayFragment
 import com.fefuproject.shared.account.domain.models.CheckModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.GetCheckHistoryUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,10 +39,10 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        runBlocking {
+       /* runBlocking {
             payHistoryList =
                 getCheckHistoryUseCase.invoke(checkModel.number, preferenceProvider.token!!, 1)!!
-        }
+        }*/
         _binging = FragmentHistoryPayBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -64,7 +63,7 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
                     parentFragmentManager.beginTransaction().apply {
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            PayFragment(checkModel = checkModel),
+                            PayFragment(),
                             "PayFragment"
                         )
                         commit()

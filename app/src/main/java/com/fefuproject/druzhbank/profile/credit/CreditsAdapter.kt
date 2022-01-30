@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.credit
+package com.fefuproject.druzhbank.profile.credit
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.databinding.ItemCategoriesCircleBinding
 import com.fefuproject.shared.account.domain.models.CategoryModel
+import com.fefuproject.shared.account.domain.models.TemplateModel
 
 interface CategoriesActionListenerH {
-    fun OnCategoriesDetails(categories:CategoryModel){
+    fun OnCategoriesDetails(categories:TemplateModel){
 
     }
 }
@@ -17,7 +18,7 @@ interface CategoriesActionListenerH {
 class CategoriesAdapterHorizotal(
     private val actionListener: CategoriesActionListenerH
 ) : RecyclerView.Adapter< CategoriesAdapterHorizotal.CategoriesHolder>(), View.OnClickListener {
-    var categoriesList = ArrayList<CategoryModel>()
+    var categoriesList = ArrayList<TemplateModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -36,7 +37,7 @@ class CategoriesAdapterHorizotal(
     }
 
     override fun onClick(p0: View) {
-        val categories: CategoryModel = p0.tag as CategoryModel
+        val categories: TemplateModel = p0.tag as TemplateModel
         actionListener.OnCategoriesDetails(categories)
     }
 
@@ -51,7 +52,7 @@ class CategoriesAdapterHorizotal(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addCatList(sampleList: List<CategoryModel>) {
+    fun addCatList(sampleList: List<TemplateModel>) {
         categoriesList.addAll(sampleList)
         notifyDataSetChanged()
     }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/xiphone"
-    tools:context=".dirprofile.fragmentprofile.HistoryOpenApplicationFragment">
+    tools:context=".profile.fragmentprofile.HistoryOpenApplicationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_history_open_app"

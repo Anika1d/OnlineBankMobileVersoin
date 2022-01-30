@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.dircard.dircardhistory
+package com.fefuproject.druzhbank.profile.dircard.dircardhistory
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,49 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.viewModels
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentCardHistoryBinding
-import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.dirprofile.dircard.CardFragment
-import com.fefuproject.shared.account.domain.models.CardModel
-import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
-import com.fefuproject.shared.account.domain.usecase.GetCardHistoryUseCase
+import com.fefuproject.druzhbank.profile.dircard.CardFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardHistoryFragment(cards: CardModel) : Fragment() {
+class CardHistoryFragment() : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    val card = cards;
-    private var param2: String? = null
+    private val viewModel: CardHistoryViewModel by viewModels()
     private var _binding: FragmentCardHistoryBinding? = null
     private val binding get() = _binding!!
-    lateinit var cardHistoryList: List<HistoryInstrumentModel>
-    private var adapter = CardHistoryAdapter()
+    lateinit var numberCard: String
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        numberCard = arguments?.get("myArg") as String
+        viewModel.initData(numberCard,binding, this)
+    }
 
-
-    @Inject
-    lateinit var preferenceProvider: PreferenceProvider
-
-    @Inject
-    lateinit var getCardHistoryUseCase: GetCardHistoryUseCase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        runBlocking {
-            cardHistoryList =
-                getCardHistoryUseCase.invoke(card.number, preferenceProvider.token!!, 42)!!
-        }
         _binding = FragmentCardHistoryBinding.inflate(inflater, container, false)
-        binding.recycleViewCardsHistory.adapter = adapter
-        LinearLayoutManager(this@CardHistoryFragment.context).also {
-            binding.recycleViewCardsHistory.layoutManager = it
-        }
-        adapter.addCardHistoryList(cardHistoryList)
+        binding.shimmerCardHistory.startShimmer()
         return binding.root
     }
 
@@ -60,10 +42,14 @@ class CardHistoryFragment(cards: CardModel) : Fragment() {
             this@CardHistoryFragment,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    val bundle = Bundle()
+                    bundle.putString("myArg", numberCard)
+                    val fr = CardFragment()
+                    fr.arguments = bundle
                     parentFragmentManager.beginTransaction().apply {
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            CardFragment(card),
+                            fr,
                             "CardFragment"
                         )
                         commit()

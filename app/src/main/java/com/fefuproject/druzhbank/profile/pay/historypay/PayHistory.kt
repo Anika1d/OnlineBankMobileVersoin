@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.pay.historypay
+package com.fefuproject.druzhbank.profile.pay.historypay
 
 data class PayHistory(
     val nameOperation:String,

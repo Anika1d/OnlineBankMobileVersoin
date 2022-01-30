@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.dircard
+package com.fefuproject.druzhbank.profile.dircard
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -49,9 +49,9 @@ class CardsAdapter(
         val card = cardsList[position]
         with(holder.binding) {
             holder.itemView.tag = card
-            numdercard.text = card.number.take(4)+"*".repeat(8)+card.number.takeLast(4)
+            numdercard.text = card.number.take(4) + "*".repeat(8) + card.number.takeLast(4)
             valuecard.text = card.count + " руб."
-            typecard.text = "Дебетовая карта"
+            typecard.text = card.name
 
             val typeCard = Util.getCardIssuer(cardNumber = card.number)
             when (typeCard) {

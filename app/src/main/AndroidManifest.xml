@@ -44,7 +44,7 @@
             android:label="@string/title_activity_auth"
             android:theme="@style/Theme.Splash" />
         <activity
-            android:name=".dirprofile.ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".valute.ValuteActivity"

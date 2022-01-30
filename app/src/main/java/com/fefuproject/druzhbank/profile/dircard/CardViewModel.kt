@@ -1,4 +1,4 @@
-package com.fefuproject.druzhbank.dirprofile.dircard
+package com.fefuproject.druzhbank.profile.dircard
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -56,6 +56,7 @@ class CardViewModel @Inject constructor(
                         cardImage.setImageResource(com.fefuproject.druzhbank.R.drawable.ic_visa)
                     }
                 }
+                typecard.text = card.name
                 balansCard.text = card.count + " руб."
                 numberCard.text = card.number.take(4) + "*".repeat(8) + card.number.takeLast(4)
             }
@@ -201,6 +202,7 @@ class CardViewModel @Inject constructor(
                         preferenceProvider.token!!,
                         newName.text.toString(), card.number, InstrumetType.Card
                     )
+                    binding.include.typecard.text = newName.text
                 }
                 alert.dismiss()
             } else {

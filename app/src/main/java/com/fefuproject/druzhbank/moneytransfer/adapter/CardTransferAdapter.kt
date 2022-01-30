@@ -46,7 +46,7 @@ class CardTransferAdapter(
             holder.itemView.tag = card
             numberCard.text = card.number.take(4) + "*".repeat(8) + card.number.takeLast(4)
             balansCard.text = card.count + " руб."
-            typecard.text = "Дебетовая карта"
+            typecard.text = card.name
 
             val typeCard = Util.getCardIssuer(cardNumber = card.number)
             when (typeCard) {

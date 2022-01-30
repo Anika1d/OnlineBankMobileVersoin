@@ -52,8 +52,9 @@ class PaymentCardAdapter(
                     cardImage.setImageResource(R.drawable.ic_visa)
                 }
             }
+            typecard.text = card.name
             balansCard.text = card.count + " руб."
-            numberCard.text = card.number.take(4)+"*".repeat(8)+card.number.takeLast(4)
+            numberCard.text = card.number.take(4) + "*".repeat(8) + card.number.takeLast(4)
             if (card.is_blocked) blockedCard.setTextColor(android.graphics.Color.RED)
             else blockedCard.setTextColor(android.graphics.Color.TRANSPARENT)
         }
