@@ -10,21 +10,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.fefuproject.druzhbank.bank.BankActivity
-import com.fefuproject.druzhbank.dirprofile.ProfileActivity
+import com.fefuproject.druzhbank.profile.ProfileActivity
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.valute.ValuteActivity
 import com.fefuproject.druzhbank.databinding.ActivityMainBinding
-import com.fefuproject.shared.account.domain.models.ValuteModel
-import com.fefuproject.shared.account.domain.models.ValuteResponseModel
-import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
+import com.fefuproject.druzhbank.registerScreen.RegisterActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 const val AUTH_ON =true;
 
@@ -45,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         }
         binding.includeButtonValute.conValute.setOnClickListener {
             val intentt = Intent(this, ValuteActivity::class.java)
+            startActivity(intentt)
+        }
+        binding.buttonRegister.setOnClickListener {
+            val intentt = Intent(this, RegisterActivity::class.java)
             startActivity(intentt)
         }
         binding.button.setOnClickListener { //вызов диалога авторизации
