@@ -107,7 +107,7 @@ interface AccountRepository {
 
     suspend fun getTemplate(
         token: String,
-        number: String? = null
+        id: Int? = null
     ): List<TemplateModel>?
 
     suspend fun setTemplate(

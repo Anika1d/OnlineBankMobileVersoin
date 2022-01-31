@@ -218,8 +218,8 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         return null
     }
 
-    override suspend fun getTemplate(token: String, number: String?): List<TemplateModel>? {
-        val response = accountApi.getTemplate(GetTemplateRequest(token, number))
+    override suspend fun getTemplate(token: String, id: Int?): List<TemplateModel>? {
+        val response = accountApi.getTemplate(GetTemplateRequest(token, id))
         if (response.success)
             return response.data
         return null

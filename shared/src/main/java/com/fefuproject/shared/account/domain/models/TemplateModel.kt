@@ -8,5 +8,5 @@ data class TemplateModel(
     val dest: String,
     val source_type: Int,
     val dest_type: Int,
-    val sum: Int,
+    val sum: Double,
 )
