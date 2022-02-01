@@ -1,6 +1,5 @@
 package com.fefuproject.druzhbank.UI.recent_ops
 
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,10 +21,10 @@ import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.OnBottomReached
 import com.fefuproject.druzhbank.extensions.defaultDataFormatter
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
-import com.fefuproject.druzhbank.model.LoadableItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 
 @ExperimentalWearMaterialApi
 @AndroidEntryPoint
