@@ -199,7 +199,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     ): String? {
         val response = accountApi.signIn(SignInRequest(name, username, password))
         if (response.success)
-            return response.data.token
+            return response.data
         return null
     }
 
@@ -254,7 +254,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         val response =
             accountApi.changePassword(ChangePasswordRequest(token, old_password, new_password))
         if (response.success)
-            return response.data.token
+            return response.data
         return null
     }
 

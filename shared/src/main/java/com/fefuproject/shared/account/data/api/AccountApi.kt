@@ -56,7 +56,7 @@ interface AccountApi {
     suspend fun changeInstrumentName(@Body request: ChangeInstrumentNameRequest): Int
 
     @POST("signin")
-    suspend fun signIn(@Body request: SignInRequest): ResponseModel<TokenModel>
+    suspend fun signIn(@Body request: SignInRequest): ResponseModel<String>
 
     @POST("login")
     suspend fun logIn(@Body request: LogInRequest): ResponseModel<UserModel>
@@ -74,7 +74,7 @@ interface AccountApi {
     suspend fun deleteTemplate(@Body request: DeletetTemplateRequest): Int
 
     @PUT("editepassword")
-    suspend fun changePassword(@Body request: ChangePasswordRequest): ResponseModel<TokenModel>
+    suspend fun changePassword(@Body request: ChangePasswordRequest): ResponseModel<String>
 
     @PUT("editeusername")//todo fix this shit
     suspend fun changeUsername(@Body request: ChangeUsernameRequest): Int
