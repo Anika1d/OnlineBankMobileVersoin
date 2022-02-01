@@ -4,25 +4,26 @@ import android.content.Context
 import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.ValuteResponseModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import model.interfaces.IPreferenceProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PreferenceProvider @Inject constructor(@ApplicationContext val context: Context) {
+class PreferenceProvider @Inject constructor(@ApplicationContext val context: Context) :
+    IPreferenceProvider {
     private val sharedPreferences =
         context.getSharedPreferences("USER_PREFERENCES", Context.MODE_PRIVATE)
     var lastVerifiedTimestamp: Long = sharedPreferences.getLong("lastVerifyTS", 0)
     var biometricPreference: Int = sharedPreferences.getInt("biometricPref", STATUS_BIOMETRICS_NONE)
     var privateKey: String? = sharedPreferences.getString("privateKey", null)
-    var token: String? =sharedPreferences.getString("token", null)
+    override var token: String? = sharedPreferences.getString("token", null)
 
-    lateinit var valuteList:List<ValuteResponseModel>
     fun updatePrivateKey(newKey: String) {
         privateKey = newKey
         sharedPreferences.edit().putString("privateKey", privateKey).apply()
     }
 
-    fun updateToken(newToken: String?) {
+    override fun updateToken(newToken: String?) {
         token = newToken
         sharedPreferences.edit().putString("token", token).apply()
     }
