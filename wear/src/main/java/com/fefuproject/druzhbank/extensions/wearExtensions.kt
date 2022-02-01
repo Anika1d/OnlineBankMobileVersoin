@@ -1,8 +1,6 @@
 package com.fefuproject.druzhbank.extensions
 
-import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.*
@@ -18,18 +16,6 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.shimmer
 import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.flow.collect
-import java.util.*
-
-fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
-    placeholder(
-        color = Color(0xCCE2E2E2),
-        shape = CircleShape,
-        visible = visible,
-        highlight = PlaceholderHighlight.shimmer()
-    )
-}
-
-val defaultDataFormatter = SimpleDateFormat("dd MMM HH:mm:ss", Locale.forLanguageTag("RU"))
 
 @ExperimentalWearMaterialApi
 @Composable
@@ -98,35 +84,11 @@ fun ScalingLazyListState.OnBottomReached(
             }
     }
 }
-
-fun <T> createNullList(n: Int): List<T?> {
-    val newList = mutableListOf<T?>()
-    repeat(n) {
-        newList.add(null)
-    }
-    return newList
-}
-
-fun <T> List<T?>.addNullList(n: Int): List<T?> {
-    val newList = this.toMutableList()
-    repeat(n) {
-        newList.add(null)
-    }
-    return newList
-}
-
-// always merges from end
-// OOBE-safe for the list being merged
-fun <T> List<T>.mergeFromList(another: List<T>, n: Int): List<T> {
-    var newList = this.toMutableList()
-    var outCounter = 0
-    repeat(n) {
-        val i = n - it
-        if (another.size > (n - i)) newList[size - i] = another[n - i]
-        else outCounter++
-    }
-    if (outCounter > 0)
-        newList = newList.dropLast(outCounter)
-            .toMutableList() // effectively merged nothing from the merged list this way
-    return newList
+fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
+    placeholder(
+        color = Color(0xCCE2E2E2),
+        shape = CircleShape,
+        visible = visible,
+        highlight = PlaceholderHighlight.shimmer()
+    )
 }

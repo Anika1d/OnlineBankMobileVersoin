@@ -8,8 +8,8 @@ import com.fefuproject.shared.account.domain.usecase.BlockCardUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardHistoryUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.extensions.addNullList
-import com.fefuproject.druzhbank.extensions.mergeFromList
+import libs.addNullList
+import libs.mergeFromList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow

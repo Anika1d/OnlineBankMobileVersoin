@@ -5,8 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.extensions.createNullList
-import com.fefuproject.shared.account.domain.enums.PayType
+import libs.createNullList
 import com.fefuproject.shared.account.domain.models.TemplateModel
 import com.fefuproject.shared.account.domain.usecase.GetTemplatesUseCase
 import com.fefuproject.shared.account.domain.usecase.PayUniversalUseCase
