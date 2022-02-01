@@ -156,12 +156,7 @@ class AuthActivity : FragmentActivity() {
                 finish()
             }
         }
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(R.drawable.xiphone),
-            contentDescription = "background",
-            contentScale = ContentScale.FillBounds
-        )
+        DrawDefaultBackground()
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -218,4 +213,14 @@ class AuthActivity : FragmentActivity() {
             )
         }
     }
+}
+
+@Composable
+fun DrawDefaultBackground() {
+    Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(R.drawable.xiphone),
+        contentDescription = "background",
+        contentScale = ContentScale.FillBounds
+    )
 }
