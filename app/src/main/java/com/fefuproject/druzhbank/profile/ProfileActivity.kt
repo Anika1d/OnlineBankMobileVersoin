@@ -12,7 +12,7 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ActivityProfileBinding
 import com.fefuproject.druzhbank.di.AuthStateObserver
 import com.fefuproject.druzhbank.di.PreferenceProvider
-import com.fefuproject.druzhbank.historyallpayment.AllHistoryPaymentFragment
+import com.fefuproject.druzhbank.paymentHistory.AllHistoryPaymentFragment
 import com.fefuproject.druzhbank.mainpayment.MainPaymentFragment
 import com.fefuproject.druzhbank.profile.fragmentprofile.HistoryOpenApplicationFragment
 import com.fefuproject.druzhbank.profile.fragmentprofile.ProfileMainFragment
