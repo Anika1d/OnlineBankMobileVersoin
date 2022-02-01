@@ -7,8 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mainpayment.paymentcontract.PaymentContractFragment">
 
-
-
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/textViewNumberD"
@@ -27,11 +25,14 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
         android:autofillHints='creditCardNumber'
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNumberD"
+        app:layout_constraintVertical_bias="0.029"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -43,32 +44,13 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints='creditCardNumber'
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/textInputContract"
-        tools:ignore="MissingConstraints">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name_contract_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints='text'
-            android:hint="Имя шаблона"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputValueC"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="20dp"
         android:autofillHints='creditCardNumber'
         app:layout_constraintBottom_toTopOf="@+id/materialButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,12 +72,11 @@
         android:id="@+id/textCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="Выберете карту"
         android:textColor="#451657"
-        app:layout_constraintTop_toBottomOf="@+id/textInputName"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Выберете карту"
+        app:layout_constraintTop_toBottomOf="@+id/textInputContract"
+        tools:layout_editor_absoluteX="68dp" />
 
     <TextView
         android:id="@+id/textvalue"
@@ -105,15 +86,13 @@
         android:text="Введите сумму"
         android:textColor="#451657"
         app:layout_constraintBottom_toTopOf="@+id/textInputValueC"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="0.748" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="224dp"
         android:backgroundTint="@color/purple_200"
         android:text="Оплатить"
         android:textColor="@color/white"
@@ -124,10 +103,10 @@
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:padding="20sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/textvalue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textCard" />
 

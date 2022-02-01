@@ -14,14 +14,17 @@ import com.fefuproject.druzhbank.moneytransfer.adapter.CardTransferAdapter
 import com.fefuproject.druzhbank.moneytransfer.adapter.CardsActionListenerT
 import com.fefuproject.druzhbank.payment.PaymentToCardFragment
 import com.fefuproject.shared.account.domain.models.CardModel
+import com.fefuproject.shared.account.domain.usecase.GetCardsByNumberUseCase
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class MoneyTransferViewModel @Inject constructor(
     private val getCardsUseCase: GetCardsUseCase,
+    private val getCardUseCase: GetCardsByNumberUseCase,
     private val preferenceProvider: PreferenceProvider
 ) : ViewModel() {
     lateinit var tmpNumberCard: String
@@ -34,7 +37,7 @@ class MoneyTransferViewModel @Inject constructor(
                 val bundle = Bundle()
                 bundle.putString("myCard", tmpNumberCard)
                 bundle.putString("frCard", card.number)
-                bundle.putString("parentFragment","Transfer")
+                bundle.putString("parentFragment", "Transfer")
                 val fr = PaymentToCardFragment()
                 fr.arguments = bundle
                 if (!card.is_blocked)
@@ -73,7 +76,72 @@ class MoneyTransferViewModel @Inject constructor(
             binding.shimmerCardPayment.stopShimmer()
             binding.shimmerCardPayment.visibility = View.GONE
             binding.recycleViewPayment.visibility = View.VISIBLE
+            codeCardFocusListener()
+            binding.imageButtonCardNumber.setOnClickListener {
+                val validcode = binding.textInputCodeCard.helperText != null
+                val frcard = binding.codeCardEditText.text.toString()
+                if (validcode && frcard.length != 16) {
+                    Toast.makeText(
+                        transferFragment.context,
+                        "Неверный номер карты",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (tmpNumberCard != frcard) {
+                        viewModelScope.launch {
+                            val cardfriends =
+                                getCardUseCase.invoke(preferenceProvider.token!!, frcard)!!
+                            if (cardfriends.isNotEmpty()) {
+                                val bundle = Bundle()
+                                bundle.putString("myCard", tmpNumberCard)
+                                bundle.putString("frCard", frcard)
+                                bundle.putString("parentFragment", "Transfer")
+                                val fr = PaymentToCardFragment()
+                                fr.arguments = bundle
+                                transferFragment.requireActivity().supportFragmentManager.beginTransaction()
+                                    .apply {
+                                        replace(
+                                            R.id.fragmentContainerViewProfile,
+                                            fr, "PaymentToCardFragment"
+                                        )
+                                        commit()
+                                    }
+                            }
+                            else{
+                                Toast.makeText(
+                                    transferFragment.context,
+                                    "Проверьте правильность введенных данных либо такой карты не существует",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(
+                            transferFragment.context,
+                            "Нельзя перевести на одну и туже карту",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                }
+            }
         }
+    }
+
+    private fun codeCardFocusListener() {
+        binding.codeCardEditText.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.textInputCodeCard.helperText = validCode()
+            }
+        }
+    }
+
+    private fun validCode(): String? {
+        val code = binding.codeCardEditText.text.toString()
+        if (!code.matches(Regex("[0-9]+")) || code.length != 16) {
+            return "Неверный номер карты"
+        }
+        return null
     }
 
 }

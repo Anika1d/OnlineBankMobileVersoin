@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <ImageView
+        android:id="@+id/shimmer_image_flag"
+        android:layout_width="37dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="5sp"
+        android:layout_marginTop="24dp"
+        android:background="@color/shimmer_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shimmer_short_name_valute"
+
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4sp"
+        android:layout_marginTop="24sp"
+        android:background="@color/shimmer_color"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@+id/shimmer_image_flag"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shimmer_full_name_valute"
+
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5sp"
+        android:layout_marginTop="8dp"
+        android:background="@color/shimmer_color"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shimmer_short_name_valute" />
+
+    <TextView
+        android:id="@+id/shimmer_price_buy"
+
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:background="@color/shimmer_color"
+        android:textColor="@color/purple_500"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintEnd_toStartOf="@+id/shimmer_price_resell"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toEndOf="@+id/shimmer_short_name_valute"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.462" />
+
+    <TextView
+        android:id="@+id/shimmer_price_resell"
+
+        android:layout_width="60sp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:background="@color/shimmer_color"
+        android:textColor="@color/purple_500"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.462" />
+
+
+    <TextView
+        android:id="@+id/shimmer_arrow_buy"
+
+        android:layout_width="5sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5sp"
+        android:background="@color/shimmer_color"
+        android:textColor="#21AF01"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintStart_toEndOf="@+id/shimmer_price_buy"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.462" />
+
+    <TextView
+        android:id="@+id/shimmer_arrow_resell"
+        android:layout_width="5sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5sp"
+        android:background="@color/shimmer_color"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintStart_toEndOf="@+id/shimmer_price_resell"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.462" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="shimmer_full_name_valute"
+        app:layout_constraintBottom_toBottomOf="@+id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/barrier" />
+</androidx.constraintlayout.widget.ConstraintLayout>

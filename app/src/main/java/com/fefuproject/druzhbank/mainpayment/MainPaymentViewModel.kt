@@ -1,6 +1,7 @@
 package com.fefuproject.druzhbank.mainpayment
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,7 +36,6 @@ class MainPaymentViewModel @Inject constructor(
             override fun OnCategoriesDetails(categories: CategoryModel) {
                 super.OnCategoriesDetails(categories)
                 mainPaymentFragment.activity!!.supportFragmentManager.beginTransaction().apply {
-
                     replace(
                         R.id.fragmentContainerViewProfile,
                         PaymentContractFragment(), "PaymentContractFragment"
@@ -53,9 +53,13 @@ class MainPaymentViewModel @Inject constructor(
             override fun OnCategoriesDetails(categories: TemplateModel) {
                 super.OnCategoriesDetails(categories)
                 mainPaymentFragment.activity!!.supportFragmentManager.beginTransaction().apply {
+                    val bundle = Bundle()
+                    bundle.putString("templates", categories.id.toString())
+                    val fr = PaymentContractFragment()
+                    fr.arguments = bundle
                     replace(
                         R.id.fragmentContainerViewProfile,
-                        PaymentContractFragment(), "PaymentContractFragment"
+                        fr, "PaymentContractFragment"
                     )
                     commit()
                 }

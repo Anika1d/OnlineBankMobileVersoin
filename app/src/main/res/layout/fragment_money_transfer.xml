@@ -40,12 +40,14 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputCodeCard"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
+            app:helperText=""
+            app:helperTextTextColor="@android:color/holo_red_dark"
             android:autofillHints='creditCardNumber'
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonCardNumber"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enter_code_card"
             tools:ignore="MissingConstraints">
@@ -54,11 +56,23 @@
                 android:id="@+id/code_card_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:autofillHints='text'
+                android:autofillHints="creditCardNumber"
                 android:hint="Код"
-                android:inputType="text"
-                />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/imageButtonCardNumber"
+            android:layout_width="44dp"
+            android:layout_height="53dp"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/white"
+            android:scaleX="-1"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.788" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.facebook.shimmer.ShimmerFrameLayout

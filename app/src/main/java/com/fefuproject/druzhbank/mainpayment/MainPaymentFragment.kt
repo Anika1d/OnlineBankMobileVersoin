@@ -62,10 +62,14 @@ class MainPaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addTemplates.setOnClickListener {
+            val bundle=Bundle()
+            val fr= PaymentContractFragment()
+            bundle.putString("add","add")
+            fr.arguments=bundle
             requireActivity().supportFragmentManager.beginTransaction().apply {
             replace(
                 R.id.fragmentContainerViewProfile,
-                PaymentContractFragment(), "PaymentContractFragment"
+                fr, "PaymentContractFragment"
             )
             commit()
         }
