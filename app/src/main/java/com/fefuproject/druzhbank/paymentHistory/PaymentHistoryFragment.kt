@@ -92,7 +92,8 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                                 Text(
                                     text = if (it != null) defaultDateTimeFormatter.format(it.date) else "10.10.2021",
                                     modifier = Modifier
-                                        .fillMaxWidth(),
+                                        .fillMaxWidth()
+                                        .offset(20.dp,0.dp),
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
