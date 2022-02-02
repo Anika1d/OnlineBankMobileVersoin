@@ -7,6 +7,7 @@ import com.fefuproject.shared.account.domain.enums.ResultType
 import com.fefuproject.shared.account.domain.models.*
 import com.fefuproject.shared.account.domain.repository.AccountRepository
 import com.fefuproject.shared.account.domain.requests.*
+import java.util.*
 import javax.inject.Inject
 
 class AccountRepositoryApiImpl @Inject constructor(private val accountApi: AccountApi) :
@@ -103,10 +104,13 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
     override suspend fun getAllHistory(
         token: String,
         pageNumber: Int,
-        pageSize: Int
+        pageSize: Int,
+        findByDest:String?,
+        findBySum: Double?,
+        findByDate: Date?
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, pageNumber, pageSize))
+            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, pageNumber, pageSize,findByDest,findBySum,findByDate))
         if (response.success) {
             val history = response.data.historyList
             for (item in history)

@@ -3,6 +3,7 @@ package com.fefuproject.shared.account.domain.repository
 import com.fefuproject.shared.account.domain.enums.InstrumetType
 import com.fefuproject.shared.account.domain.enums.PayType
 import com.fefuproject.shared.account.domain.models.*
+import java.util.*
 
 interface AccountRepository {
     suspend fun getBankomats(
@@ -47,7 +48,10 @@ interface AccountRepository {
     suspend fun getAllHistory(
         token: String,
         pageNumber: Int,
-        pageSize: Int
+        pageSize: Int,
+        findByDest: String? = null,
+        findBySum: Double? = null,
+        findByDate: Date? = null,//todo check
     ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun blockCard(
