@@ -32,44 +32,54 @@
         <LinearLayout
             android:id="@+id/Input_register"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLog"
+                android:focusableInTouchMode="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
-                android:hint="Логин">
+                android:autofillHints="username"
+                android:focusable="true"
+                android:hint="Логин"
+                app:helperText=""
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
-
                     android:id="@+id/login_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="username"
-                    android:inputType="text"
-                    android:textColor="#9E9E9E "
+                    android:focusable="true"
+                    android:inputType="text" android:focusableInTouchMode="true"
+                    android:textColor="@color/black"
                     android:textColorHighlight="@color/black"
                     android:textColorHint="#757575" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputName"
+                android:focusableInTouchMode="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
-                android:hint="Имя">
+                android:focusable="true"
+                android:hint="Имя"
+                app:helperText=""
+                app:helperTextTextColor="@android:color/holo_red_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="username"
+                    android:focusableInTouchMode="true"    android:autofillHints="username"
+                    android:focusable="true"
                     android:inputType="text"
-                    android:textColor="#9E9E9E "
+                    android:textColor="@color/black"
                     android:textColorHighlight="@color/black"
                     android:textColorHint="#757575" />
 
@@ -83,6 +93,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
                 android:autofillHints='password'
+                android:focusable="true"
+                android:focusableInTouchMode="true"       app:helperText=""
+                app:helperTextTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
@@ -90,21 +103,27 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/p_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:autofillHints='password'
+                    android:focusable="true"
                     android:hint="Пароль"
                     android:inputType="textPassword"
-                    android:password="true" />
+                    android:password="true"
+                    android:focusableInTouchMode="true"           android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputPassCopy"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"        android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
                 android:autofillHints='password'
+                android:focusable="true"
+                app:helperText=""
+                app:helperTextTextColor="@android:color/holo_red_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
@@ -112,12 +131,15 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pc_ed"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:focusableInTouchMode="true"            android:layout_height="match_parent"
                     android:autofillHints='password'
+                    android:focusable="true"
                     android:hint="Повторите пароль"
                     android:inputType="textPassword"
-                    android:password="true" />
+                    android:password="true"
+                    android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -127,13 +149,12 @@
         android:id="@+id/button_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="Зарегистрироваться"
-        app:layout_constraintBottom_toTopOf="@+id/agree_rul"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll_Data"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/scroll_Data" />
 
     <TextView
         android:id="@+id/agree_rul"
@@ -147,8 +168,10 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline1" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/button_second"
+        app:layout_constraintVertical_bias="0.67" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

@@ -12,18 +12,22 @@ import android.text.style.ClickableSpan
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
-import com.fefuproject.druzhbank.R
+import androidx.activity.viewModels
 import com.fefuproject.druzhbank.databinding.ActivityRegisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
+    private val viewModel: RegisterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         cliker_rules()
+        viewModel.initData(binding, this)
         setContentView(binding.root)
-
     }
+
     private fun cliker_rules() {
         val text_Rules = binding.agreeRul.text
         val s_r = SpannableString(text_Rules);
@@ -31,6 +35,7 @@ class RegisterActivity : AppCompatActivity() {
             override fun onClick(widget: View) {
                 Toast.makeText(this@RegisterActivity, "Config", Toast.LENGTH_LONG).show()
             }
+
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
                 ds.setColor(Color.BLACK);
@@ -51,8 +56,9 @@ class RegisterActivity : AppCompatActivity() {
         s_r.setSpan(clickableSpanCon, 42, 70, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         s_r.setSpan(clickableSpanRules, 125, 152, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.agreeRul.movementMethod = LinkMovementMethod.getInstance()
-
         binding.agreeRul.text = s_r
     }
+
+
 
 }
