@@ -4,7 +4,7 @@ buildscript {
         // Dependency versions.
         activity_compose_version = '1.4.0'
         compose_version = '1.2.0-alpha02'
-        wear_compose_version = '1.0.0-alpha14'
+        wear_compose_version = '1.0.0-alpha15'
     }
 
     repositories {
