@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemHistoryOpenApplicationBinding
 import com.fefuproject.shared.account.domain.models.LoginHistoryModel
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import libs.defaultDateYearFormatter
+import libs.defaultTimeShortFormatter
 import kotlin.collections.ArrayList
 
 class HistoryOpenAppAdapter : RecyclerView.Adapter<HistoryOpenAppAdapter.HistoryOpenAppHolder>() {
@@ -34,11 +33,9 @@ class HistoryOpenAppAdapter : RecyclerView.Adapter<HistoryOpenAppAdapter.History
         private val binding = ItemHistoryOpenApplicationBinding.bind(v)
         fun bind(historyOpenApp:LoginHistoryModel) = with(binding) {
             val currentDate = historyOpenApp.date_visit
-            val dateFormatDate: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val dateTextDate = dateFormatDate.format(currentDate)
+            val dateTextDate = defaultDateYearFormatter.format(currentDate)
                 dateopenapp.text=dateTextDate.toString()
-            val dateFormatTime: DateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val dateTextTime = dateFormatTime.format(currentDate)
+            val dateTextTime = defaultTimeShortFormatter.format(currentDate)
                 timeopenapp.text=dateTextTime
         }
 

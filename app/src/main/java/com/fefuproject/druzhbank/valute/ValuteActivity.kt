@@ -11,6 +11,7 @@ import com.fefuproject.shared.account.domain.models.ValuteResponseModel
 import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
+import libs.defaultDateYearFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,8 +26,7 @@ class ValuteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityValuteBinding.inflate(layoutInflater)
         val currentDate = Date()
-        val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val dateText = dateFormat.format(currentDate)
+        val dateText = defaultDateYearFormatter.format(currentDate)
         binding.today.text = dateText.toString()
         setContentView(binding.root)
         binding.shimmerValute.startShimmer()

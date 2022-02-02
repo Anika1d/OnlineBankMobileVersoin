@@ -18,6 +18,7 @@ import com.fefuproject.druzhbank.registerScreen.RegisterActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import libs.defaultDateYearFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,8 +52,7 @@ class MainActivity : AppCompatActivity() {
             AlertDialogAuthorize()
         }
         val currentDate = Date()
-        val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val dateText = dateFormat.format(currentDate)
+        val dateText = defaultDateYearFormatter.format(currentDate)
 
         viewModel.checkValute(binding)
         binding.includeButtonValute.date.text = dateText.toString()

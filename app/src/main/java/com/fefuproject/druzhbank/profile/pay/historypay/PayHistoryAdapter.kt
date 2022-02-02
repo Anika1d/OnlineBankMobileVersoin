@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemHistoryPayBinding
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
+import libs.defaultDateYearFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,8 +38,7 @@ class  PayHistoryAdapter : RecyclerView.Adapter< PayHistoryAdapter.PayHistoryHol
             {
                 valueOperationPay.text = payHistory.count
                 val currentDate = payHistory.date
-                val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                val dateText = dateFormat.format(currentDate)
+                val dateText = defaultDateYearFormatter.format(currentDate)
                 dateOperationPay.text = dateText
                 nameOperationPay.text = payHistory.pay_type
 

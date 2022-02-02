@@ -18,11 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fefuproject.druzhbank.DrawDefaultBackground
@@ -32,7 +30,7 @@ import com.fefuproject.druzhbank.libs.roundedPlaceholder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dagger.hilt.android.AndroidEntryPoint
-import libs.defaultDataFormatter
+import libs.defaultDateTimeFormatter
 
 @AndroidEntryPoint
 class AllHistoryPaymentFragment : Fragment() {
@@ -92,7 +90,7 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                                         .fillMaxWidth(),
                                 )
                                 Text(
-                                    text = if (it != null) defaultDataFormatter.format(it.date) else "10.10.2021",
+                                    text = if (it != null) defaultDateTimeFormatter.format(it.date) else "10.10.2021",
                                     modifier = Modifier
                                         .roundedPlaceholder(it == null)
                                         .fillMaxWidth(),

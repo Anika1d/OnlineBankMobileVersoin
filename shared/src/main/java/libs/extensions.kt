@@ -3,7 +3,9 @@ package libs
 import java.text.SimpleDateFormat
 import java.util.*
 
-val defaultDataFormatter = SimpleDateFormat("dd MMM HH:mm:ss", Locale.forLanguageTag("RU"))
+val defaultDateTimeFormatter = SimpleDateFormat("dd MMM HH:mm:ss", Locale.forLanguageTag("RU"))
+val defaultDateYearFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.forLanguageTag("RU"))
+val defaultTimeShortFormatter = SimpleDateFormat("HH:mm", Locale.forLanguageTag("RU"))
 
 fun <T> createNullList(n: Int): List<T?> {
     val newList = mutableListOf<T?>()

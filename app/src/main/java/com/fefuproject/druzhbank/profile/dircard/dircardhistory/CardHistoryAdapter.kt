@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCardHistoryBinding
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
+import libs.defaultDateYearFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,8 +40,7 @@ class CardHistoryAdapter :
                 summaoperation.text=cardH.count+" руб."
                 operation.text=cardH.pay_type
              val currentDate =cardH.date ///заполнение изменяемых данных
-             val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-             val dateText = dateFormat.format(currentDate)
+             val dateText = defaultDateYearFormatter.format(currentDate)
                 dateoperationcard.text=dateText
 
         }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.ItemCreditBinding
 import com.fefuproject.shared.account.domain.models.CreditModel
+import libs.defaultDateYearFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,8 +35,7 @@ class CreditsAdapter : RecyclerView.Adapter<CreditsAdapter.CreditsHolder>() {
         fun bind(credit:CreditModel) = with(binding) {
             typecredit.text = credit.name
             val currentDate = credit.payment_date
-            val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val dateText = dateFormat.format(currentDate)
+            val dateText = defaultDateYearFormatter.format(currentDate)
             datecreditpay.text = dateText.toString()
             valuecredit.text = credit.count
         }

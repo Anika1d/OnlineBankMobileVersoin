@@ -30,7 +30,7 @@ import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.extensions.DefaultScaffold
 import com.fefuproject.druzhbank.extensions.OnBottomReached
 import com.fefuproject.druzhbank.extensions.roundedPlaceholder
-import libs.defaultDataFormatter
+import libs.defaultDateTimeFormatter
 import com.fefuproject.shared.account.domain.enums.PayType
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -97,7 +97,7 @@ class AccountStateActivity : ComponentActivity() {
                         viewModel,
                         coroutineScope
                     )
-                    CardEvents(this, cardEvents, defaultDataFormatter)
+                    CardEvents(this, cardEvents, defaultDateTimeFormatter)
                 }
                 CardRow(selectedCard, cardInfo, viewModel, scalingLazyListState)
             } else {
