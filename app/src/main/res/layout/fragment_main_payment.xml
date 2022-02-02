@@ -43,7 +43,7 @@
         android:gravity="center"
         android:paddingStart="5sp"
         android:paddingEnd="5sp"
-        android:src="@drawable/plus_2"
+        android:src="@drawable/plus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:autofillHints="creditCardNumber"
                 android:hint="Код"
-                android:inputType="text" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
