@@ -122,9 +122,9 @@ class ProfileMainViewModel @Inject constructor(
             LinearLayoutManager(profileMainFragment.context).also {
                 recycleViewPay.layoutManager = it
             }
-            recycleViewPay.addItemDecoration(CommonItemSpaceDecoration(5))
-            recycleViewCredits.addItemDecoration(CommonItemSpaceDecoration(5))
-            recycleViewCards.addItemDecoration(CommonItemSpaceDecoration(5))
+            recycleViewPay.addItemDecoration(CommonItemSpaceDecoration(15))
+            recycleViewCredits.addItemDecoration(CommonItemSpaceDecoration(15))
+            recycleViewCards.addItemDecoration(CommonItemSpaceDecoration(15))
             recycleViewPay.adapter = paysAdapter
         }
     }

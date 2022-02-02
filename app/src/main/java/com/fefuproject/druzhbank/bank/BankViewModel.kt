@@ -36,7 +36,7 @@ class BankViewModel @Inject constructor(
             adapter.addBankList(bank_list)
             binding.apply {
                 recBank.layoutManager = LinearLayoutManager(context)
-                recBank.addItemDecoration(CommonItemSpaceDecoration(5))
+                recBank.addItemDecoration(CommonItemSpaceDecoration(15))
                 shimmerBank.stopShimmer()
                 recBank.adapter = adapter
                 shimmerBank.visibility = View.GONE

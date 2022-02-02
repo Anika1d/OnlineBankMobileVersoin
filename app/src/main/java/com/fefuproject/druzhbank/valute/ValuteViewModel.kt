@@ -5,13 +5,10 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fefuproject.druzhbank.databinding.ActivityBankBinding
 import com.fefuproject.druzhbank.databinding.ActivityValuteBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
-import com.fefuproject.shared.account.domain.models.BankomatModel
 import com.fefuproject.shared.account.domain.models.ValuteModel
 import com.fefuproject.shared.account.domain.models.ValuteResponseModel
-import com.fefuproject.shared.account.domain.usecase.GetBankomatsUseCase
 import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,7 +29,7 @@ class ValuteViewModel @Inject constructor(
             adapter.addValuteList(valute_list)
             binding.apply {
                 recValute.layoutManager = LinearLayoutManager(context)
-                recValute.addItemDecoration(CommonItemSpaceDecoration(5))
+                recValute.addItemDecoration(CommonItemSpaceDecoration(15))
                 shimmerValute.stopShimmer()
                 recValute.adapter = adapter
                 shimmerValute.visibility=View.GONE
