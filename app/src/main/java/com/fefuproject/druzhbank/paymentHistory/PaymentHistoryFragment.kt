@@ -77,7 +77,8 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                             modifier = Modifier
                                 .padding(7.dp, 7.dp)
                                 .height(40.dp)
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .roundedPlaceholder(it == null),
                             elevation = 5.dp
                         ) {
                             Box(contentAlignment = Alignment.Center) {
@@ -85,14 +86,12 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                                     text = it?.pay_type ?: "Перевод на карту",
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
-                                        .roundedPlaceholder(it == null)
                                         .padding(10.dp, 0.dp)
                                         .fillMaxWidth(),
                                 )
                                 Text(
                                     text = if (it != null) defaultDateTimeFormatter.format(it.date) else "10.10.2021",
                                     modifier = Modifier
-                                        .roundedPlaceholder(it == null)
                                         .fillMaxWidth(),
                                     textAlign = TextAlign.Center
                                 )
@@ -100,7 +99,6 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                                     text = if (it != null) it.count + " руб." else "100,00 руб.",
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
-                                        .roundedPlaceholder(it == null)
                                         .fillMaxWidth()
                                         .padding(10.dp, 0.dp),
                                     textAlign = TextAlign.End
