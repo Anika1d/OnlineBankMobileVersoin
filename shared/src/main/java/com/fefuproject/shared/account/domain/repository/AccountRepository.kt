@@ -49,9 +49,7 @@ interface AccountRepository {
         token: String,
         pageNumber: Int,
         pageSize: Int,
-        findByDest: String? = null,
-        findBySum: Double? = null,
-        findByDate: Date? = null,//todo check
+        findByString: String? = null,
     ): PageListModel<HistoryInstrumentModel>?
 
     suspend fun blockCard(

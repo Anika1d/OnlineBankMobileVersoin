@@ -105,12 +105,10 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         token: String,
         pageNumber: Int,
         pageSize: Int,
-        findByDest:String?,
-        findBySum: Double?,
-        findByDate: Date?
+        findByString:String?,
     ): PageListModel<HistoryInstrumentModel>? {
         val response =
-            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, pageNumber, pageSize,findByDest,findBySum,findByDate))
+            accountApi.getAllHistory(GetAllInstrumentHistoryRequest(token, pageNumber, pageSize,findByString))
         if (response.success) {
             val history = response.data.historyList
             for (item in history)

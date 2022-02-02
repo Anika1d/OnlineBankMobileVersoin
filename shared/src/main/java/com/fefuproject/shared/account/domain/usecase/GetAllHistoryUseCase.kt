@@ -9,8 +9,6 @@ class GetAllHistoryUseCase @Inject constructor(private val repository: AccountRe
         token: String,
         pageNumber: Int,
         pageSize: Int,
-        findByDest: String? = null,
-        findBySum: Double? = null,
-        findByDate: Date? = null,
-    ) = repository.getAllHistory(token, pageNumber, pageSize,findByDest, findBySum, findByDate)
+        findByString: String? = null,
+    ) = repository.getAllHistory(token, pageNumber, pageSize,findByString)
 }

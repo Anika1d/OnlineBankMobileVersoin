@@ -7,8 +7,6 @@ data class GetAllInstrumentHistoryRequest(
     val token: String,
     val pageNumber: Int,
     val pageSize: Int,
-    val findByDest: String?,
-    val findBySum: Double?,
-    val findByDate: Date?
+    val findByString: String?,
 
 )
