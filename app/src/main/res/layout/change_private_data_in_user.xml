@@ -42,8 +42,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16sp"
-            android:autofillHints='password'
             android:textColorHint="#FFF"
+            app:helperTextTextColor="@android:color/holo_red_dark"
+            app:helperText=""
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             tools:ignore="MissingConstraints"
             app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color">
 
@@ -51,7 +54,6 @@
                 android:id="@+id/new_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:autofillHints='password'
                 android:textColor="@color/white"
                 android:inputType="text"
                 android:tint="@android:color/white" />

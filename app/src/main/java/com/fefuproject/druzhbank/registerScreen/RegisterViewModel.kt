@@ -43,7 +43,7 @@ class RegisterViewModel @Inject constructor(
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    if (password == password_с && login.length > 5 && login.length < 30
+                    if (password == password_с && password.length > 5 && login.length > 5 && login.length < 30
                         && name.matches(Regex("[A-z]+")) && name.length > 5 && name.length < 30
                     ) {
                         signUpUseCase.invoke(name, login, password)
