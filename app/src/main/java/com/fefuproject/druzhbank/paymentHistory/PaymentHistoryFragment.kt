@@ -62,8 +62,7 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                        .padding(0.dp, 7.dp)
-                        .height(50.dp),
+                        .padding(0.dp, 7.dp),
                     value = searchText,
                     onValueChange = { searchText = it; viewModel.updateQuery(it) },
                     leadingIcon = {
