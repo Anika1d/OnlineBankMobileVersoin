@@ -7,6 +7,7 @@ import libs.mergeFromList
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.usecase.GetAllInstrumentHistoryUseCase
 import com.fefuproject.shared.account.domain.usecase.PayUniversalUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ open class RecentOpCommonViewModel constructor(
     val cardEvents get() = _cardEvents.asStateFlow()
     protected val _isRefreshing = MutableStateFlow(true)
     val isRefreshing get() = _isRefreshing.asStateFlow()
+    protected var refreshingJob: Job? = null
+    protected var currentQuery = ""
 
     var isPageLoading = false
 
@@ -53,27 +56,39 @@ open class RecentOpCommonViewModel constructor(
         if (isPageLoading) return
         if (currentPage == -1) return // we've reached the lowest point
         currentPage++
-        viewModelScope.launch {
+        refreshingJob = viewModelScope.launch {
             isPageLoading = true
             val originalList = _cardEvents.value //caching in case of failure
-            _cardEvents.value = _cardEvents.value.addNullList(pageSize)
+            if (_cardEvents.value.isEmpty() || (_cardEvents.value.isNotEmpty() && _cardEvents.value[0] != null)) _cardEvents.value =
+                _cardEvents.value.addNullList(pageSize) // add nulls to the list only if it's not in loading state already
             val temp = getAllInstrumentHistoryUseCase(
                 preferenceProvider.token!!,
                 currentPage,
-                pageSize
+                pageSize,
+                currentQuery
             )?.historyList
             if (temp != null) _cardEvents.value = _cardEvents.value.mergeFromList(temp, pageSize)
             else _cardEvents.value = originalList
             _isRefreshing.value = false
-            if (cardEvents.value.size - originalList.size < pageSize) currentPage = -1
+            if (temp != null && temp.size < pageSize) currentPage = -1
             isPageLoading = false
         }
+    }
+
+    fun updateQuery(s: String) {
+        currentQuery = s
+        refresh()
     }
 
     fun refresh() {
         _isRefreshing.value = true
         currentPage = 0
-        _cardEvents.value = listOf()
+        if (refreshingJob?.isCompleted == false) refreshingJob!!.cancel()
+        if (_cardEvents.value.isNotEmpty() && _cardEvents.value[0] != null) _cardEvents.value =
+            listOf() // purge the list only if it's not in loading state already
+        else if (_cardEvents.value.isEmpty()) _cardEvents.value =
+            _cardEvents.value.addNullList(pageSize) // workaround for init state crash
+        isPageLoading = false
         loadNextPage()
     }
 }
