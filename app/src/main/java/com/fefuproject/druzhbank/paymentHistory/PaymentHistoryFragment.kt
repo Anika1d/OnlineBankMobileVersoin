@@ -56,20 +56,24 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
     Scaffold { paddingValues ->
         DrawDefaultBackground()
         SwipeRefresh(state = refreshState, onRefresh = { viewModel.refresh() }) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 OutlinedTextField(
                     modifier = Modifier
                         .padding(0.dp, 7.dp)
                         .height(50.dp),
                     value = searchText,
-                    onValueChange = { searchText = it },
+                    onValueChange = { searchText = it; viewModel.updateQuery(it) },
                     leadingIcon = {
                         Image(
                             painter = painterResource(id = R.drawable.ic_baseline_search_24),
                             contentDescription = "search icon"
                         )
                     },
-                    singleLine = true
+                    singleLine = true,
+                    label = { Text("Ищите по дате, сумме, типу") }
                 )
                 LazyColumn(state = listState, contentPadding = paddingValues) {
                     items(events) {
@@ -83,21 +87,21 @@ fun PaymentHistoryMain(viewModel: PaymentHistoryViewModel = hiltViewModel()) {
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Text(
-                                    text = it?.pay_type ?: "Перевод на карту",
+                                    text = it?.pay_type ?: "",
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .padding(10.dp, 0.dp)
                                         .fillMaxWidth(),
                                 )
                                 Text(
-                                    text = if (it != null) defaultDateTimeFormatter.format(it.date) else "10.10.2021",
+                                    text = if (it != null) defaultDateTimeFormatter.format(it.date) else "",
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .offset(20.dp,0.dp),
+                                        .offset(20.dp, 0.dp),
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
-                                    text = if (it != null) it.count + " руб." else "100,00 руб.",
+                                    text = if (it != null) it.count + " руб." else "",
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
                                         .fillMaxWidth()
