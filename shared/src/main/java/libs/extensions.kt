@@ -26,6 +26,7 @@ fun <T> List<T?>.addNullList(n: Int): List<T?> {
 // always merges from end
 // OOBE-safe for the list being merged
 fun <T> List<T>.mergeFromList(another: List<T>, n: Int): List<T> {
+    if(another.isEmpty()) return listOf()
     var newList = this.toMutableList()
     var outCounter = 0
     repeat(n) {
