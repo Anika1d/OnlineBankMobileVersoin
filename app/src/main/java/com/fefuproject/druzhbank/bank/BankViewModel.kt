@@ -5,18 +5,12 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fefuproject.druzhbank.App
-import com.fefuproject.druzhbank.bank.storage.BankStorage
 import com.fefuproject.druzhbank.databinding.ActivityBankBinding
-import com.fefuproject.druzhbank.databinding.ChangePrivateDataInUserBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
-import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.maps.MapsFragment
 import com.fefuproject.shared.account.domain.models.BankomatModel
 import com.fefuproject.shared.account.domain.usecase.GetBankomatsUseCase
-import com.fefuproject.shared.account.domain.usecase.LogInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
