@@ -1,8 +1,6 @@
 package com.fefuproject.druzhbank.di
 
 import android.content.Context
-import com.fefuproject.shared.account.domain.models.CardModel
-import com.fefuproject.shared.account.domain.models.ValuteResponseModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import model.interfaces.IPreferenceProvider
 import javax.inject.Inject
@@ -17,6 +15,9 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     var biometricPreference: Int = sharedPreferences.getInt("biometricPref", STATUS_BIOMETRICS_NONE)
     var privateKey: String? = sharedPreferences.getString("privateKey", null)
     override var token: String? = sharedPreferences.getString("token", null)
+    var deviceToken: String? = sharedPreferences.getString("deviceToken", null)
+    var lastSentDeviceTokenString: String? =
+        sharedPreferences.getString("deviceTokenStr", null)//concat of both tokens
 
     fun updatePrivateKey(newKey: String) {
         privateKey = newKey
@@ -36,6 +37,15 @@ class PreferenceProvider @Inject constructor(@ApplicationContext val context: Co
     fun updateLastVerifiedTime() {
         lastVerifiedTimestamp = System.currentTimeMillis()
         sharedPreferences.edit().putLong("lastVerifyTS", lastVerifiedTimestamp).apply()
+    }
+
+    fun updateDeviceToken(p0: String) {
+        deviceToken = p0
+        sharedPreferences.edit().putString("deviceToken", deviceToken).apply()
+    }
+
+    fun sentDeviceToken() {
+        sharedPreferences.edit().putString("deviceTokenStr", deviceToken + token!!).apply()
     }
 
     companion object {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "858592380934",
+    "project_id": "bank-notifications-407e7",
+    "storage_bucket": "bank-notifications-407e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858592380934:android:978931de08bcb3ad901b87",
+        "android_client_info": {
+          "package_name": "com.fefuproject.druzhbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858592380934-v1ikv0v7haaqg2gebpo2ed657sjkoh3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjH2JzNgs0nulVDl6y4lAfJw29LYgwSoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858592380934-v1ikv0v7haaqg2gebpo2ed657sjkoh3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

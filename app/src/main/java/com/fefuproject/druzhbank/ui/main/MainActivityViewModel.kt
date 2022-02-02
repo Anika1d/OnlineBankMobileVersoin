@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fefuproject.druzhbank.databinding.ActivityMainBinding
 import com.fefuproject.druzhbank.di.PreferenceProvider
+import com.fefuproject.druzhbank.libs.FirebaseService
 import com.fefuproject.shared.account.domain.models.ValuteModel
 import com.fefuproject.shared.account.domain.models.ValuteResponseModel
+import com.fefuproject.shared.account.domain.usecase.AddDeviceUseCase
 import com.fefuproject.shared.account.domain.usecase.GetValuteUseCase
 import com.fefuproject.shared.account.domain.usecase.LogInUseCase
 import com.google.android.gms.wearable.PutDataRequest
@@ -23,7 +25,8 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val loginUserUseCase: LogInUseCase,
     val preferenceProvider: PreferenceProvider,
-    private val getValuteUseCase: GetValuteUseCase
+    private val getValuteUseCase: GetValuteUseCase,
+    private val addDeviceUseCase: AddDeviceUseCase
 ) : ViewModel() {
     lateinit var valute_res: ValuteResponseModel
     lateinit var valute_list: List<ValuteModel>
@@ -37,6 +40,10 @@ class MainActivityViewModel @Inject constructor(
                     data = user.token!!.toByteArray()
                 }
                 Wearable.getDataClient(context).putDataItem(request)
+                if (preferenceProvider.lastSentDeviceTokenString != preferenceProvider.deviceToken + user.token!!) {
+                    addDeviceUseCase.invoke(user.token!!, preferenceProvider.deviceToken!!)
+                    preferenceProvider.sentDeviceToken()
+                }
                 onSuccessListener.invoke()
             } else {
                 Toast.makeText(context, "Вход не удался...", Toast.LENGTH_SHORT).show()
