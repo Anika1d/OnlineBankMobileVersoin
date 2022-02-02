@@ -15,10 +15,12 @@ class BankActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBankBinding.inflate(layoutInflater)
+        val fr = MapsFragment()
+        viewModel.pushFragment(fr)
         supportFragmentManager.beginTransaction().apply {
             replace(
                 R.id.fragmentContainerViewMaps,
-                MapsFragment(),
+                fr,
                 " MapsFragment"
             )
             commit()

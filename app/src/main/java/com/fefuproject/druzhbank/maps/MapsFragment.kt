@@ -21,14 +21,11 @@ import org.json.JSONObject
 
 @AndroidEntryPoint
 class MapsFragment: Fragment() {
-    private val viewModel: MapsViewModel by viewModels()
+     val viewModel: MapsViewModel by viewModels()
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
