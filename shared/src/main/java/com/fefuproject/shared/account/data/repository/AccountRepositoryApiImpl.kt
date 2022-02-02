@@ -203,6 +203,13 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         return null
     }
 
+    override suspend fun addDevice(token: String, deviceToken: String): Boolean =
+        ResultType.values()[accountApi.deviceAdd(
+            AddDeviceRequest(
+                token, deviceToken
+            )
+        )].type
+
 
     override suspend fun logIn(username: String, password: String): UserModel? {
         val response = accountApi.logIn(LogInRequest(username, password))
@@ -235,7 +242,7 @@ class AccountRepositoryApiImpl @Inject constructor(private val accountApi: Accou
         sum: Double
     ): Boolean = ResultType.values()[accountApi.setTemplate(
         SetTemplateRequest(
-            token, name, source, dest, source_type , dest_type, sum
+            token, name, source, dest, source_type, dest_type, sum
         )
     )].type
 

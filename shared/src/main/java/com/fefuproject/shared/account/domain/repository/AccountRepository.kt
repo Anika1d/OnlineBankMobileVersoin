@@ -98,6 +98,11 @@ interface AccountRepository {
         password: String,
     ): String?
 
+    suspend fun addDevice(
+        token: String,
+        deviceToken: String
+    ): Boolean
+
     suspend fun logIn(
         username: String,
         password: String,

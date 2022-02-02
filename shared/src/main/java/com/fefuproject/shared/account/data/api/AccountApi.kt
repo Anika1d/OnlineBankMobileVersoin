@@ -58,6 +58,9 @@ interface AccountApi {
     @POST("signin")
     suspend fun signIn(@Body request: SignInRequest): ResponseModel<String>
 
+    @POST("device/add")
+    suspend fun deviceAdd(@Body request: AddDeviceRequest): Int
+
     @POST("login")
     suspend fun logIn(@Body request: LogInRequest): ResponseModel<UserModel>
 
