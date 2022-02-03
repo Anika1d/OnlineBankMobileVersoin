@@ -73,7 +73,7 @@ interface AccountApi {
     @POST("templates/set")
     suspend fun setTemplate(@Body request: SetTemplateRequest): Int
 
-    @DELETE("templates/delete")
+    @POST("templates/delete")
     suspend fun deleteTemplate(@Body request: DeletetTemplateRequest): Int
 
     @PUT("editepassword")
