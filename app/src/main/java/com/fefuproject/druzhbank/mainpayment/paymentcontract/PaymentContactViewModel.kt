@@ -43,6 +43,7 @@ class PaymentContactViewModel @Inject constructor(
             paymentContractFragment = _paymentContractFragment
             binding.textCard.text = "Выберете карту"
             val nameCard = ArrayList<String>(card_list.size)
+            var tmpCard: CardModel? = null
             for (card in card_list) {
                 val string = card.number[0].toString() + card.number[1].toString() +
                         card.number[2].toString() + card.number[3].toString() + "****" +
@@ -70,6 +71,7 @@ class PaymentContactViewModel @Inject constructor(
                     id: Long
                 ) {
                     binding.textCard.text = "Выбрана карта " + nameCard[position]
+                    tmpCard = card_list[position]
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -102,10 +104,10 @@ class PaymentContactViewModel @Inject constructor(
                             viewModelScope.launch {
                                 setTemplateUseCase.invoke(
                                     preferenceProvider.token!!,
-                                  "1",
+                                    tmpCard!!.number,
                                     codeContractEditText.text.toString(),
                                     0,
-                                    2, nameContractEditText.text.toString(),
+                                    0, nameContractEditText.text.toString(),
                                     codeValueEditText.text.toString().toDouble()
                                 )
                                 makeText(
