@@ -72,7 +72,8 @@ class PaymentActivity : ComponentActivity() {
                         scalingParams = ScalingLazyColumnDefaults.scalingParams(
                             minTransitionArea = 1f,
                             maxTransitionArea = 1f
-                        )
+                        ),
+                        autoCentering = false
                     ) {
                         items(payments) {
                             Button(

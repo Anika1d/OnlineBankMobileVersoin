@@ -151,7 +151,8 @@ class TransferActivity : ComponentActivity() {
         val isLoading by viewModel.isLoading.collectAsState()
         ScalingLazyColumn(
             state = listState,
-            modifier = Modifier.width(100.dp)
+            modifier = Modifier.width(100.dp),
+            autoCentering = false
         ) {
             item {
                 Spacer(modifier = Modifier.height(25.dp))
@@ -220,7 +221,8 @@ class TransferActivity : ComponentActivity() {
         val isLoading by viewModel.isLoading.collectAsState()
         ScalingLazyColumn(
             state = listState,
-            modifier = Modifier.width(100.dp)
+            modifier = Modifier.width(100.dp),
+            autoCentering = false
         ) {
             item {
                 Spacer(modifier = Modifier.height(25.dp))

@@ -43,7 +43,8 @@ class SettingsActivity : ComponentActivity() {
             ) {
                 ScalingLazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(0.dp, 30.dp)
+                    modifier = Modifier.padding(0.dp, 30.dp),
+                    autoCentering = false
                 ) {
                     item {
                         ToggleChip(

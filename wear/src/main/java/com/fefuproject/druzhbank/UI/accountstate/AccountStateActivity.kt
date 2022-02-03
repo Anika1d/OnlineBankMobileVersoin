@@ -85,6 +85,7 @@ class AccountStateActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(6.dp),
                     state = scalingLazyListState,
+                    autoCentering = false
                 ) {
                     item {
                         Spacer(modifier = Modifier.size(100.dp))

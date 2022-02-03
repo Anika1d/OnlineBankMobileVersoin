@@ -60,6 +60,7 @@ class RecentOpActivity : ComponentActivity() {
                     end = 15.dp,
                     bottom = 40.dp
                 ),
+                autoCentering = false
             ) {
                 CardEvents(
                     this,

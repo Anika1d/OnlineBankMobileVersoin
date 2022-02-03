@@ -142,6 +142,7 @@ class MainActivity : ComponentActivity(), DataClient.OnDataChangedListener {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 state = scalingLazyListState,
+                autoCentering = false
             ) {
                 item {
                     Row {
