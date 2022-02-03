@@ -35,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        if(viewModel.preferenceProvider.token!=null){
+            binding.buttonRegister.visibility=View.GONE
+            binding.button.text="Зайти"
+        }
+        else {
+            binding.button.text="Войти"
+            binding.buttonRegister.visibility = View.VISIBLE
+        }
         binding.includeButtonValute.shimmerText.startShimmer()
         binding.includeButtonBunk.conBank.setOnClickListener {
             val intentt = Intent(this, BankActivity::class.java) //переход на другую активити
