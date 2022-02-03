@@ -77,6 +77,7 @@ class PaymentContactViewModel @Inject constructor(
                 }
             }
             binding.materialButton.setOnClickListener {
+                //TODO ОПЛАТИТЬ
                 makeText(paymentContractFragment.context, "Оплачено", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -97,13 +98,14 @@ class PaymentContactViewModel @Inject constructor(
                             codeValueEditText.text.toString() != "" &&
                             nameContractEditText.text.toString() != ""
                         ) {
+                            ///TODO()номер карты
                             viewModelScope.launch {
                                 setTemplateUseCase.invoke(
                                     preferenceProvider.token!!,
-                                    "1",
+                                  "1",
                                     codeContractEditText.text.toString(),
-                                    1,
-                                    1, nameContractEditText.text.toString(),
+                                    0,
+                                    2, nameContractEditText.text.toString(),
                                     codeValueEditText.text.toString().toDouble()
                                 )
                                 makeText(

@@ -14,8 +14,10 @@ import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.druzhbank.profile.pay.PayFragment
 import com.fefuproject.shared.account.domain.models.CheckModel
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
+import com.fefuproject.shared.account.domain.models.PageListModel
 import com.fefuproject.shared.account.domain.usecase.GetCheckHistoryUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +30,7 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
     private var _binging: FragmentHistoryPayBinding? = null
     private var adapter = PayHistoryAdapter()
     private val binding get() = _binging!!
-    lateinit var payHistoryList: List<HistoryInstrumentModel>
+    lateinit var payHistoryList: PageListModel<HistoryInstrumentModel>
 
     @Inject
     lateinit var preferenceProvider: PreferenceProvider
@@ -39,10 +41,10 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       /* runBlocking {
+        runBlocking {
             payHistoryList =
-                getCheckHistoryUseCase.invoke(checkModel.number, preferenceProvider.token!!, 1)!!
-        }*/
+                getCheckHistoryUseCase.invoke(checkModel.number, preferenceProvider.token!!, 1,10)!!
+        }
         _binging = FragmentHistoryPayBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,7 +55,7 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
         LinearLayoutManager(this@HistoryPayFragment.context).also {
             binding.recycleViewHistoryPay.layoutManager = it
         }
-        adapter.addPayHistoryList(payHistory = payHistoryList)
+        adapter.addPayHistoryList(payHistory = payHistoryList.historyList)
 
         binding.recycleViewHistoryPay.adapter = adapter
         activity?.onBackPressedDispatcher?.addCallback(

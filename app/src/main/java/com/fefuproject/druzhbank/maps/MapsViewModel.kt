@@ -104,6 +104,7 @@ class MapsViewModel @Inject constructor(
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(clickerInRecycleViewItem))
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(20f))
     }
+    
 
 }
 

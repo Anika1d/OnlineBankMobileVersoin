@@ -30,7 +30,7 @@ class CardHistoryViewModel @Inject constructor(
             LinearLayoutManager(cardHistoryFragment.context).also {
                 binding.recycleViewCardsHistory.layoutManager = it
             }
-            //     adapter.addCardHistoryList(cardHistoryList)
+               adapter.addCardHistoryList(cardHistoryList.historyList)
             binding.shimmerCardHistory.visibility= View.GONE
             binding.recycleViewCardsHistory.visibility=View.VISIBLE }
     }

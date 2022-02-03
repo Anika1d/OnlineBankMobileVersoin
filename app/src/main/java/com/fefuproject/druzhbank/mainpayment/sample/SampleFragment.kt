@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.fefuproject.druzhbank.R
 import com.fefuproject.druzhbank.databinding.FragmentSampleBinding
 import com.fefuproject.druzhbank.decoration.CommonItemSpaceDecoration
@@ -40,7 +41,7 @@ class SampleFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    private val viewModel:SampleViewModel by viewModels()
+    private val viewModel: SampleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,8 @@ class SampleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSampleBinding.inflate(inflater, container, false)
-        viewModel.initData(binding,this)
+        viewModel.initData(binding, this)
+
         return binding.root
     }
 
