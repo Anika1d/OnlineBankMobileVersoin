@@ -2,6 +2,7 @@ package com.fefuproject.druzhbank.mainpayment.paymentcontract
 
 import android.R
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,6 +16,7 @@ import com.fefuproject.shared.account.domain.models.CardModel
 import com.fefuproject.shared.account.domain.models.TemplateModel
 import com.fefuproject.shared.account.domain.usecase.GetCardsUseCase
 import com.fefuproject.shared.account.domain.usecase.GetTemplatesByIdUseCase
+import com.fefuproject.shared.account.domain.usecase.PayUniversalUseCase
 import com.fefuproject.shared.account.domain.usecase.SetTemplateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,11 +28,30 @@ class PaymentContactViewModel @Inject constructor(
     private val preferenceProvider: PreferenceProvider,
     private val getCardsUseCase: GetCardsUseCase,
     private val setTemplateUseCase: SetTemplateUseCase,
+    private val payUniversalUseCase: PayUniversalUseCase,
 ) : ViewModel() {
     private lateinit var binding: FragmentPaymentContractBinding
     private lateinit var paymentContractFragment: PaymentContractFragment
     lateinit var card_list: List<CardModel>
     lateinit var template: TemplateModel
+    fun makePayment(card: CardModel) {
+        viewModelScope.launch {
+            val res = payUniversalUseCase.invoke(
+                card.number,
+                binding.codeContractEditText.text.toString(),
+                binding.codeValueEditText.text.toString().toDouble(),
+                0,
+                0,
+                preferenceProvider.token!!
+            )
+            makeText(
+                paymentContractFragment.context,
+                if (res) "Платёж успешно совершён" else "При совершении платежа произошла ошибка...",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     fun initData(
         tmpTemplatesId: String?,
         tmpadd: String?,
@@ -79,9 +100,7 @@ class PaymentContactViewModel @Inject constructor(
                 }
             }
             binding.materialButton.setOnClickListener {
-                //TODO ОПЛАТИТЬ
-                makeText(paymentContractFragment.context, "Оплачено", Toast.LENGTH_SHORT)
-                    .show()
+                makePayment(tmpCard!!)
             }
             if (tmpTemplatesId != null) {
                 template =

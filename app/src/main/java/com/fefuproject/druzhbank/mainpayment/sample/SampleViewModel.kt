@@ -80,7 +80,7 @@ class SampleViewModel @Inject constructor(
                         adapter.notifyDataSetChanged()
                         Snackbar.make(
                             binding.recycleViewCategoriesVertical,
-                            "Идет удаление",
+                            "Удалено",
                             Snackbar.LENGTH_LONG
                         ).setAction(
                             "Отменить", object : View.OnClickListener {
