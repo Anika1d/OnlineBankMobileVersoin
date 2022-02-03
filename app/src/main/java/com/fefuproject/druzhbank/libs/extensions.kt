@@ -15,22 +15,25 @@ import kotlinx.coroutines.flow.collect
 fun LazyListState.OnBottomReached(
     loadMore: () -> Unit
 ) {
-    val shouldLoadMore = remember {
-        derivedStateOf {
-            val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
-                ?: return@derivedStateOf true
-
-            lastVisibleItem.index == layoutInfo.totalItemsCount - 1
-        }
-    }
-
-    LaunchedEffect(shouldLoadMore) {
-        snapshotFlow { shouldLoadMore.value }
-            .collect {
-                if (it) loadMore()
-            }
-    }
+//    val shouldLoadMore = remember {
+//        derivedStateOf {
+//            val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
+//                ?: return@derivedStateOf true
+//
+//            lastVisibleItem.index == layoutInfo.totalItemsCount - 1
+//        }
+//    }
+//
+//    LaunchedEffect(shouldLoadMore) {
+//        snapshotFlow { shouldLoadMore.value }
+//            .collect {
+//                if (it) loadMore()
+//            }
+//    }
+    if (layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1)
+        loadMore()
 }
+
 fun Modifier.roundedPlaceholder(visible: Boolean) = composed {
     placeholder(
         color = Color(0xCCE2E2E2),
