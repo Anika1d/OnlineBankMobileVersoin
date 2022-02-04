@@ -9,9 +9,11 @@ import com.fefuproject.druzhbank.di.PreferenceProvider
 import com.fefuproject.shared.account.domain.models.HistoryInstrumentModel
 import com.fefuproject.shared.account.domain.models.PageListModel
 import com.fefuproject.shared.account.domain.usecase.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CardHistoryViewModel @Inject constructor(
     private val preferenceProvider: PreferenceProvider,
     private val getCardHistoryUseCase: GetCardHistoryUseCase
@@ -25,7 +27,7 @@ class CardHistoryViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             cardHistoryList =
-                getCardHistoryUseCase.invoke(number, preferenceProvider.token!!, 1, 10)!!
+                getCardHistoryUseCase.invoke(number, preferenceProvider.token!!, 1, 30)!!
             binding.recycleViewCardsHistory.adapter = adapter
             LinearLayoutManager(cardHistoryFragment.context).also {
                 binding.recycleViewCardsHistory.layoutManager = it

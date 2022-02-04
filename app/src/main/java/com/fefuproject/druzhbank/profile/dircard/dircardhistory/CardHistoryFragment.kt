@@ -23,7 +23,6 @@ class CardHistoryFragment() : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         numberCard = arguments?.get("myArg") as String
-        viewModel.initData(numberCard,binding, this)
     }
 
     override fun onCreateView(
@@ -32,6 +31,7 @@ class CardHistoryFragment() : Fragment() {
     ): View {
         _binding = FragmentCardHistoryBinding.inflate(inflater, container, false)
         binding.shimmerCardHistory.startShimmer()
+        viewModel.initData(numberCard, binding, this)
         return binding.root
     }
 

@@ -43,7 +43,12 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
     ): View {
         runBlocking {
             payHistoryList =
-                getCheckHistoryUseCase.invoke(checkModel.number, preferenceProvider.token!!, 1,10)!!
+                getCheckHistoryUseCase.invoke(
+                    checkModel.number,
+                    preferenceProvider.token!!,
+                    1,
+                    10
+                )!!
         }
         _binging = FragmentHistoryPayBinding.inflate(inflater, container, false)
         return binding.root
@@ -62,10 +67,14 @@ class HistoryPayFragment(val checkModel: CheckModel) : Fragment() {
             this@HistoryPayFragment,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    val bundle = Bundle()
+                    bundle.putString("myArg", checkModel.number)
+                    val fr = PayFragment()
+                    fr.arguments = bundle
                     parentFragmentManager.beginTransaction().apply {
                         replace(
                             R.id.fragmentContainerViewProfile,
-                            PayFragment(),
+                            fr,
                             "PayFragment"
                         )
                         commit()

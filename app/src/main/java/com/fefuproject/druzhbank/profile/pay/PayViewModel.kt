@@ -38,7 +38,6 @@ class PayViewModel @Inject constructor(
         binding = _binding
         payFragment = _payFragment
         viewModelScope.launch {
-
             checkModel = getCheckUseCase(preferenceProvider.token!!, tmpNumberPay)!![0]
             binding.includePay.fullNumberPay.text = "*********" + checkModel.number.takeLast(4)
             binding.includePay.valuePay.text = checkModel.count + " руб."
