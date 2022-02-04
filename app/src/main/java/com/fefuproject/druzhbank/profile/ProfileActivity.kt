@@ -75,8 +75,6 @@ class ProfileActivity : AppCompatActivity() {
                     makeCurrentFragment(MainPaymentFragment(), "MainPaymentFragment")
                 R.id.history ->
                     makeCurrentFragment(AllHistoryPaymentFragment(), "AllHistoryPaymentFragment")
-                R.id.chat ->
-                    makeText(this.applicationContext, "чат", Toast.LENGTH_SHORT).show()
             }
             true
         }

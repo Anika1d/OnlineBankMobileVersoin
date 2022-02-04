@@ -12,10 +12,4 @@
         android:id="@+id/history"
         android:icon="@drawable/ic_baseline_history_24"
         android:title="История" />
-    <item
-        android:id="@+id/chat"
-        android:icon="@drawable/ic_baseline_chat_24"
-        android:title="Диалоги" />
-
-
 </menu>
